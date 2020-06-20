@@ -1,3 +1,5 @@
-import {add} from '../lib/bundle.esm.js'
+import { createApp } from "../lib/mini-vue.esm.js";
+import App from "./App.js";
 
-console.log(add)
+const rootContainer = document.querySelector("#root");
+createApp(App).mount(rootContainer);

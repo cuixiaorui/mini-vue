@@ -1,13 +1,4 @@
-// 第一版只支持 type 为 string
-function createVNode(type:string, props, children) {
-  const vnode = {
-    type,
-    el: null,
-    props,
-    children,
-  };
-
-  return vnode;
-}
-
-export const h = createVNode 
+import { createVNode } from "./createVNode";
+export const h = (type: string, props: any, children: string | Array<any>) => {
+  return createVNode(type,props,children);
+};

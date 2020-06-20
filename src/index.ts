@@ -1,1 +1,1 @@
-export * from "./runtime-core/index.ts";
+export * from './runtime-core'
