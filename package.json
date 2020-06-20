@@ -1,0 +1,24 @@
+{
+  "name": "rollup-starter-ts",
+  "version": "0.0.1",
+  "description": "To fast start a typescript library.",
+  "main": "lib/mini-vue.cjs.js",
+  "module": "lib/mini-vue.esm.js",
+  "scripts": {
+    "build": "rollup -c",
+    "build:type": "tsc -p ./tsconfig.type.json",
+    "test": "jest --no-cache"
+  },
+  "author": "zenoslin",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1",
+    "rollup": "^2.17.1",
+    "rollup-plugin-sourcemaps": "^0.6.2",
+    "rollup-plugin-typescript": "^1.0.1",
+    "ts-jest": "^26.1.0",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5"
+  }
+}
