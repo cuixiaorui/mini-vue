@@ -21,6 +21,8 @@ yarn build
 
 ![关键函数调用图2](https://user-gold-cdn.xitu.io/2020/6/22/172dc08840e25b42?w=1816&h=934&f=png&s=550722)
 
+> 可以基于函数名快速搜索到源码内容
+
 #### tasking
 - [ ] runtime-core 初始化逻辑
     - [ ] 基础类型的处理：static fragment comment
