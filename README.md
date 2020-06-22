@@ -1,6 +1,23 @@
 ## mini-vue
 实现最简 vue3 模型，用于学习
 
+### 学习思路
+先整理出整个 vue3 的 happy path 来，这相当于是一个房子的框架，然后在慢慢的整理实现细节
+
+### todo
+- [ ] runtime-core
+    - 初始化 
+        - [ ] 流程
+        - [ ] 细节实现
+            - [ ] hook 的触发实现
+            - [ ] 标准化 vnode 的实现
+            - [ ] 初始化 props 逻辑
+            - [ ] 初始化 slots 逻辑
+            - [ ] proxy 暴露给用户的代理实现
+            - [ ] 给元素设置 props
+    - 更新
+        - [ ] 流程
+        - [ ] 细节实现
 
 
 ### build
@@ -23,14 +40,3 @@ yarn build
 
 > 可以基于函数名快速搜索到源码内容
 
-#### tasking
-- [ ] runtime-core 初始化逻辑
-    - [ ] 基础类型的处理：static fragment comment
-    - [ ] 触发各种 hook
-    - [ ] 标准化 vnode 的实现
-    - [ ] 初始化 props 逻辑
-    - [ ] 初始化 slots 逻辑
-    - [ ] proxy 暴露给用户的代理实现
-    - [ ] 支持 template 
-    - [ ] 给元素设置 props
-        - [ ] 需要过滤掉vue自身用的key
