@@ -4,6 +4,7 @@ export function createComponentInstance(vnode) {
     vnode,
     props: {},
     proxy: null,
+    isMounted: false,
   };
 
   return instance;

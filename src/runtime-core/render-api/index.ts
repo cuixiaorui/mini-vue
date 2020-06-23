@@ -23,6 +23,12 @@ export function hostPatchProp(el, key, preValue, nextValue) {
     case "tId":
       el.setAttribute(key, nextValue);
       break;
+    case "onclick":
+      // todo
+      // 先临时实现 click 事件
+      // 后面应该用 directive 来处理
+      el.addEventListener("click",nextValue);
+      break;
   }
 }
 
