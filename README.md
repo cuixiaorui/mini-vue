@@ -7,7 +7,7 @@
 ### todo
 - [ ] runtime-core
     - 初始化 
-        - [ ] 流程
+        - [x] 流程
         - [ ] 细节实现
             - [ ] hook 的触发实现
             - [ ] 标准化 vnode 的实现
@@ -16,8 +16,11 @@
             - [ ] proxy 暴露给用户的代理实现
             - [ ] 给元素设置 props
     - 更新
-        - [ ] 流程
+        - [x] 流程
         - [ ] 细节实现
+            - [x] text_children 类型的 patch
+            - [ ] props 类型的 patch
+
 
 
 ### build
