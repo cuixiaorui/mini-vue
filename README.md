@@ -40,3 +40,14 @@ yarn build
 
 > 可以基于函数名快速搜索到源码内容
 
+### update
+
+#### 流程图
+![update流程图](https://user-gold-cdn.xitu.io/2020/6/23/172e19b5cefba34e?w=3200&h=800&f=png&s=540515)
+
+
+#### 关键函数调用图
+![update关键函数调用图](https://user-gold-cdn.xitu.io/2020/6/23/172e19d2d42464aa?w=3300&h=1006&f=png&s=739008)
+
+> 可以基于函数名快速搜索到源码内容
+
