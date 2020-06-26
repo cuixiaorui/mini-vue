@@ -6,7 +6,6 @@ import { h, ref } from "../../lib/mini-vue.esm.js";
 // 这需要实现 proxy
 
 const count = ref(1);
-window.count = count;
 export default {
   name: "HelloWorld",
   setup() {},
