@@ -19,7 +19,8 @@
         - [x] 流程
         - [ ] 细节实现
             - [x] text_children 类型的 patch
-            - [ ] props 类型的 patch
+            - [x] array_children 类型的 patch
+            - [x] props 类型的 patch
 
 
 
