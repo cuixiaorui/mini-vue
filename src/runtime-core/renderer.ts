@@ -7,6 +7,7 @@ import {
   hostInsert,
   hostRemove,
 } from "./render-api";
+import { queueJob } from "./scheduler";
 import { effect } from "@vue/reactivity";
 import { h } from "./h";
 
@@ -414,54 +415,69 @@ function setupRenderEffect(instance, container) {
   // ctx 可以选择暴露给用户的 api
   // 源代码里面是调用的 renderComponentRoot 函数
   // 这里为了简化直接调用 render
-  instance.update = effect(function componentEffect() {
-    if (!instance.isMounted) {
-      // 组件初始化的时候会执行这里
-      // 为什么要在这里调用 render 函数呢
-      // 是因为在 effect 内调用 render 才能触发依赖收集
-      // 等到后面响应式的值变更后会再次触发这个函数
-      console.log("调用 render,获取 subTree");
-      const subTree = (instance.subTree = instance.render(instance.proxy));
-      console.log("subTree", subTree);
 
-      // todo
-      console.log(`${instance.type.name}:触发 beforeMount hook`);
-      console.log(`${instance.type.name}:触发 onVnodeBeforeMount hook`);
+  // obj.name  = "111"
+  // obj.name = "2222"
+  // 从哪里做一些事
+  // 收集数据改变之后要做的事 (函数)
+  // 依赖收集   effect 函数
+  // 触发依赖
+  instance.update = effect(
+    function componentEffect() {
+      if (!instance.isMounted) {
+        // 组件初始化的时候会执行这里
+        // 为什么要在这里调用 render 函数呢
+        // 是因为在 effect 内调用 render 才能触发依赖收集
+        // 等到后面响应式的值变更后会再次触发这个函数
+        console.log("调用 render,获取 subTree");
+        const subTree = (instance.subTree = instance.render(instance.proxy));
+        console.log("subTree", subTree);
 
-      // 这里基于 subTree 再次调用 patch
-      // 基于 render 返回的 vnode ，再次进行渲染
-      // 这里我把这个行为隐喻成开箱
-      // 一个组件就是一个箱子
-      // 里面有可能是 element （也就是可以直接渲染的）
-      // 也有可能还是 component
-      // 这里就是递归的开箱
-      // 而 subTree 就是当前的这个箱子（组件）装的东西
-      // 箱子（组件）只是个概念，它实际是不需要渲染的
-      // 要渲染的是箱子里面的 subTree
-      patch(null, subTree, container);
+        // todo
+        console.log(`${instance.type.name}:触发 beforeMount hook`);
+        console.log(`${instance.type.name}:触发 onVnodeBeforeMount hook`);
 
-      console.log(`${instance.type.name}:触发 mounted hook`);
-      instance.isMounted = true;
-    } else {
-      // 响应式的值变更后会从这里执行逻辑
-      // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
-      console.log("调用更新逻辑");
-      // 拿到最新的 subTree
-      const nextTree = instance.render(instance.proxy);
-      // 替换之前的 subTree
-      const prevTree = instance.subTree;
-      instance.subTree = nextTree;
+        // 这里基于 subTree 再次调用 patch
+        // 基于 render 返回的 vnode ，再次进行渲染
+        // 这里我把这个行为隐喻成开箱
+        // 一个组件就是一个箱子
+        // 里面有可能是 element （也就是可以直接渲染的）
+        // 也有可能还是 component
+        // 这里就是递归的开箱
+        // 而 subTree 就是当前的这个箱子（组件）装的东西
+        // 箱子（组件）只是个概念，它实际是不需要渲染的
+        // 要渲染的是箱子里面的 subTree
+        patch(null, subTree, container);
 
-      // 触发 beforeUpdated hook
-      console.log("beforeUpdated hook");
-      console.log("onVnodeBeforeUpdate hook");
+        console.log(`${instance.type.name}:触发 mounted hook`);
+        instance.isMounted = true;
+      } else {
+        // 响应式的值变更后会从这里执行逻辑
+        // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
+        console.log("调用更新逻辑");
+        // 拿到最新的 subTree
+        const nextTree = instance.render(instance.proxy);
+        // 替换之前的 subTree
+        const prevTree = instance.subTree;
+        instance.subTree = nextTree;
 
-      // 用旧的 vnode 和新的 vnode 交给 patch 来处理
-      patch(prevTree, nextTree, prevTree.el);
+        // 触发 beforeUpdated hook
+        console.log("beforeUpdated hook");
+        console.log("onVnodeBeforeUpdate hook");
 
-      // 触发 updated hook
-      console.log("updated hook");
-      console.log("onVnodeUpdated hook");
+        // 用旧的 vnode 和新的 vnode 交给 patch 来处理
+        patch(prevTree, nextTree, prevTree.el);
+
+        // 触发 updated hook
+        console.log("updated hook");
+        console.log("onVnodeUpdated hook");
+      }
+    },
+    {
+      scheduler: (effect) => {
+        // 把 effect 推到微任务的时候在执行
+        queueJob(effect)
+      },
     }
-  });
+  );
 }
