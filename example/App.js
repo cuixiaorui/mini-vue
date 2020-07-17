@@ -1,5 +1,6 @@
 import { h, ref, reactive } from "../lib/mini-vue.esm.js";
-import PatchChildren from "./components/PatchChildren.js"
+import PatchChildren from "./components/PatchChildren.js";
+import NextTicker from "./components/NextTicker.js";
 // import HelloWorld from "./components/HelloWorld.js";
 // import { h, ref } from "../../lib/mini-vue.esm.js";
 
@@ -35,9 +36,6 @@ import PatchChildren from "./components/PatchChildren.js"
 //   },
 // };
 
-
-
-
 export default {
   name: "App",
   setup() {},
@@ -45,7 +43,8 @@ export default {
   render() {
     return h("div", { tId: 1 }, [
       h("p", {}, "主页"),
-      h(PatchChildren),
+      // h(PatchChildren),
+      h(NextTicker),
     ]);
   },
 };
