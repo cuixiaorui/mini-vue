@@ -17,6 +17,7 @@
             - [ ] 给元素设置 props
     - 更新
         - [x] 流程
+        - [x] nextTick 的实现
         - [ ] 细节实现
             - [x] text_children 类型的 patch
             - [x] array_children 类型的 patch
