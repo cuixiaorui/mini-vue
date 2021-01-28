@@ -36,6 +36,8 @@ function setupStatefulComponent(instance) {
   // todo
   // 1. 先创建代理 proxy
   console.log("创建 proxy");
+  // 用户声明的对象就是 instance.type
+  // const Component = {setup(),render()} ....
   const Component = instance.type;
   // 2. 调用 setup
 
