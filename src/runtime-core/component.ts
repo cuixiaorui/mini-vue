@@ -37,12 +37,23 @@ function setupStatefulComponent(instance) {
   // 1. 先创建代理 proxy
   console.log("创建 proxy");
   // 2. 调用 setup
-  // todo
-  // 应该传入 props 和 setupContext
-  const setupResult = instance.setup && instance.setup(instance.props);
+
+  // 调用 setup 的时候传入 props
+  // TODO 还需要传入 setupContext
+  const setupContext = createSetupContext();
+  const setupResult =
+    instance.setup && instance.setup(instance.props, setupContext);
 
   // 3. 处理 setupResult
   handleSetupResult(instance, setupResult);
+}
+
+function createSetupContext() {
+  // TODO
+  // 需要实现 emit
+  // slots
+  console.log("初始化 setup context");
+  return {};
 }
 
 function handleSetupResult(instance, setupResult) {
