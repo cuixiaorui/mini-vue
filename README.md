@@ -17,6 +17,8 @@
 ### Tasking
 
 - [x] 可初始化
+  - [x] 初始化 props
+  - [ ] 初始化 slots
 - [x] 可 update
   - [x] Element 类型
   - [ ] Component 类型
