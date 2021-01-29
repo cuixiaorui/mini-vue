@@ -6,6 +6,9 @@ export function createComponentInstance(vnode) {
     props: {},
     proxy: null,
     isMounted: false,
+    attrs: {}, // 存放 attrs 的数据
+    slots: {}, // 存放插槽的数据
+    emit: () => {}, // TODO 需要实现 emit 函数
   };
 
   return instance;
@@ -44,7 +47,7 @@ function setupStatefulComponent(instance) {
   // 调用 setup 的时候传入 props
   const { setup } = Component;
   if (setup) {
-    const setupContext = createSetupContext();
+    const setupContext = createSetupContext(instance);
     const setupResult = setup && setup(instance.props, setupContext);
   }
 
@@ -52,12 +55,14 @@ function setupStatefulComponent(instance) {
   handleSetupResult(instance, setupResult);
 }
 
-function createSetupContext() {
-  // TODO
-  // 需要实现 emit
-  // slots
+function createSetupContext(instance) {
   console.log("初始化 setup context");
-  return {};
+  return {
+    attrs: instance.attrs,
+    slots: instance.slots,
+    emit: instance.emit,
+    expose: () => {}, // TODO 实现 expose 函数逻辑
+  };
 }
 
 function handleSetupResult(instance, setupResult) {
