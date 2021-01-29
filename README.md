@@ -18,6 +18,7 @@
 
 - [x] 可初始化
   - [x] 初始化 props
+  - [x] setup 可获取 props 和 context
   - [ ] 初始化 slots
 - [x] 可 update
   - [x] Element 类型
