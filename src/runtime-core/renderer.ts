@@ -6,7 +6,7 @@ import {
   hostPatchProp,
   hostInsert,
   hostRemove,
-} from "./render-api";
+} from "../runtime-dom";
 import { queueJob } from "./scheduler";
 import { effect } from "@vue/reactivity";
 import { setupComponent } from "./component";
