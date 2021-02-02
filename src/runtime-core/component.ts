@@ -1,4 +1,5 @@
 import { initProps } from "./componentProps";
+import { emit } from "./componentEmits";
 export function createComponentInstance(vnode) {
   const instance = {
     type: vnode.type,
@@ -10,6 +11,11 @@ export function createComponentInstance(vnode) {
     slots: {}, // 存放插槽的数据
     emit: () => {}, // TODO 需要实现 emit 函数
   };
+
+  // 赋值 emit
+  // 这里使用 bind 把 instance 进行绑定
+  // 后面用户使用的时候只需要给 event 和参数即可
+  instance.emit = emit.bind(null, instance) as any;
 
   return instance;
 }
