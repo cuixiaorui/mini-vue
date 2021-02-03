@@ -17,6 +17,10 @@ export default {
           console.log("---------------change------------------");
           console.log(a, b);
         },
+        onChangePageName(a, b) {
+          console.log("---------------change-page-name------------------");
+          console.log(a, b);
+        },
       }),
     ]);
   },

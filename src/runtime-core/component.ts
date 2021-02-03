@@ -9,7 +9,7 @@ export function createComponentInstance(vnode) {
     isMounted: false,
     attrs: {}, // 存放 attrs 的数据
     slots: {}, // 存放插槽的数据
-    emit: () => {}, // TODO 需要实现 emit 函数
+    emit: () => {},
   };
 
   // 赋值 emit
