@@ -1,4 +1,4 @@
-import { h, ref, reactive } from "../../../lib/mini-vue.esm.js";
+import { h, ref, reactive } from "../../lib/mini-vue.esm.js";
 import Child from "./Child.js";
 
 export default {

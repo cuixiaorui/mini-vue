@@ -1,7 +1,7 @@
 // 组件 emit 逻辑 demo
 // click emit 发出 change， 可以触发 App 组件内定义好的侦听函数
 // 允许接收多个参数
-import { h, ref, reactive } from "../../../lib/mini-vue.esm.js";
+import { h, ref, reactive } from "../../lib/mini-vue.esm.js";
 import Child from "./Child.js";
 
 export default {
