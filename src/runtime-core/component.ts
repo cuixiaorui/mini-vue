@@ -55,10 +55,10 @@ function setupStatefulComponent(instance) {
   if (setup) {
     const setupContext = createSetupContext(instance);
     const setupResult = setup && setup(instance.props, setupContext);
-  }
 
-  // 3. 处理 setupResult
-  handleSetupResult(instance, setupResult);
+    // 3. 处理 setupResult
+    handleSetupResult(instance, setupResult);
+  }
 }
 
 function createSetupContext(instance) {
