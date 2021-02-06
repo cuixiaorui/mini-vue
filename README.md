@@ -23,7 +23,8 @@
 - [x] 可初始化
   - [x] 初始化 props
   - [x] setup 可获取 props 和 context
-  - [x] 支持 component emit 
+  - [x] 支持 component emit
+  - [x] 支持 proxy
   - [ ] 初始化 slots
 - [x] 可 update
   - [x] Element 类型
