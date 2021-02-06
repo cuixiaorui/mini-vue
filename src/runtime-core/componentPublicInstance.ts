@@ -10,7 +10,7 @@ export const PublicInstanceProxyHandlers = {
     // 用户访问 proxy[key]
     // 这里就匹配一下看看是否有对应的 function
     // 有的话就直接调用这个 function
-    console.log("触发 proxy 的 hook");
+    console.log(`触发 proxy hook , key -> : ${key}`);
 
     const publicGetter = publicPropertiesMap[key];
 
