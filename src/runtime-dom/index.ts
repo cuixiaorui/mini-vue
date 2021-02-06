@@ -28,7 +28,7 @@ export function hostPatchProp(el, key, preValue, nextValue) {
         el.setAttribute(key, nextValue);
       }
       break;
-    case "onclick":
+    case "onClick":
       // todo
       // 先临时实现 click 事件
       // 后面应该用 directive 来处理

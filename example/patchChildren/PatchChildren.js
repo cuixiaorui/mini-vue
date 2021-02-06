@@ -119,7 +119,7 @@ export default {
       h(
         "button",
         {
-          onclick: () => {
+          onClick: () => {
             isChange.value = !isChange.value;
           },
         },
