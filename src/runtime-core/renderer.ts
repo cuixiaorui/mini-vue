@@ -390,7 +390,9 @@ function setupRenderEffect(instance, container) {
         // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
         console.log("调用更新逻辑");
         // 拿到最新的 subTree
-        const nextTree = instance.render(instance.proxy);
+
+        const proxyToUse = instance.proxy;
+        const nextTree = instance.render.call(proxyToUse, proxyToUse);
         // 替换之前的 subTree
         const prevTree = instance.subTree;
         instance.subTree = nextTree;
