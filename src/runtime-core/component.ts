@@ -68,8 +68,14 @@ function setupStatefulComponent(instance) {
   // 调用 setup 的时候传入 props
   const { setup } = Component;
   if (setup) {
+    // 设置当前 currentInstance 的值
+    // 必须要在调用 setup 之前
+    setCurrentInstance(instance);
+
     const setupContext = createSetupContext(instance);
     const setupResult = setup && setup(instance.props, setupContext);
+
+    setCurrentInstance(null);
 
     // 3. 处理 setupResult
     handleSetupResult(instance, setupResult);
@@ -121,9 +127,8 @@ function finishComponentSetup(instance) {
     // Component.render = compile(Component.template, {
     //     isCustomElement: instance.appContext.config.isCustomElement || NO
     //   })
+    instance.render = Component.render;
   }
-
-  instance.render = Component.render;
 
   // applyOptions()
 }
@@ -131,4 +136,14 @@ function finishComponentSetup(instance) {
 function applyOptions() {
   // 兼容 vue2.x
   // todo
+}
+
+let currentInstance = {};
+// 这个接口暴露给用户，用户可以在 setup 中获取组件实例 instance
+export function getCurrentInstance() {
+  return currentInstance;
+}
+
+export function setCurrentInstance(instance) {
+  currentInstance = instance;
 }
