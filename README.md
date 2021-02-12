@@ -29,6 +29,7 @@
 - [x] 可以在 render 函数中获取 setup 返回的对象
 - [x] nextTick 的实现
 - [x] 支持 getCurrentInstance
+- [x] 支持 provide/inject
 - [ ] 初始化 slots
 
 ### build
