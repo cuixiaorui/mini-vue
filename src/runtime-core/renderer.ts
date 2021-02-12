@@ -17,7 +17,7 @@ export const render = (vnode, container) => {
   patch(null, vnode, container);
 };
 
-function patch(n1, n2, container = null) {
+function patch(n1, n2, container = null, parentComponent = null) {
   // 基于 n2 的类型来判断
   // 因为 n2 是新的 vnode
   const { type, shapeFlag } = n2;
@@ -34,7 +34,7 @@ function patch(n1, n2, container = null) {
         processElement(n1, n2, container);
       } else if (shapeFlag & ShapeFlags.STATEFUL_COMPONENT) {
         console.log("处理 component");
-        processComponent(n1, n2, container);
+        processComponent(n1, n2, container, parentComponent);
       }
   }
 }
@@ -309,11 +309,11 @@ function mountChildren(children, container) {
   });
 }
 
-function processComponent(n1, n2, container) {
+function processComponent(n1, n2, container, parentComponent) {
   // 如果 n1 没有值的话，那么就是 mount
   if (!n1) {
     // 初始化 component
-    mountComponent(n2, container);
+    mountComponent(n2, container, parentComponent);
   } else {
     // todo
     updateComponent(n1, n2, container);
@@ -326,10 +326,11 @@ function updateComponent(n1, n2, container) {
   console.log("更新组件", n1, n2);
 }
 
-function mountComponent(initialVNode, container) {
+function mountComponent(initialVNode, container, parentComponent) {
   // 1. 先创建一个 component instance
   const instance = (initialVNode.component = createComponentInstance(
-    initialVNode
+    initialVNode,
+    parentComponent
   ));
   console.log(`创建组件实例:${instance.type.name}`);
   // 2. 给 instance 加工加工
@@ -381,7 +382,7 @@ function setupRenderEffect(instance, container) {
         // 而 subTree 就是当前的这个箱子（组件）装的东西
         // 箱子（组件）只是个概念，它实际是不需要渲染的
         // 要渲染的是箱子里面的 subTree
-        patch(null, subTree, container);
+        patch(null, subTree, container, instance);
 
         console.log(`${instance.type.name}:触发 mounted hook`);
         instance.isMounted = true;
@@ -402,7 +403,7 @@ function setupRenderEffect(instance, container) {
         console.log("onVnodeBeforeUpdate hook");
 
         // 用旧的 vnode 和新的 vnode 交给 patch 来处理
-        patch(prevTree, nextTree, prevTree.el);
+        patch(prevTree, nextTree, prevTree.el, instance);
 
         // 触发 updated hook
         console.log("updated hook");

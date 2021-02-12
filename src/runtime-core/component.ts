@@ -2,11 +2,13 @@ import { initProps } from "./componentProps";
 import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
 import { proxyRefs } from "@vue/reactivity";
-export function createComponentInstance(vnode) {
+export function createComponentInstance(vnode, parent) {
   const instance = {
     type: vnode.type,
     vnode,
     props: {},
+    parent,
+    provides: parent ? parent.provides : {}, //  获取 parent 的 provides 作为当前组件的初始化值 这样就可以继承 parent.provides 的属性了
     proxy: null,
     isMounted: false,
     attrs: {}, // 存放 attrs 的数据
