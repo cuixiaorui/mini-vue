@@ -32,6 +32,11 @@
 - [x] 支持 provide/inject
 - [ ] 初始化 slots
 
+### roadmap
+
+- [ ] 支持英文
+- [ ] 规范化 console.log
+
 ### build
 
 ```shell
