@@ -1,4 +1,5 @@
 import { initProps } from "./componentProps";
+import { initSlots } from "./componentSlots";
 import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
 import { proxyRefs } from "@vue/reactivity";
@@ -35,10 +36,10 @@ export function createComponentInstance(vnode, parent) {
 export function setupComponent(instance) {
   // 1. 处理 props
   // 取出存在 vnode 里面的 props
-  const { props } = instance.vnode;
+  const { props, children } = instance.vnode;
   initProps(instance, props);
   // 2. 处理 slots
-  initSlots();
+  initSlots(instance, children);
 
   // 源码里面有两种类型的 component
   // 一种是基于 options 创建的
@@ -46,11 +47,6 @@ export function setupComponent(instance) {
   // 这里处理的是 options 创建的
   // 叫做 stateful 类型
   setupStatefulComponent(instance);
-}
-
-function initSlots() {
-  // todo
-  console.log("initSlots");
 }
 
 function setupStatefulComponent(instance) {
