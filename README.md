@@ -30,7 +30,7 @@
 - [x] nextTick 的实现
 - [x] 支持 getCurrentInstance
 - [x] 支持 provide/inject
-- [ ] 初始化 slots
+- [x] 支持最基础的 slots
 
 ### roadmap
 
