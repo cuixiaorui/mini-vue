@@ -14,7 +14,7 @@ export default {
           msg: "your name is child",
         },
         {
-          default: () => [h("p", {}, "nihao")],
+          default: () => h("p", {}, "我是通过 slot 渲染出来的"),
         }
       ),
     ]);
