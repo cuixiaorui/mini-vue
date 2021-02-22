@@ -6,6 +6,11 @@
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
+## 探讨
+可以入群一起探讨 vue3 源码
+
+![入群讨论](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c926b06fdb654a9288de4e6568235935~tplv-k3u1fbpfcp-watermark.image)
+
 ## Why
 
 当我们需要深入学习 vue3 时，我们就需要看源码来学习，但是像这种工业级别的库，源码中有很多逻辑是用于处理边缘情况或者是兼容处理逻辑，是不利于我们学习的。
