@@ -7,6 +7,7 @@
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
 ## 探讨
+
 可以入群一起探讨 vue3 源码
 
 ![入群讨论](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c926b06fdb654a9288de4e6568235935~tplv-k3u1fbpfcp-watermark.image)
@@ -36,6 +37,7 @@
 - [x] 支持 getCurrentInstance
 - [x] 支持 provide/inject
 - [x] 支持最基础的 slots
+- [x] 支持 Text 类型节点
 
 ### roadmap
 
@@ -50,8 +52,9 @@ yarn build
 
 ### example
 
-通过 server 的方式打开 example/* 下的 index.html 即可
-> 推荐使用 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+通过 server 的方式打开 example/\* 下的 index.html 即可
+
+>  推荐使用 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
 ### 初始化
 
