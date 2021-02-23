@@ -50,7 +50,8 @@ yarn build
 
 ### example
 
-直接打开 example/index.html 即可
+通过 server 的方式打开 example/* 下的 index.html 即可
+> 推荐使用 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
 ### 初始化
 
