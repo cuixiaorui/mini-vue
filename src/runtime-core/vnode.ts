@@ -46,6 +46,15 @@ export function normalizeChildren(vnode, children) {
     }
   }
 }
+// 用 symbol 作为唯一标识
+export const Text = Symbol("Text");
+
+/**
+ * @private
+ */
+export function createTextVNode(text: string = " ") {
+  return createVNode(Text, {}, text);
+}
 
 // 标准化 vnode 的格式
 // 其目的是为了让 child 支持多种格式
