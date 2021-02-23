@@ -26,7 +26,6 @@ function patch(n1, n2, container = null, parentComponent = null) {
   const { type, shapeFlag } = n2;
   switch (type) {
     case Text:
-      // todo
       processText(n1, n2, container);
       break;
     // 其中还有几个类型比如： static fragment comment
