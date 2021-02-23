@@ -6,10 +6,13 @@ import {
   hostPatchProp,
   hostInsert,
   hostRemove,
+  hostSetText,
+  hostCreateText,
 } from "../runtime-dom";
 import { queueJob } from "./scheduler";
 import { effect } from "@vue/reactivity";
 import { setupComponent } from "./component";
+import { Text } from "./vnode";
 import { h } from "./h";
 
 export const render = (vnode, container) => {
@@ -22,8 +25,9 @@ function patch(n1, n2, container = null, parentComponent = null) {
   // 因为 n2 是新的 vnode
   const { type, shapeFlag } = n2;
   switch (type) {
-    case "text":
+    case Text:
       // todo
+      processText(n1, n2, container);
       break;
     // 其中还有几个类型比如： static fragment comment
 
@@ -36,6 +40,27 @@ function patch(n1, n2, container = null, parentComponent = null) {
         console.log("处理 component");
         processComponent(n1, n2, container, parentComponent);
       }
+  }
+}
+
+function processText(n1, n2, container) {
+  console.log("处理 Text 节点");
+  if (n1 === null) {
+    // n1 是 null 说明是 init 的阶段
+    // 基于 createText 创建出 text 节点，然后使用 insert 添加到 el 内
+    console.log("初始化 Text 类型的节点");
+    hostInsert((n2.el = hostCreateText(n2.children as string)), container);
+  } else {
+    // update
+    // 先对比一下 updated 之后的内容是否和之前的不一样
+    // 在不一样的时候才需要 update text
+    // 这里抽离出来的接口是 setText
+    // 注意，这里一定要记得把 n1.el 赋值给 n2.el, 不然后续是找不到值的
+    const el = (n2.el = n1.el!);
+    if (n2.children !== n1.children) {
+      console.log("更新 Text 类型的节点");
+      hostSetText(el, n2.children as string);
+    }
   }
 }
 

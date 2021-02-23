@@ -1,5 +1,5 @@
 import { render } from "./renderer";
-import { createVNode } from "./createVNode";
+import { createVNode } from "./vnode";
 
 // createApp
 // 在 vue3 里面 createApp 是属于 renderer 对象的
