@@ -13,7 +13,7 @@
 ![入群讨论](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c926b06fdb654a9288de4e6568235935~tplv-k3u1fbpfcp-watermark.image)
 
 如果这个项目帮助到你的话，可以增加一下我更新的动力
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b6ba8fe632a441d5b3f47ea7a95b0493~tplv-k3u1fbpfcp-watermark.image)
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0368e5a3c3e94d949c380fa7f744f54f~tplv-k3u1fbpfcp-watermark.image)
 
 
 ## 服务
