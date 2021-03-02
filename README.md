@@ -10,7 +10,8 @@
 
 可以入群一起探讨 vue3 源码
 
-![入群讨论](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c926b06fdb654a9288de4e6568235935~tplv-k3u1fbpfcp-watermark.image)
+![入群讨论](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2fe30bde7cd740cdabe6c9c96e9f893a~tplv-k3u1fbpfcp-watermark.image)
+
 
 如果这个项目帮助到你的话，可以增加一下我更新的动力
 
