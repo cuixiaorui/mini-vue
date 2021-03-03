@@ -13,7 +13,7 @@ import { queueJob } from "./scheduler";
 import { effect } from "@vue/reactivity";
 import { setupComponent } from "./component";
 import { Text } from "./vnode";
-import { h } from "./h";
+import { shouldUpdateComponent } from "./componentRenderUtils";
 
 export const render = (vnode, container) => {
   console.log("调用 patch");
@@ -346,8 +346,28 @@ function processComponent(n1, n2, container, parentComponent) {
 
 // 组件的更新
 function updateComponent(n1, n2, container) {
-  // TODO
   console.log("更新组件", n1, n2);
+  // 更新组件实例引用
+  const instance = (n2.component = n1.component);
+  // 先看看这个组件是否应该更新
+  if (shouldUpdateComponent(n1, n2)) {
+    console.log(`组件需要更新: ${instance}`);
+    // 那么 next 就是新的 vnode 了（也就是 n2）
+    instance.next = n2;
+    // 这里的 update 是在 setupRenderEffect 里面的 init 的，update 函数除了当内部的响应式对象发生改变的时候会调用
+    // 还可以直接主动的调用(这是属于 effect 的特性)
+    // 调用 update 再次更新调用 patch 逻辑
+    // 在update 中调用的 next 就变成了 n2了
+    // ps：可以详细的看看 update 中 next 的应用
+    // TODO 需要在 update 中处理支持 next 的逻辑
+    // instance.update();
+  } else {
+    console.log(`组件不需要更新: ${instance}`);
+    // 不需要更新的话，那么只需要覆盖下面的属性即可
+    n2.component = n1.component;
+    n2.el = n1.el;
+    instance.vnode = n2;
+  }
 }
 
 function mountComponent(initialVNode, container, parentComponent) {
