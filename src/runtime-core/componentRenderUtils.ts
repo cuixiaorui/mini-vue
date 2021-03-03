@@ -1,7 +1,6 @@
 export function shouldUpdateComponent(prevVNode, nextVNode) {
   const { props: prevProps } = prevVNode;
   const { props: nextProps } = nextVNode;
-  // todo ?? 不知道是什么
   //   const emits = component!.emitsOptions;
 
   // 这里主要是检测组件的 props
