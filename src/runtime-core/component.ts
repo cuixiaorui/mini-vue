@@ -3,6 +3,7 @@ import { initSlots } from "./componentSlots";
 import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
 import { proxyRefs } from "@vue/reactivity";
+import { shallowReadonly } from "@vue/reactivity";
 export function createComponentInstance(vnode, parent) {
   const instance = {
     type: vnode.type,
@@ -71,7 +72,9 @@ function setupStatefulComponent(instance) {
     setCurrentInstance(instance);
 
     const setupContext = createSetupContext(instance);
-    const setupResult = setup && setup(instance.props, setupContext);
+    // 真实的处理场景里面应该是只在 dev 环境才会把 props 设置为只读的
+    const setupResult =
+      setup && setup(shallowReadonly(instance.props), setupContext);
 
     setCurrentInstance(null);
 
