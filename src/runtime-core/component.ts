@@ -1,4 +1,4 @@
- ekkkkkkkkkkkkkkkkjimport { initProps } from "./componentProps";
+import { initProps } from "./componentProps";
 import { initSlots } from "./componentSlots";
 import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
