@@ -1,6 +1,7 @@
 // TODO 需要后面扩展 map 即可
 const c2eMap = {
   你好: "hello",
+  "调用 patch": "call patch function",
 };
 
 const e2cMap = {
@@ -12,6 +13,7 @@ export default class LanguageTranslator {
   constructor() {
     // TODO这个值可以基于环境变量自行控制
     this.currentLanguage = "cn";
+    // this.currentLanguage = "en";
   }
 
   private get currentMap(): any {
@@ -20,11 +22,6 @@ export default class LanguageTranslator {
 
   transition(text) {
     const result = this.currentMap[text];
-
-    if (result) {
-      return result;
-    } else {
-      return text;
-    }
+    return result ? result : text;
   }
 }

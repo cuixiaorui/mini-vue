@@ -10,7 +10,7 @@
     "preserveConstEnums": false,
     "sourceMap": true,
     "downlevelIteration": true,
-    "lib": ["es6","DOM"]
+    "lib": ["es6", "DOM"]
   },
-  "include": ["src/index.ts"]
+  "include": ["src/index.ts", "src/global.d.ts"]
 }
