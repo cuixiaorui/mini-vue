@@ -11,7 +11,7 @@ export default class Debug {
   mainPath(text) {
     return window.console.log.bind(
       window.console,
-      `%c${this.languageTranslator.transition(text)}`,
+      `%c[ mainPath ] ${this.languageTranslator.transition(text)}`,
       "color:red"
     );
   }
