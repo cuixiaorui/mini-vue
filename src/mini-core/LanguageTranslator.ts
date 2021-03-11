@@ -1,3 +1,6 @@
+// LANGUAGE=cn yarn build
+// LANGUAGE 环境变量可以控制打包的语言
+
 // TODO 需要后面扩展 map 即可
 const c2eMap = {
   你好: "hello",
@@ -11,8 +14,7 @@ const e2cMap = {
 export default class LanguageTranslator {
   private currentLanguage: string;
   constructor() {
-    // TODO这个值可以基于环境变量自行控制
-    this.currentLanguage = "cn";
+    this.currentLanguage = process.env.LANGUAGE || "cn";
     // this.currentLanguage = "en";
   }
 
