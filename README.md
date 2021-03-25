@@ -6,6 +6,22 @@
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
+## 探讨
+
+可以入群一起探讨 vue3 源码
+
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81624eaff67c41d69570dcc9ee9a6aec~tplv-k3u1fbpfcp-watermark.image)
+
+如果这个项目帮助到你的话，可以增加一下我更新的动力
+
+![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0368e5a3c3e94d949c380fa7f744f54f~tplv-k3u1fbpfcp-watermark.image)
+
+## 服务
+
+提供一对一视频教学服务，手把手带你一起看 mini-vue 源码
+
+> 可加群沟通
+
 ## Why
 
 当我们需要深入学习 vue3 时，我们就需要看源码来学习，但是像这种工业级别的库，源码中有很多逻辑是用于处理边缘情况或者是兼容处理逻辑，是不利于我们学习的。
@@ -20,16 +36,23 @@
 
 ### Tasking
 
-- [x] 可初始化
-  - [x] 初始化 props
-  - [x] setup 可获取 props 和 context
-  - [x] 支持 component emit
-  - [x] 支持 proxy
-  - [ ] 初始化 slots
-- [x] 可 update
-  - [x] Element 类型
-  - [ ] Component 类型
+- [x] 支持组件类型
+- [x] 支持 element 类型
+- [x] 初始化 props
+- [x] setup 可获取 props 和 context
+- [x] 支持 component emit
+- [x] 支持 proxy
+- [x] 可以在 render 函数中获取 setup 返回的对象
 - [x] nextTick 的实现
+- [x] 支持 getCurrentInstance
+- [x] 支持 provide/inject
+- [x] 支持最基础的 slots
+- [x] 支持 Text 类型节点
+
+### roadmap
+
+- [ ] 支持英文
+- [ ] 规范化 console.log
 
 ### build
 
@@ -39,7 +62,9 @@ yarn build
 
 ### example
 
-直接打开 example/index.html 即可
+通过 server 的方式打开 example/\* 下的 index.html 即可
+
+>  推荐使用 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
 ### 初始化
 

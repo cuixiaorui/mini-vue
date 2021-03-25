@@ -3,6 +3,7 @@ export default {
   name: "Child",
   setup(props, { emit }) {},
   render(proxy) {
+    const self = this
     return h("div", {}, [
       h(
         "button",
@@ -11,6 +12,9 @@ export default {
             console.log(proxy);
             console.log("click");
             proxy.$emit("change", "aaa", "bbbb");
+            // 使用 this
+            console.log(this)
+            self.$emit("change", "ccc", "ddd");
           },
         },
         "emit"

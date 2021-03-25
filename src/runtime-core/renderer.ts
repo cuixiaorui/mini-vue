@@ -6,24 +6,27 @@ import {
   hostPatchProp,
   hostInsert,
   hostRemove,
+  hostSetText,
+  hostCreateText,
 } from "../runtime-dom";
 import { queueJob } from "./scheduler";
 import { effect } from "@vue/reactivity";
 import { setupComponent } from "./component";
-import { h } from "./h";
+import { Text } from "./vnode";
+import { shouldUpdateComponent } from "./componentRenderUtils";
 
 export const render = (vnode, container) => {
-  console.log("调用 patch");
+  debug.mainPath("调用 patch")();
   patch(null, vnode, container);
 };
 
-function patch(n1, n2, container = null) {
+function patch(n1, n2, container = null, parentComponent = null) {
   // 基于 n2 的类型来判断
   // 因为 n2 是新的 vnode
   const { type, shapeFlag } = n2;
   switch (type) {
-    case "text":
-      // todo
+    case Text:
+      processText(n1, n2, container);
       break;
     // 其中还有几个类型比如： static fragment comment
 
@@ -34,8 +37,29 @@ function patch(n1, n2, container = null) {
         processElement(n1, n2, container);
       } else if (shapeFlag & ShapeFlags.STATEFUL_COMPONENT) {
         console.log("处理 component");
-        processComponent(n1, n2, container);
+        processComponent(n1, n2, container, parentComponent);
       }
+  }
+}
+
+function processText(n1, n2, container) {
+  console.log("处理 Text 节点");
+  if (n1 === null) {
+    // n1 是 null 说明是 init 的阶段
+    // 基于 createText 创建出 text 节点，然后使用 insert 添加到 el 内
+    console.log("初始化 Text 类型的节点");
+    hostInsert((n2.el = hostCreateText(n2.children as string)), container);
+  } else {
+    // update
+    // 先对比一下 updated 之后的内容是否和之前的不一样
+    // 在不一样的时候才需要 update text
+    // 这里抽离出来的接口是 setText
+    // 注意，这里一定要记得把 n1.el 赋值给 n2.el, 不然后续是找不到值的
+    const el = (n2.el = n1.el!);
+    if (n2.children !== n1.children) {
+      console.log("更新 Text 类型的节点");
+      hostSetText(el, n2.children as string);
+    }
   }
 }
 
@@ -309,11 +333,11 @@ function mountChildren(children, container) {
   });
 }
 
-function processComponent(n1, n2, container) {
+function processComponent(n1, n2, container, parentComponent) {
   // 如果 n1 没有值的话，那么就是 mount
   if (!n1) {
     // 初始化 component
-    mountComponent(n2, container);
+    mountComponent(n2, container, parentComponent);
   } else {
     // todo
     updateComponent(n1, n2, container);
@@ -322,14 +346,35 @@ function processComponent(n1, n2, container) {
 
 // 组件的更新
 function updateComponent(n1, n2, container) {
-  // TODO
   console.log("更新组件", n1, n2);
+  // 更新组件实例引用
+  const instance = (n2.component = n1.component);
+  // 先看看这个组件是否应该更新
+  if (shouldUpdateComponent(n1, n2)) {
+    console.log(`组件需要更新: ${instance}`);
+    // 那么 next 就是新的 vnode 了（也就是 n2）
+    instance.next = n2;
+    // 这里的 update 是在 setupRenderEffect 里面初始化的，update 函数除了当内部的响应式对象发生改变的时候会调用
+    // 还可以直接主动的调用(这是属于 effect 的特性)
+    // 调用 update 再次更新调用 patch 逻辑
+    // 在update 中调用的 next 就变成了 n2了
+    // ps：可以详细的看看 update 中 next 的应用
+    // TODO 需要在 update 中处理支持 next 的逻辑
+    // instance.update();
+  } else {
+    console.log(`组件不需要更新: ${instance}`);
+    // 不需要更新的话，那么只需要覆盖下面的属性即可
+    n2.component = n1.component;
+    n2.el = n1.el;
+    instance.vnode = n2;
+  }
 }
 
-function mountComponent(initialVNode, container) {
+function mountComponent(initialVNode, container, parentComponent) {
   // 1. 先创建一个 component instance
   const instance = (initialVNode.component = createComponentInstance(
-    initialVNode
+    initialVNode,
+    parentComponent
   ));
   console.log(`创建组件实例:${instance.type.name}`);
   // 2. 给 instance 加工加工
@@ -359,7 +404,12 @@ function setupRenderEffect(instance, container) {
         // 是因为在 effect 内调用 render 才能触发依赖收集
         // 等到后面响应式的值变更后会再次触发这个函数
         console.log("调用 render,获取 subTree");
-        const subTree = (instance.subTree = instance.render(instance.proxy));
+        const proxyToUse = instance.proxy;
+        // 可在 render 函数中通过 this 来使用 proxy
+        const subTree = (instance.subTree = instance.render.call(
+          proxyToUse,
+          proxyToUse
+        ));
         console.log("subTree", subTree);
 
         // todo
@@ -376,7 +426,7 @@ function setupRenderEffect(instance, container) {
         // 而 subTree 就是当前的这个箱子（组件）装的东西
         // 箱子（组件）只是个概念，它实际是不需要渲染的
         // 要渲染的是箱子里面的 subTree
-        patch(null, subTree, container);
+        patch(null, subTree, container, instance);
 
         console.log(`${instance.type.name}:触发 mounted hook`);
         instance.isMounted = true;
@@ -385,7 +435,9 @@ function setupRenderEffect(instance, container) {
         // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
         console.log("调用更新逻辑");
         // 拿到最新的 subTree
-        const nextTree = instance.render(instance.proxy);
+
+        const proxyToUse = instance.proxy;
+        const nextTree = instance.render.call(proxyToUse, proxyToUse);
         // 替换之前的 subTree
         const prevTree = instance.subTree;
         instance.subTree = nextTree;
@@ -395,7 +447,7 @@ function setupRenderEffect(instance, container) {
         console.log("onVnodeBeforeUpdate hook");
 
         // 用旧的 vnode 和新的 vnode 交给 patch 来处理
-        patch(prevTree, nextTree, prevTree.el);
+        patch(prevTree, nextTree, prevTree.el, instance);
 
         // 触发 updated hook
         console.log("updated hook");

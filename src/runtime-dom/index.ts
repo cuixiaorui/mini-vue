@@ -7,6 +7,14 @@ export function hostCreateElement(type) {
   return element;
 }
 
+export function hostCreateText(text) {
+  return document.createTextNode(text);
+}
+
+export function hostSetText(node, text) {
+  node.nodeValue = text;
+}
+
 export function hostSetElementText(el, text) {
   console.log("hostSetElementText", el, text);
   el.innerText = text;
@@ -37,10 +45,10 @@ export function hostPatchProp(el, key, preValue, nextValue) {
   }
 }
 
-export function hostInsert(child, parent, anchor=null) {
+export function hostInsert(child, parent, anchor = null) {
   console.log("hostInsert");
   if (anchor) {
-    parent.insertBefore(child,anchor);
+    parent.insertBefore(child, anchor);
   } else {
     parent.appendChild(child);
   }

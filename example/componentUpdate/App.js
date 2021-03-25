@@ -6,17 +6,28 @@ import Child from "./Child.js";
 
 export default {
   name: "App",
-  setup() {},
+  setup() {
+    const msg = ref("123");
+
+    const changeChildProps = () => {
+      msg.value = "456";
+    };
+
+    return { msg, changeChildProps };
+  },
 
   render() {
     return h("div", {}, [
       h("div", {}, "你好"),
-      h(Child, {
-        msg: "your name is child",
-        onChange(a, b) {
-          console.log("---------------change------------------");
-          console.log(a, b);
+      h(
+        "button",
+        {
+          onClick: this.changeChildProps,
         },
+        "change child props"
+      ),
+      h(Child, {
+        msg: this.msg,
       }),
     ]);
   },

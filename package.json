@@ -25,6 +25,6 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@vue/reactivity": "^3.0.0-beta.15"
+    "@vue/reactivity": "^3.0.5"
   }
 }
