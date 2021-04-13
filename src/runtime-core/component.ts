@@ -53,7 +53,7 @@ export function setupComponent(instance) {
 function setupStatefulComponent(instance) {
   // todo
   // 1. 先创建代理 proxy
-  console.log("创建 proxy");
+  debug.log("创建 proxy")();
 
   // proxy 对象其实是代理了 instance.ctx 对象
   // 我们在使用的时候需要使用 instance.proxy 对象
@@ -84,7 +84,7 @@ function setupStatefulComponent(instance) {
 }
 
 function createSetupContext(instance) {
-  console.log("初始化 setup context");
+  debug.log("初始化 setup context")();
   return {
     attrs: instance.attrs,
     slots: instance.slots,
