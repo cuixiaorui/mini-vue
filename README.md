@@ -10,7 +10,7 @@
 
 可以入群一起探讨 vue3 源码
 
-![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ecb7f3a7f4d348d59055d4aece321f0d~tplv-k3u1fbpfcp-watermark.image)
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3c38867754b840b38d5e8a70ea206b8d~tplv-k3u1fbpfcp-watermark.image)
 
 如果这个项目帮助到你的话，可以增加一下我更新的动力
 
