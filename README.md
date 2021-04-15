@@ -6,6 +6,8 @@
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
+> 可关注我得[b站](https://www.bilibili.com/video/BV1Zy4y1J73E)，会不定期直播源码解读
+
 ## 探讨
 
 可以入群一起探讨 vue3 源码
