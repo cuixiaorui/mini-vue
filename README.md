@@ -6,7 +6,7 @@
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
-> 可关注我得[b站](https://www.bilibili.com/video/BV1Zy4y1J73E)，会不定期直播源码解读
+> 可关注我得[b站](https://space.bilibili.com/175301983)，会不定期直播源码解读
 
 ## 探讨
 
