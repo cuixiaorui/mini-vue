@@ -14,7 +14,7 @@
 
 可以入群一起探讨 vue3 源码
 
-![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9bf2012d75904112864259e18f174463~tplv-k3u1fbpfcp-watermark.image)
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/65e6e5f6708e420a832ee28706a77ec0~tplv-k3u1fbpfcp-watermark.image)
 
 ## 服务
 
