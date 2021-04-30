@@ -4,6 +4,8 @@ import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
 import { proxyRefs } from "@vue/reactivity";
 import { shallowReadonly } from "@vue/reactivity";
+let $ff=`\\runtime-core\\component.ts`;
+
 export function createComponentInstance(vnode, parent) {
   const instance = {
     type: vnode.type,
@@ -53,7 +55,8 @@ export function setupComponent(instance) {
 function setupStatefulComponent(instance) {
   // todo
   // 1. 先创建代理 proxy
-  debug.log("创建 proxy")();
+  debug.log($ff+':setupStatefulComponent  创建 proxy ')()
+ 
 
   // proxy 对象其实是代理了 instance.ctx 对象
   // 我们在使用的时候需要使用 instance.proxy 对象
@@ -84,7 +87,7 @@ function setupStatefulComponent(instance) {
 }
 
 function createSetupContext(instance) {
-  debug.log("初始化 setup context")();
+  debug.log($ff+':createSetupContext  初始化 setup context ')()
   return {
     attrs: instance.attrs,
     slots: instance.slots,

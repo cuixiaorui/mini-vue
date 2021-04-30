@@ -31,4 +31,12 @@ log( ...items: any[]){
     ...items,
   );
 }
+ // 开启分组。  isCollapsed 是默认让分组折叠
+  gb(label:string,isCollapsed:boolean){
+    isCollapsed? console.groupCollapsed(label) : console.group(label)
+  }
+  // 结束分组
+  ge(){
+    console.groupEnd()
+  }
 }

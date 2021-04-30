@@ -19,9 +19,11 @@ export const render = (vnode, container) => {
   debug.mainPath("调用 patch")();
   patch(null, vnode, container);
 };
+let $ff=`\\runtime-core\\renderer.ts`;
 
 function patch(n1, n2, container = null, parentComponent = null) {
-  debug.add()
+  debug.gb($ff+':patch ');
+  
   // 基于 n2 的类型来判断
   // 因为 n2 是新的 vnode
   const { type, shapeFlag } = n2;
@@ -41,7 +43,7 @@ function patch(n1, n2, container = null, parentComponent = null) {
         processComponent(n1, n2, container, parentComponent);
       }
   }
-  debug.sub()
+  debug.ge()
 }
 
 function processText(n1, n2, container) {

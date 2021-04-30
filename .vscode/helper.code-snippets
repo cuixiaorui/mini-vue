@@ -1,0 +1,42 @@
+{
+	// Place your mini-vue 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"添加log": {
+		"scope": "javascript,typescript",
+		"prefix": "log",
+		"body": [
+			"debug.log(\\$ff+':$CLIPBOARD $1')()",
+		],
+		"description": "添加log,  使用之前先复制一下当前函数名"
+	},
+	"开启分组": {
+		"scope": "javascript,typescript",
+		"prefix": "gb",
+		"body": [
+			"debug.gb(\\$ff+':$CLIPBOARD $1');",
+		],
+		"description": "开启分组"
+	},
+	"结束分组": {
+		"scope": "javascript,typescript",
+		"prefix": "ge",
+		"body": [
+			"debug.ge()",
+		],
+		"description": "结束分组"
+	},
+	"添加当前文件路径， $ff": {
+		"scope": "javascript,typescript",
+		"prefix": "ff",
+		"body": [
+			"let \\$ff=`${1:${TM_FILEPATH/(.*src)(.*)/${2}/i}}`;",
+			"$2"
+		],
+		"description": "添加$ff,为了调试方法，每个文件头部添加$ff的变量"
+	},
+}
