@@ -14,7 +14,7 @@ Implement the simplest vue3 model for in-depth study of vue3 source code
 You can join the group to discuss the vue3 source code
 
 
-![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/65e6e5f6708e420a832ee28706a77ec0~tplv-k3u1fbpfcp-watermark.image)
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cbe1b6e9c67944828c3e653fd7919dc0~tplv-k3u1fbpfcp-watermark.image)
 
 > with WeChat
 
