@@ -239,7 +239,7 @@ function patchKeyedChildren(c1: any[], c2: any[], container) {
       const newIndex = keyToNewIndexMap.get(prevChild.key);
       newIndexToOldIndexMap[newIndex] = i;
 
-      // 因为有可能 nexIndex 的值为0（0也是正常值）
+      // 因为有可能 nextIndex 的值为0（0也是正常值）
       // 所以需要通过值是不是 undefined 来判断
       // 不能直接 if(newIndex) 来判断
       if (newIndex === undefined) {
