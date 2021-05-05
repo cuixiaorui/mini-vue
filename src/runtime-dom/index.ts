@@ -2,7 +2,7 @@
 // 这里先简单实现
 // 后面也修改成和源码一样的实现
 export function hostCreateElement(type) {
-  console.log("hostCreateElement", type);
+  debug.log("hostCreateElement", type)();
   const element = document.createElement(type);
   return element;
 }
@@ -16,7 +16,7 @@ export function hostSetText(node, text) {
 }
 
 export function hostSetElementText(el, text) {
-  console.log("hostSetElementText", el, text);
+  debug.log("hostSetElementText", el, text)();
   el.innerText = text;
 }
 
@@ -24,8 +24,8 @@ export function hostPatchProp(el, key, preValue, nextValue) {
   // preValue 之前的值
   // 为了之后 update 做准备的值
   // nextValue 当前的值
-  console.log(`hostPatchProp 设置属性:${key} 值:${nextValue}`);
-  console.log(`key: ${key} 之前的值是:${preValue}`);
+  debug.log(`hostPatchProp 设置属性:${key} 值:${nextValue}`)();
+  debug.log(`key: ${key} 之前的值是:${preValue}`)();
 
   switch (key) {
     case "id":
@@ -46,7 +46,7 @@ export function hostPatchProp(el, key, preValue, nextValue) {
 }
 
 export function hostInsert(child, parent, anchor = null) {
-  console.log("hostInsert");
+  debug.log("hostInsert")();
   if (anchor) {
     parent.insertBefore(child, anchor);
   } else {

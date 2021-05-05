@@ -2,7 +2,7 @@ import { ShapeFlags } from "../shared";
 export function initSlots(instance, children) {
   const { vnode } = instance;
 
-  console.log("初始化 slots");
+  debug.log("初始化 slots")();
 
   if (vnode.shapeFlag & ShapeFlags.SLOTS_CHILDREN) {
     normalizeObjectSlots(children, (instance.slots = {}));
