@@ -360,7 +360,7 @@ function updateComponent(n1, n2, container) {
     // 在update 中调用的 next 就变成了 n2了
     // ps：可以详细的看看 update 中 next 的应用
     // TODO 需要在 update 中处理支持 next 的逻辑
-    // instance.update();
+    instance.update();
   } else {
     console.log(`组件不需要更新: ${instance}`);
     // 不需要更新的话，那么只需要覆盖下面的属性即可
@@ -435,6 +435,14 @@ function setupRenderEffect(instance, container) {
         // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
         console.log("调用更新逻辑");
         // 拿到最新的 subTree
+        const { next, vnode } = instance;
+
+        // 如果有 next 的话， 说明需要更新组件的数据（props，slots 等）
+        // 先更新组件的数据，然后更新完成后，在继续对比当前组件的子元素
+        if (next) {
+          next.el = vnode.el;
+          updateComponentPreRender(instance, next);
+        }
 
         const proxyToUse = instance.proxy;
         const nextTree = instance.render.call(proxyToUse, proxyToUse);
@@ -461,4 +469,12 @@ function setupRenderEffect(instance, container) {
       },
     }
   );
+}
+
+function updateComponentPreRender(instance, nextVNode) {
+  const { props } = nextVNode;
+  console.log("更新组件的 props", props);
+  instance.props = props;
+  console.log("更新组件的 slots");
+  // TODO 更新组件的 slots
 }

@@ -8,6 +8,7 @@ export function createComponentInstance(vnode, parent) {
   const instance = {
     type: vnode.type,
     vnode,
+    next: null, // 需要更新的 vnode，用于更新 component 类型的组件
     props: {},
     parent,
     provides: parent ? parent.provides : {}, //  获取 parent 的 provides 作为当前组件的初始化值 这样就可以继承 parent.provides 的属性了

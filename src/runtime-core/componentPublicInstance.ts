@@ -3,6 +3,7 @@ const publicPropertiesMap = {
   // i 就是 instance 的缩写 也就是组件实例对象
   $emit: (i) => i.emit,
   $slots: (i) => i.slots,
+  $props: (i) => i.props,
 };
 
 // todo 需要让用户可以直接在 render 函数内直接使用 this 来触发 proxy
