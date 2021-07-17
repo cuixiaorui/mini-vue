@@ -339,7 +339,6 @@ function processComponent(n1, n2, container, parentComponent) {
     // 初始化 component
     mountComponent(n2, container, parentComponent);
   } else {
-    // todo
     updateComponent(n1, n2, container);
   }
 }

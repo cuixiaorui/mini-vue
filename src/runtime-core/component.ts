@@ -138,6 +138,7 @@ function finishComponentSetup(instance) {
 function applyOptions() {
   // 兼容 vue2.x
   // todo
+  // options api 
 }
 
 let currentInstance = {};
