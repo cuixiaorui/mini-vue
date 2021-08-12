@@ -14,9 +14,9 @@
 
 可以和我一起探讨 vue3 的源码噢
 
-加我的公众号：阿崔cxr
+加我的公众号：阿崔 cxr
 
-公众号回复关键字：vx 
+公众号回复关键字：vx
 
 ## 脑图资源获取
 
@@ -24,7 +24,7 @@
 
 整理了所有功能的调用顺序
 
-1. 搜索公众号: 阿崔cxr
+1. 搜索公众号: 阿崔 cxr
 2. 回复关键字: 011
 
 ## 服务
@@ -47,6 +47,8 @@
 
 ### Tasking
 
+#### runtime-core
+
 - [x] 支持组件类型
 - [x] 支持 element 类型
 - [x] 初始化 props
@@ -60,10 +62,13 @@
 - [x] 支持最基础的 slots
 - [x] 支持 Text 类型节点
 
-### roadmap
+#### reactivity
 
-- [ ] 支持英文
-- [ ] 规范化 console.log
+目标是用自己的 reactivity 支持现有的 demo 运行
+
+- [x] reactive 的实现
+- [x] track 依赖收集
+- [x] trigger 触发依赖
 
 ### build
 
