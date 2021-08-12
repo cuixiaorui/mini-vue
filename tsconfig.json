@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "target": "es5",
     "module": "commonjs",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "removeComments": true,
     "preserveConstEnums": false,
     "sourceMap": true,
