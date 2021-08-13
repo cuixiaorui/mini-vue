@@ -1,5 +1,6 @@
 import { track, trigger } from "./effect";
-import { ReactiveFlags } from "./reactive";
+import { reactive, ReactiveFlags } from "./reactive";
+import { isObject } from "../../shared/index";
 
 const get = createGetter();
 const set = createSetter();
@@ -11,6 +12,13 @@ function createGetter(isReadonly = false, shallow = false) {
     }
 
     const res = Reflect.get(target, key, receiver);
+
+    if (isObject(res)) {
+      // 把内部所有的是 object 的值都用 reactive 包裹，变成响应式对象
+      // 如果说这个 res 值是一个对象的话，那么我们需要把获取到的 res 也转换成 reactive
+      // res 等于 target[key]
+      return reactive(res);
+    }
 
     // 在触发 get 的时候进行依赖收集
     track(target, "get", key);

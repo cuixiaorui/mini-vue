@@ -70,6 +70,7 @@
 - [x] track 依赖收集
 - [x] trigger 触发依赖
 - [x] 支持 isReactive
+- [x] 支持嵌套 reactive
 
 ### build
 

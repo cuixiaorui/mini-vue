@@ -1,5 +1,9 @@
 export * from "./shapeFlags";
 
+export const isObject = (val) => {
+  return val !== null && typeof val === "object";
+};
+
 const camelizeRE = /-(\w)/g;
 /**
  * @private
