@@ -1,4 +1,4 @@
-import { reactive, isReactive } from "../src/reactive";
+import { reactive, isReactive, toRaw, reactiveMap } from "../src/reactive";
 describe("reactive", () => {
   test("Object", () => {
     const original = { foo: 1 };
@@ -25,5 +25,12 @@ describe("reactive", () => {
     expect(isReactive(observed.nested)).toBe(true);
     expect(isReactive(observed.array)).toBe(true);
     expect(isReactive(observed.array[0])).toBe(true);
+  });
+
+  test("toRaw", () => {
+    const original = { foo: 1 };
+    const observed = reactive(original);
+    expect(toRaw(observed)).toBe(original);
+    expect(toRaw(original)).toBe(original);
   });
 });

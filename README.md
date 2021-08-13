@@ -71,6 +71,7 @@
 - [x] trigger 触发依赖
 - [x] 支持 isReactive
 - [x] 支持嵌套 reactive
+- [x] 支持 toRaw
 
 ### build
 

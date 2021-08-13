@@ -1,5 +1,5 @@
-import { track, trigger } from "./effect";
-import { reactive, ReactiveFlags } from "./reactive";
+import { ReactiveEffect, track, trigger } from "./effect";
+import { reactive, ReactiveFlags, reactiveMap } from "./reactive";
 import { isObject } from "../../shared/index";
 
 const get = createGetter();
@@ -7,8 +7,13 @@ const set = createSetter();
 
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target, key, receiver) {
+    const isExistInReactiveMap = () =>
+      key === ReactiveFlags.RAW && receiver === reactiveMap.get(target);
+
     if (key === ReactiveFlags.IS_REACTIVE) {
       return true;
+    } else if (isExistInReactiveMap()) {
+      return target;
     }
 
     const res = Reflect.get(target, key, receiver);
