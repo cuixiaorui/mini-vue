@@ -1,10 +1,17 @@
 import { track, trigger } from "./effect";
+import { ReactiveFlags } from "./reactive";
+
 const get = createGetter();
 const set = createSetter();
 
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target, key, receiver) {
+    if (key === ReactiveFlags.IS_REACTIVE) {
+      return true;
+    }
+
     const res = Reflect.get(target, key, receiver);
+
     // 在触发 get 的时候进行依赖收集
     track(target, "get", key);
     return res;
