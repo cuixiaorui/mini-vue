@@ -13,6 +13,8 @@ export const camelize = (str: string): string => {
   return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ""));
 };
 
+export const extend = Object.assign
+
 /**
  * @private
  * 首字母大写

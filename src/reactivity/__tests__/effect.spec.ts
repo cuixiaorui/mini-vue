@@ -63,34 +63,29 @@ describe("effect", () => {
     counter.num = 2;
     expect(dummy).toBe(2);
   });
-  //   it("should call function", () => {
-  //     const user = reactive({
-  //       age: 1,
-  //     });
-
-  //     let nextAge = 0;
-  //     const fn = () => {
-  //       nextAge = user.age + 1;
-  //     };
-
-  //     effect(fn);
-
-  //     expect(nextAge).toBe(2);
-  //   });
-
-  //   it("trigger", () => {
-  //     const user = reactive({
-  //       age: 1,
-  //     });
-
-  //     let nextAge = 0;
-  //     const fn = () => {
-  //       nextAge = user.age + 1;
-  //     };
-
-  //     effect(fn);
-  //     // set -> trigger
-  //     user.age = 2;
-  //     expect(nextAge).toBe(3);
-  //   });
+  it("scheduler", () => {
+    let dummy;
+    let run: any;
+    const scheduler = jest.fn(() => {
+      run = runner;
+    });
+    const obj = reactive({ foo: 1 });
+    const runner = effect(
+      () => {
+        dummy = obj.foo;
+      },
+      { scheduler }
+    );
+    expect(scheduler).not.toHaveBeenCalled();
+    expect(dummy).toBe(1);
+    // should be called on first trigger
+    obj.foo++;
+    expect(scheduler).toHaveBeenCalledTimes(1);
+    // // should not run yet
+    expect(dummy).toBe(1);
+    // // manually run
+    run();
+    // // should have run
+    expect(dummy).toBe(2);
+  });
 });

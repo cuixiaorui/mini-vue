@@ -1,4 +1,5 @@
 import { createDep } from "./dep";
+import { extend } from "../../shared/index";
 
 let activeEffect = null;
 const targetMap = new WeakMap();
@@ -16,9 +17,18 @@ export class ReactiveEffect {
   }
 }
 
-export function effect(fn) {
+export function effect(fn, options) {
   const _effect = new ReactiveEffect(fn);
+
+  // 把用户传过来的值合并到 _effect 对象上去
+  // 缺点就是不是显式的，看代码的时候并不知道有什么值
+  extend(_effect, options);
   _effect.run();
+
+  // 把 _effect.run 这个方法返回
+  // 让用户可以自行选择调用的时机（调用 fn）
+  const runner = _effect.run.bind(_effect);
+  return runner;
 }
 
 export function track(target, type, key) {
@@ -75,6 +85,13 @@ export function trigger(target, type, key) {
 function triggerEffects(dep) {
   // 执行收集到的所有的 effect 的 run 方法
   for (const effect of dep) {
-    effect.run();
+    if (effect.scheduler) {
+      // scheduler 可以让用户自己选择调用的时机
+      // 这样就可以灵活的控制调用了
+      // 在 runtime-core 中，就是使用了 scheduler 实现了在 next ticker 中调用的逻辑
+      effect.scheduler();
+    } else {
+      effect.run();
+    }
   }
 }
