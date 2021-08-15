@@ -6,6 +6,8 @@ const targetMap = new WeakMap();
 
 // 用于依赖收集
 export class ReactiveEffect {
+  active = true;
+  deps = [];
   constructor(public fn) {}
 
   run() {
@@ -15,9 +17,27 @@ export class ReactiveEffect {
     // 执行用户传入的 fn
     this.fn();
   }
+
+  stop() {
+    if (this.active) {
+      // 如果第一次执行 stop 后 active 就 false 了
+      // 这是为了防止重复的调用，执行 stop 逻辑
+      cleanupEffect(this);
+      this.active = false;
+    }
+  }
 }
 
-export function effect(fn, options) {
+function cleanupEffect(effect) {
+  // 找到所有依赖这个 effect 的响应式对象
+  // 从这些响应式对象里面把 effect 给删除掉
+  effect.deps.forEach((dep) => {
+    dep.delete(effect);
+  });
+  effect.deps.length = 0;
+}
+
+export function effect(fn, options = {}) {
   const _effect = new ReactiveEffect(fn);
 
   // 把用户传过来的值合并到 _effect 对象上去
@@ -27,8 +47,13 @@ export function effect(fn, options) {
 
   // 把 _effect.run 这个方法返回
   // 让用户可以自行选择调用的时机（调用 fn）
-  const runner = _effect.run.bind(_effect);
+  const runner: any = _effect.run.bind(_effect);
+  runner.effect = _effect;
   return runner;
+}
+
+export function stop(runner) {
+  runner.effect.stop();
 }
 
 export function track(target, type, key) {
@@ -55,6 +80,7 @@ export function track(target, type, key) {
 function trackEffects(dep) {
   // 用 dep 来存放所有的 effect
   dep.add(activeEffect);
+  (activeEffect as any).deps.push(dep);
 }
 
 export function trigger(target, type, key) {

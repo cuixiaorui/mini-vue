@@ -1,5 +1,5 @@
 import { reactive } from "../src/reactive";
-import { effect } from "../src/effect";
+import { effect,stop } from "../src/effect";
 
 describe("effect", () => {
   it("should run the passed function once (wrapped by a effect)", () => {
@@ -87,5 +87,22 @@ describe("effect", () => {
     run();
     // // should have run
     expect(dummy).toBe(2);
+  });
+
+  it("stop", () => {
+    let dummy;
+    const obj = reactive({ prop: 1 });
+    const runner = effect(() => {
+      dummy = obj.prop;
+    });
+    obj.prop = 2;
+    expect(dummy).toBe(2);
+    stop(runner);
+    obj.prop = 3;
+    expect(dummy).toBe(2);
+
+    // stopped effect should still be manually callable
+    // runner();
+    // expect(dummy).toBe(3);
   });
 });
