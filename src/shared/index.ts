@@ -13,7 +13,11 @@ export const camelize = (str: string): string => {
   return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ""));
 };
 
-export const extend = Object.assign
+export const extend = Object.assign;
+
+export function hasChanged(value, oldValue) {
+  return !Object.is(value, oldValue);
+}
 
 /**
  * @private

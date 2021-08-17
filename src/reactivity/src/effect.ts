@@ -77,7 +77,7 @@ export function track(target, type, key) {
   trackEffects(dep);
 }
 
-function trackEffects(dep) {
+export function trackEffects(dep) {
   // 用 dep 来存放所有的 effect
   dep.add(activeEffect);
   (activeEffect as any).deps.push(dep);
@@ -108,7 +108,7 @@ export function trigger(target, type, key) {
   triggerEffects(createDep(effects));
 }
 
-function triggerEffects(dep) {
+export function triggerEffects(dep) {
   // 执行收集到的所有的 effect 的 run 方法
   for (const effect of dep) {
     if (effect.scheduler) {
