@@ -34,4 +34,10 @@ export default {
       sourcemap: true,
     },
   ],
+  onwarn: (msg, warn) => {
+    // 忽略 Circular 的错误
+    if (!/Circular/.test(msg)) {
+      warn(msg);
+    }
+  },
 };
