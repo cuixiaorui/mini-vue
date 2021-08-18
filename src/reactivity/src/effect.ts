@@ -1,21 +1,21 @@
 import { createDep } from "./dep";
 import { extend } from "../../shared/index";
 
-let activeEffect = null;
+let activeEffect = void 0;
 const targetMap = new WeakMap();
 
 // 用于依赖收集
 export class ReactiveEffect {
   active = true;
   deps = [];
-  constructor(public fn) {}
+  constructor(public fn, public scheduler?) {}
 
   run() {
     // 执行的时候给全局的 activeEffect 赋值
     // 利用全局属性来获取当前的 effect
     activeEffect = this as any;
     // 执行用户传入的 fn
-    this.fn();
+    return this.fn();
   }
 
   stop() {
@@ -106,6 +106,10 @@ export function trigger(target, type, key) {
   // 这里的目的是只有一个 dep ，这个dep 里面包含所有的 effect
   // 这里的目前应该是为了 triggerEffects 这个函数的复用
   triggerEffects(createDep(effects));
+}
+
+export function isTracking() {
+  return activeEffect !== undefined;
 }
 
 export function triggerEffects(dep) {
