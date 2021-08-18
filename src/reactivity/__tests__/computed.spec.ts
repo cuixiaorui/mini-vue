@@ -1,5 +1,5 @@
-import { computed } from "./computed";
-import { reactive } from "./reactive";
+import { computed } from "../src/computed";
+import { reactive } from "../src/reactive";
 
 describe("computed", () => {
   it("should compute lazily", () => {
