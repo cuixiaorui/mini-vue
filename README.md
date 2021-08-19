@@ -61,7 +61,7 @@
 - [x] 支持 provide/inject
 - [x] 支持最基础的 slots
 - [x] 支持 Text 类型节点
-- [ ] proxyRefs
+- [x] proxyRefs
 - [ ] shallowReadonly
 
 #### reactivity

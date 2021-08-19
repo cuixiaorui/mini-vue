@@ -1,5 +1,5 @@
 import { effect } from "../src/effect";
-import { ref } from "../src/ref";
+import { proxyRefs, ref } from "../src/ref";
 describe("ref", () => {
   it("should be reactive", () => {
     const a = ref(1);
@@ -31,5 +31,19 @@ describe("ref", () => {
     expect(dummy).toBe(1);
     a.value.count = 2;
     expect(dummy).toBe(2);
+  });
+
+  it("proxyRefs", () => {
+    const user = {
+      age: ref(10),
+      name: "xiaohong",
+    };
+    const proxyUser = proxyRefs(user);
+    expect(user.age.value).toBe(10);
+    expect(proxyUser.age).toBe(10);
+    expect(proxyUser.name).toBe("xiaohong");
+    
+    proxyUser.age = 20
+    expect(proxyUser.age).toBe(20);
   });
 });
