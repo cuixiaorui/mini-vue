@@ -79,6 +79,19 @@ export function track(target, type, key) {
 
 export function trackEffects(dep) {
   // 用 dep 来存放所有的 effect
+  let shouldTrack = false;
+
+  // TODO
+  // 这里是一个优化点
+  // 先看看这个依赖是不是已经收集了，
+  // 已经收集的话，那么就不需要在收集一次了
+  // 可能会影响 code path change 的情况
+  // 需要每次都 cleanupEffect
+  // shouldTrack = !dep.has(activeEffect!);
+
+  // if (!shouldTrack) return;
+  if (!activeEffect) return;
+
   dep.add(activeEffect);
   (activeEffect as any).deps.push(dep);
 }
