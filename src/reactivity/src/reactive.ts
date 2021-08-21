@@ -1,14 +1,28 @@
-import { mutableHandlers } from "./baseHandlers";
+import { mutableHandlers, readonlyHandlers } from "./baseHandlers";
 
 export const reactiveMap = new WeakMap();
+export const readonlyMap = new WeakMap();
 
 export const enum ReactiveFlags {
   IS_REACTIVE = "__v_isReactive",
+  IS_READONLY = "__v_isReadonly",
   RAW = "__v_raw",
 }
 
 export function reactive(target) {
-  return createReactiveObject(target, reactiveMap);
+  return createReactiveObject(target, reactiveMap, mutableHandlers);
+}
+
+export function readonly(target) {
+  return createReactiveObject(target, readonlyMap, readonlyHandlers);
+}
+
+export function isProxy(value) {
+  return isReactive(value) || isReadonly(value);
+}
+
+export function isReadonly(value) {
+  return !!value[ReactiveFlags.IS_READONLY];
 }
 
 export function isReactive(value) {
@@ -33,7 +47,7 @@ export function toRaw(value) {
   return value[ReactiveFlags.RAW];
 }
 
-function createReactiveObject(target, proxyMap) {
+function createReactiveObject(target, proxyMap, baseHandlers) {
   // 核心就是 proxy
   // 目的是可以侦听到用户 get 或者 set 的动作
 
@@ -44,7 +58,7 @@ function createReactiveObject(target, proxyMap) {
     return existingProxy;
   }
 
-  const proxy = new Proxy(target, mutableHandlers);
+  const proxy = new Proxy(target, baseHandlers);
 
   // 把创建好的 proxy 给存起来，
   proxyMap.set(target, proxy);

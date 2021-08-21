@@ -62,7 +62,6 @@
 - [x] 支持最基础的 slots
 - [x] 支持 Text 类型节点
 - [x] proxyRefs
-- [ ] shallowReadonly
 
 #### reactivity
 
@@ -70,6 +69,7 @@
 
 - [x] reactive 的实现
 - [x] ref 的实现
+- [x] readonly 的实现
 - [x] computed 的实现
 - [x] track 依赖收集
 - [x] trigger 触发依赖
@@ -78,6 +78,9 @@
 - [x] 支持 toRaw
 - [x] 支持 effect.scheduler
 - [x] 支持 effect.stop
+- [x] 支持 isReadonly
+- [x] 支持 isProxy
+- [ ] shallowReadonly
 
 ### build
 
