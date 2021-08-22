@@ -80,7 +80,7 @@
 - [x] 支持 effect.stop
 - [x] 支持 isReadonly
 - [x] 支持 isProxy
-- [ ] shallowReadonly
+- [x] 支持 shallowReadonly
 
 ### build
 

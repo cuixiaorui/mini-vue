@@ -5,6 +5,7 @@ import {
   reactiveMap,
   readonly,
   readonlyMap,
+  shallowReadonlyMap,
 } from "./reactive";
 import { isObject } from "../../shared/index";
 
@@ -19,15 +20,26 @@ function createGetter(isReadonly = false, shallow = false) {
     const isExistInReadonlyMap = () =>
       key === ReactiveFlags.RAW && receiver === readonlyMap.get(target);
 
+    const isExistInShallowReadonlyMap = () =>
+      key === ReactiveFlags.RAW && receiver === shallowReadonlyMap.get(target);
+
     if (key === ReactiveFlags.IS_REACTIVE) {
       return !isReadonly;
     } else if (key === ReactiveFlags.IS_READONLY) {
       return isReadonly;
-    } else if (isExistInReactiveMap() || isExistInReadonlyMap()) {
+    } else if (
+      isExistInReactiveMap() ||
+      isExistInReadonlyMap() ||
+      isExistInShallowReadonlyMap()
+    ) {
       return target;
     }
 
     const res = Reflect.get(target, key, receiver);
+
+    if (shallow) {
+      return res;
+    }
 
     if (isObject(res)) {
       // 把内部所有的是 object 的值都用 reactive 包裹，变成响应式对象
@@ -72,5 +84,17 @@ export const readonlyHandlers = {
 
 export const mutableHandlers = {
   get,
-  set
+  set,
+};
+
+export const shallowReadonlyHandlers = {
+  get: createGetter(true, true),
+  set(target, key) {
+    // readonly 的响应式对象不可以修改值
+    console.warn(
+      `Set operation on key "${String(key)}" failed: target is readonly.`,
+      target
+    );
+    return true;
+  },
 };
