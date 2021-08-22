@@ -2,8 +2,7 @@ import { initProps } from "./componentProps";
 import { initSlots } from "./componentSlots";
 import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
-import { proxyRefs } from "@vue/reactivity";
-import { shallowReadonly } from "@vue/reactivity";
+import { proxyRefs, shallowReadonly } from "../reactivity/src";
 export function createComponentInstance(vnode, parent) {
   const instance = {
     type: vnode.type,
@@ -138,7 +137,7 @@ function finishComponentSetup(instance) {
 function applyOptions() {
   // 兼容 vue2.x
   // todo
-  // options api 
+  // options api
 }
 
 let currentInstance = {};

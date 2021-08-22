@@ -1,3 +1,3 @@
 import "./mini-core";
-export * from "@vue/reactivity";
+export * from "./reactivity/src";
 export * from "./runtime-core";

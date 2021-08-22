@@ -10,7 +10,7 @@ import {
   hostCreateText,
 } from "../runtime-dom";
 import { queueJob } from "./scheduler";
-import { effect } from "@vue/reactivity";
+import { effect } from "../reactivity/src";
 import { setupComponent } from "./component";
 import { Text } from "./vnode";
 import { shouldUpdateComponent } from "./componentRenderUtils";
