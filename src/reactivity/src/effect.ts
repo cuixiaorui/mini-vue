@@ -8,13 +8,16 @@ const targetMap = new WeakMap();
 export class ReactiveEffect {
   active = true;
   deps = [];
-  constructor(public fn, public scheduler?) {}
+  constructor(public fn, public scheduler?) {
+    console.log("创建 ReactiveEffect 对象");
+  }
 
   run() {
     // 执行的时候给全局的 activeEffect 赋值
     // 利用全局属性来获取当前的 effect
     activeEffect = this as any;
     // 执行用户传入的 fn
+    console.log("执行用户传入的 fn");
     return this.fn();
   }
 
@@ -57,6 +60,7 @@ export function stop(runner) {
 }
 
 export function track(target, type, key) {
+  console.log(`触发 track -> target: ${target} type:${type} key:${key}`);
   // 1. 先基于 target 找到对应的 dep
   // 如果是第一次的话，那么就需要初始化
   let depsMap = targetMap.get(target);
