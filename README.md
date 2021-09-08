@@ -10,22 +10,15 @@
 
 > 可关注我得[b 站](https://space.bilibili.com/175301983)，会不定期直播源码解读
 
-## 探讨
+## 探讨和获取脑图资源
 
-可以和我一起探讨 vue3 的源码噢
+想要资源和入群的话，加我vx。
 
 加我的公众号：阿崔 cxr
 
 公众号回复关键字：vx
 
-## 脑图资源获取
-
-提供了 xmind 格式的脑图
-
-整理了所有功能的调用顺序
-
-1. 搜索公众号: 阿崔 cxr
-2. 回复关键字: 011
+我拉你进群（群满了）
 
 ## 服务
 
@@ -61,7 +54,7 @@
 - [x] 支持 provide/inject
 - [x] 支持最基础的 slots
 - [x] 支持 Text 类型节点
-- [x] proxyRefs
+
 
 #### reactivity
 
@@ -81,6 +74,7 @@
 - [x] 支持 isReadonly
 - [x] 支持 isProxy
 - [x] 支持 shallowReadonly
+- [x] 支持 proxyRefs
 
 ### build
 
