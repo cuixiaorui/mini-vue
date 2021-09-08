@@ -1,4 +1,6 @@
 export const enum NodeTypes {
 	TEXT,
-	ROOT
+	ROOT,
+	INTERPOLATION,
+	SIMPLE_EXPRESSION
 }
