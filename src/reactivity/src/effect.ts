@@ -8,6 +8,7 @@ const targetMap = new WeakMap();
 export class ReactiveEffect {
   active = true;
   deps = [];
+  public onStop?: () => void;
   constructor(public fn, public scheduler?) {
     console.log("创建 ReactiveEffect 对象");
   }
@@ -26,6 +27,9 @@ export class ReactiveEffect {
       // 如果第一次执行 stop 后 active 就 false 了
       // 这是为了防止重复的调用，执行 stop 逻辑
       cleanupEffect(this);
+      if (this.onStop) {
+        this.onStop();
+      }
       this.active = false;
     }
   }
