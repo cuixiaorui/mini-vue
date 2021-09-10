@@ -11,6 +11,8 @@ import { isObject } from "../../shared/index";
 
 const get = createGetter();
 const set = createSetter();
+const readonlyGet = createGetter(true);
+const shallowReadonlyGet = createGetter(true, true);
 
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target, key, receiver) {
@@ -55,6 +57,7 @@ function createGetter(isReadonly = false, shallow = false) {
       // 在触发 get 的时候进行依赖收集
       track(target, "get", key);
     }
+
     return res;
   };
 }
@@ -71,7 +74,7 @@ function createSetter() {
 }
 
 export const readonlyHandlers = {
-  get: createGetter(true),
+  get: readonlyGet,
   set(target, key) {
     // readonly 的响应式对象不可以修改值
     console.warn(
@@ -88,7 +91,7 @@ export const mutableHandlers = {
 };
 
 export const shallowReadonlyHandlers = {
-  get: createGetter(true, true),
+  get: shallowReadonlyGet,
   set(target, key) {
     // readonly 的响应式对象不可以修改值
     console.warn(
