@@ -2,6 +2,7 @@ import { createDep } from "./dep";
 import { extend } from "../../shared/index";
 
 let activeEffect = void 0;
+let shouldTrack = false;
 const targetMap = new WeakMap();
 
 // 用于依赖收集
@@ -14,12 +15,33 @@ export class ReactiveEffect {
   }
 
   run() {
+    console.log("run");
+    // 运行 run 的时候，可以控制 要不要执行后续收集依赖的一步
+    // 目前来看的话，只要执行了 fn 那么就默认执行了收集依赖
+    // 这里就需要控制了
+
+    // 是不是收集依赖的变量
+
+    // 执行 fn  但是不收集依赖
+    if (!this.active) {
+      return this.fn();
+    }
+
+    // 执行 fn  收集依赖
+    // 可以开始收集依赖了
+    shouldTrack = true;
+
     // 执行的时候给全局的 activeEffect 赋值
     // 利用全局属性来获取当前的 effect
     activeEffect = this as any;
     // 执行用户传入的 fn
     console.log("执行用户传入的 fn");
-    return this.fn();
+    const result = this.fn();
+    // 重置
+    shouldTrack = false;
+    activeEffect = undefined;
+
+    return result;
   }
 
   stop() {
@@ -41,6 +63,7 @@ function cleanupEffect(effect) {
   effect.deps.forEach((dep) => {
     dep.delete(effect);
   });
+
   effect.deps.length = 0;
 }
 
@@ -87,21 +110,21 @@ export function track(target, type, key) {
 
 export function trackEffects(dep) {
   // 用 dep 来存放所有的 effect
-  let shouldTrack = false;
 
   // TODO
   // 这里是一个优化点
   // 先看看这个依赖是不是已经收集了，
   // 已经收集的话，那么就不需要在收集一次了
   // 可能会影响 code path change 的情况
-  // 需要每次都 cleanupEffect
+  // 需要每次都 cleanupEffec
   // shouldTrack = !dep.has(activeEffect!);
 
-  // if (!shouldTrack) return;
-  if (!activeEffect) return;
+  if (!isTracking()) return;
 
-  dep.add(activeEffect);
-  (activeEffect as any).deps.push(dep);
+  if (!dep.has(activeEffect)) {
+    dep.add(activeEffect);
+    (activeEffect as any).deps.push(dep);
+  }
 }
 
 export function trigger(target, type, key) {
@@ -130,7 +153,7 @@ export function trigger(target, type, key) {
 }
 
 export function isTracking() {
-  return activeEffect !== undefined;
+  return activeEffect !== undefined || shouldTrack;
 }
 
 export function triggerEffects(dep) {
