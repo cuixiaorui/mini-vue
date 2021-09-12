@@ -429,36 +429,36 @@ function setupRenderEffect(instance, container) {
       console.log(`${instance.type.name}:触发 mounted hook`);
       instance.isMounted = true;
     } else {
+      // 响应式的值变更后会从这里执行逻辑
+      // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
+      console.log("调用更新逻辑");
+      // 拿到最新的 subTree
+      const { next, vnode } = instance;
+
+      // 如果有 next 的话， 说明需要更新组件的数据（props，slots 等）
+      // 先更新组件的数据，然后更新完成后，在继续对比当前组件的子元素
+      if (next) {
+        next.el = vnode.el;
+        updateComponentPreRender(instance, next);
+      }
+
+      const proxyToUse = instance.proxy;
+      const nextTree = instance.render.call(proxyToUse, proxyToUse);
+      // 替换之前的 subTree
+      const prevTree = instance.subTree;
+      instance.subTree = nextTree;
+
+      // 触发 beforeUpdated hook
+      console.log("beforeUpdated hook");
+      console.log("onVnodeBeforeUpdate hook");
+
+      // 用旧的 vnode 和新的 vnode 交给 patch 来处理
+      patch(prevTree, nextTree, prevTree.el, instance);
+
+      // 触发 updated hook
+      console.log("updated hook");
+      console.log("onVnodeUpdated hook");
     }
-    // 响应式的值变更后会从这里执行逻辑
-    // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
-    console.log("调用更新逻辑");
-    // 拿到最新的 subTree
-    const { next, vnode } = instance;
-
-    // 如果有 next 的话， 说明需要更新组件的数据（props，slots 等）
-    // 先更新组件的数据，然后更新完成后，在继续对比当前组件的子元素
-    if (next) {
-      next.el = vnode.el;
-      updateComponentPreRender(instance, next);
-    }
-
-    const proxyToUse = instance.proxy;
-    const nextTree = instance.render.call(proxyToUse, proxyToUse);
-    // 替换之前的 subTree
-    const prevTree = instance.subTree;
-    instance.subTree = nextTree;
-
-    // 触发 beforeUpdated hook
-    console.log("beforeUpdated hook");
-    console.log("onVnodeBeforeUpdate hook");
-
-    // 用旧的 vnode 和新的 vnode 交给 patch 来处理
-    patch(prevTree, nextTree, prevTree.el, instance);
-
-    // 触发 updated hook
-    console.log("updated hook");
-    console.log("onVnodeUpdated hook");
   }
 
   // 在 vue3.2 版本里面是使用的 new ReactiveEffect
