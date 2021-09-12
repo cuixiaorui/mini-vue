@@ -7,7 +7,7 @@ export class ComputedRefImpl {
   public effect: ReactiveEffect;
 
   private _dirty: boolean;
-  private _value: void;
+  private _value
 
   constructor(getter) {
     this._dirty = true;
