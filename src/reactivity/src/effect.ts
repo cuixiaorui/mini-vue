@@ -87,6 +87,9 @@ export function stop(runner) {
 }
 
 export function track(target, type, key) {
+  if (!isTracking()) {
+    return;
+  }
   console.log(`触发 track -> target: ${target} type:${type} key:${key}`);
   // 1. 先基于 target 找到对应的 dep
   // 如果是第一次的话，那么就需要初始化
@@ -118,9 +121,6 @@ export function trackEffects(dep) {
   // 可能会影响 code path change 的情况
   // 需要每次都 cleanupEffec
   // shouldTrack = !dep.has(activeEffect!);
-
-  if (!isTracking()) return;
-
   if (!dep.has(activeEffect)) {
     dep.add(activeEffect);
     (activeEffect as any).deps.push(dep);
