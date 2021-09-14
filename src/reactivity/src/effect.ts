@@ -153,7 +153,7 @@ export function trigger(target, type, key) {
 }
 
 export function isTracking() {
-  return activeEffect !== undefined || shouldTrack;
+  return shouldTrack && activeEffect !== undefined;
 }
 
 export function triggerEffects(dep) {
