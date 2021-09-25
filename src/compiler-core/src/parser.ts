@@ -18,6 +18,7 @@ function parseChildren(context) {
   const s = context.source;
 
   let node;
+
   if (startsWith(s, "{{")) {
     // 看看如果是 {{ 开头的话，那么就是一个插值， 那么去解析他
     node = parseInterpolation(context);
@@ -46,6 +47,9 @@ function parseInterpolation(context: any) {
     closeDelimiter,
     openDelimiter.length
   );
+
+  // TODO closeIndex -1 需要报错的
+
   // 让代码前进2个长度，可以把 {{ 干掉
   advanceBy(context, 2);
 
