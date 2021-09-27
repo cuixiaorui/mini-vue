@@ -1,4 +1,9 @@
-import { NodeTypes } from "./ast";
+import { ElementTypes, NodeTypes } from "./ast";
+
+const enum TagType {
+  Start,
+  End,
+}
 
 export function baseParse(content: string) {
   const context = createParserContext(content);
@@ -22,6 +27,10 @@ function parseChildren(context) {
   if (startsWith(s, "{{")) {
     // 看看如果是 {{ 开头的话，那么就是一个插值， 那么去解析他
     node = parseInterpolation(context);
+  } else if (s[0] === "<") {
+    if (/[a-z]/i.test(s[1])) {
+      node = parseElement(context);
+    }
   }
 
   if (!node) {
@@ -31,6 +40,57 @@ function parseChildren(context) {
   nodes.push(node);
 
   return nodes;
+}
+
+function parseElement(context) {
+  // 应该如何解析 tag 呢
+  // <div></div>
+  // 先解析开始 tag
+  const element = parseTag(context, TagType.Start);
+
+  // TODO 解析 children
+  // 解析 end tag 是为了检测语法是不是正确的
+  // 检测是不是和 start tag 一致
+  if (startsWithEndTagOpen(context.source, element.tag)) {
+    parseTag(context, TagType.End);
+  } else {
+    // TODO 报错
+  }
+
+  return element;
+}
+
+function startsWithEndTagOpen(source: string, tag: string) {
+  // 1. 头部 是不是以  </ 开头的
+  // 2. 看看是不和和 tag 一样
+  return (
+    startsWith(source, "</") &&
+    source.substr(2, tag.length).toLowerCase() === tag.toLowerCase()
+  );
+}
+
+function parseTag(context: any, type: TagType): any {
+  // 发现如果不是 > 的话，那么就把字符都收集起来 ->div
+  // 正则
+  const match = /^<\/?([a-z][^\r\n\t\f />]*)/i.exec(context.source);
+  const tag = match[1];
+
+  // 移动光标
+  // <div
+  advanceBy(context, match[0].length);
+
+  // 暂时不处理 selfClose 标签的情况 ，所以可以直接 advanceBy 1个坐标 <  的下一个就是 >
+  advanceBy(context, 1);
+
+  if (type === TagType.End) return;
+
+  let tagType = ElementTypes.ELEMENT;
+
+  return {
+    type: NodeTypes.ELEMENT,
+    tag,
+    tagType,
+  };
 }
 
 function parseInterpolation(context: any) {

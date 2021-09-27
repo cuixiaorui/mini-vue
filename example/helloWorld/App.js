@@ -1,10 +1,16 @@
-import { h,ref } from "../../lib/mini-vue.esm.js";
+import { h, ref } from "../../lib/mini-vue.esm.js";
 
-const count = ref(0)
+const count = ref(0);
 
 const HelloWorld = {
   name: "HelloWorld",
   setup() {},
+  // TODO 第一个小目标
+  // 可以在使用 template 只需要有一个插值表达式即
+  // 可以解析 tag 标签
+  // template: `
+  //   <div>hi {{msg}}</div>
+  // `,
   render() {
     return h(
       "div",

@@ -1,5 +1,5 @@
-import { NodeTypes } from "../src/ast";
-import { baseParse } from "../src/parser";
+import { ElementTypes, NodeTypes } from "../src/ast";
+import { baseParse } from "../src/parse";
 
 describe("parser", () => {
   describe("text", () => {
@@ -29,6 +29,26 @@ describe("parser", () => {
           type: NodeTypes.SIMPLE_EXPRESSION,
           content: `message`,
         },
+      });
+    });
+  });
+
+  describe("Element", () => {
+    test("simple div", () => {
+      const ast = baseParse("<div></div>");
+      const element = ast.children[0];
+
+      expect(element).toStrictEqual({
+        type: NodeTypes.ELEMENT,
+        tag: "div",
+        tagType: ElementTypes.ELEMENT,
+        // TODO 解析 children
+        // children: [
+        //   {
+        //     type: NodeTypes.TEXT,
+        //     content: "hello",
+        //   },
+        // ],
       });
     });
   });
