@@ -1,5 +1,5 @@
 import pkg from "./package.json";
-import typescript from "rollup-plugin-typescript";
+import typescript from "rollup-plugin-typescript2";
 import sourceMaps from "rollup-plugin-sourcemaps";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
@@ -15,10 +15,7 @@ export default {
     }),
     resolve(),
     commonjs(),
-    typescript({
-      exclude: "node_modules/**",
-      typescript: require("typescript"),
-    }),
+    typescript(),
     sourceMaps(),
   ],
   output: [

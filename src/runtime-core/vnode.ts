@@ -2,7 +2,7 @@ import { ShapeFlags } from "../shared";
 
 export const createVNode = function (
   type: any,
-  props?: any = {},
+  props?: any,
   children?: string | Array<any>
 ) {
   // 注意 type 有可能是 string 也有可能是对象
@@ -14,9 +14,9 @@ export const createVNode = function (
   const vnode = {
     el: null,
     component: null,
-    key: props.key || null,
+    key: props?.key,
     type,
-    props,
+    props: props || {},
     children,
     shapeFlag: getShapeFlag(type),
   };
