@@ -1,7 +1,7 @@
 {
-  "name": "rollup-starter-ts",
+  "name": "mini-vue",
   "version": "0.0.1",
-  "description": "To fast start a typescript library.",
+  "description": "Help you learn more efficiently vue3 source code",
   "main": "lib/mini-vue.cjs.js",
   "module": "lib/mini-vue.esm.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "build:type": "tsc -p ./tsconfig.type.json",
     "test": "jest --no-cache"
   },
-  "author": "zenoslin",
+  "author": "cuixiaorui",
+  "homepage": "https://github.com/cuixiaorui",
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
