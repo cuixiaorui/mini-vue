@@ -12,6 +12,32 @@ describe("parser", () => {
         content: "some text",
       });
     });
+
+    test("simple text with invalid end tag", () => {
+      const ast = baseParse("some text</div>");
+      const text = ast.children[0];
+
+      expect(text).toStrictEqual({
+        type: NodeTypes.TEXT,
+        content: "some text",
+      });
+    });
+
+    test("text with interpolation", () => {
+      const ast = baseParse("some {{ foo + bar }} text");
+      const text1 = ast.children[0];
+      const text2 = ast.children[2];
+
+      // ast.children[1] 应该是 interpolation
+      expect(text1).toStrictEqual({
+        type: NodeTypes.TEXT,
+        content: "some ",
+      });
+      expect(text2).toStrictEqual({
+        type: NodeTypes.TEXT,
+        content: " text",
+      });
+    });
   });
 
   describe("Interpolation", () => {
@@ -19,7 +45,6 @@ describe("parser", () => {
       // 1. 看看是不是一个 {{ 开头的
       // 2. 是的话，那么就作为 插值来处理
       // 3. 获取内部 message 的内容即可
-
       const ast = baseParse("{{message}}");
       const interpolation = ast.children[0];
 
@@ -35,20 +60,39 @@ describe("parser", () => {
 
   describe("Element", () => {
     test("simple div", () => {
-      const ast = baseParse("<div></div>");
+      const ast = baseParse("<div>hello</div>");
       const element = ast.children[0];
 
       expect(element).toStrictEqual({
         type: NodeTypes.ELEMENT,
         tag: "div",
         tagType: ElementTypes.ELEMENT,
-        // TODO 解析 children
-        // children: [
-        //   {
-        //     type: NodeTypes.TEXT,
-        //     content: "hello",
-        //   },
-        // ],
+        children: [
+          {
+            type: NodeTypes.TEXT,
+            content: "hello",
+          },
+        ],
+      });
+    });
+
+    test("element with interpolation", () => {
+      const ast = baseParse("<div>{{ msg }}</div>");
+      const element = ast.children[0];
+
+      expect(element).toStrictEqual({
+        type: NodeTypes.ELEMENT,
+        tag: "div",
+        tagType: ElementTypes.ELEMENT,
+        children: [
+          {
+            type: NodeTypes.INTERPOLATION,
+            content: {
+              type: NodeTypes.SIMPLE_EXPRESSION,
+              content: `msg`,
+            },
+          },
+        ],
       });
     });
   });

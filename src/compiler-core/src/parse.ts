@@ -20,26 +20,42 @@ function createParserContext(content) {
 function parseChildren(context) {
   console.log("开始解析 children");
   const nodes: any = [];
-  const s = context.source;
 
-  let node;
+  while (!isEnd(context)) {
+    let node;
+    const s = context.source;
 
-  if (startsWith(s, "{{")) {
-    // 看看如果是 {{ 开头的话，那么就是一个插值， 那么去解析他
-    node = parseInterpolation(context);
-  } else if (s[0] === "<") {
-    if (/[a-z]/i.test(s[1])) {
-      node = parseElement(context);
+    if (startsWith(s, "{{")) {
+      // 看看如果是 {{ 开头的话，那么就是一个插值， 那么去解析他
+      node = parseInterpolation(context);
+    } else if (s[0] === "<") {
+      if (s[1] === "/") {
+        // 处理结束标签
+        if (/[a-z]/i.test(s[2])) {
+          // 匹配 </div>
+          // 需要改变 context.source 的值 -> 也就是需要移动光标
+          parseTag(context, TagType.End);
+          // 结束标签就以为这都已经处理完了，所以就可以跳出本次循环了
+          continue;
+        }
+      } else if (/[a-z]/i.test(s[1])) {
+        node = parseElement(context);
+      }
     }
-  }
 
-  if (!node) {
-    node = parseText(context);
-  }
+    if (!node) {
+      node = parseText(context);
+    }
 
-  nodes.push(node);
+    nodes.push(node);
+  }
 
   return nodes;
+}
+
+function isEnd(context: any) {
+  // 看看 context.source 还有没有值
+  return !context.source;
 }
 
 function parseElement(context) {
@@ -48,7 +64,8 @@ function parseElement(context) {
   // 先解析开始 tag
   const element = parseTag(context, TagType.Start);
 
-  // TODO 解析 children
+  const children = parseChildren(context);
+
   // 解析 end tag 是为了检测语法是不是正确的
   // 检测是不是和 start tag 一致
   if (startsWithEndTagOpen(context.source, element.tag)) {
@@ -56,6 +73,8 @@ function parseElement(context) {
   } else {
     // TODO 报错
   }
+
+  element.children = children;
 
   return element;
 }
@@ -72,7 +91,7 @@ function startsWithEndTagOpen(source: string, tag: string) {
 function parseTag(context: any, type: TagType): any {
   // 发现如果不是 > 的话，那么就把字符都收集起来 ->div
   // 正则
-  const match = /^<\/?([a-z][^\r\n\t\f />]*)/i.exec(context.source);
+  const match: any = /^<\/?([a-z][^\r\n\t\f />]*)/i.exec(context.source);
   const tag = match[1];
 
   // 移动光标
@@ -133,7 +152,21 @@ function parseInterpolation(context: any) {
 
 function parseText(context): any {
   console.log("解析 text", context);
-  const endIndex = context.source.length;
+
+  // endIndex 应该看看有没有对应的 <
+  // 比如 hello</div>
+  // 像这种情况下 endIndex 就应该是在 o 这里
+  // {
+  const endTokens = ["<", "{{"];
+  let endIndex = context.source.length;
+
+  for (let i = 0; i < endTokens.length; i++) {
+    const index = context.source.indexOf(endTokens[i]);
+    if (index !== -1) {
+      endIndex = index;
+    }
+  }
+
   const content = parseTextData(context, endIndex);
 
   return {
