@@ -17,7 +17,7 @@ export function hostSetText(node, text) {
 
 export function hostSetElementText(el, text) {
   console.log("hostSetElementText", el, text);
-  el.innerText = text;
+  el.textContent = text;
 }
 
 export function hostPatchProp(el, key, preValue, nextValue) {
