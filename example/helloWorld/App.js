@@ -10,6 +10,7 @@ const HelloWorld = {
   // 可以解析 tag 标签
   // template: `
   //   <div>hi {{msg}}</div>
+  //   需要编译成 render 函数
   // `,
   render() {
     return h(

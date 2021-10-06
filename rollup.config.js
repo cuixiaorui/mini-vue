@@ -1,5 +1,5 @@
 import pkg from "./package.json";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import sourceMaps from "rollup-plugin-sourcemaps";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
