@@ -80,6 +80,8 @@ function setupStatefulComponent(instance) {
 
     // 3. 处理 setupResult
     handleSetupResult(instance, setupResult);
+  } else {
+    finishComponentSetup(instance);
   }
 }
 
