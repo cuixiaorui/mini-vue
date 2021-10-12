@@ -1,4 +1,5 @@
 import { baseParse } from "../src/parse";
+import { TO_DISPLAY_STRING } from "../src/runtimeHelpers";
 import { transform } from "../src/transform";
 describe("Compiler: transform", () => {
   test("context state", () => {
@@ -52,5 +53,11 @@ describe("Compiler: transform", () => {
       //     currentNode: div.children[1],
       //   },
     ]);
+  });
+
+  test("should inject toString helper for interpolations", () => {
+    const ast = baseParse(`{{ foo }}`);
+    transform(ast, {});
+    expect(ast.helpers).toContain(TO_DISPLAY_STRING);
   });
 });
