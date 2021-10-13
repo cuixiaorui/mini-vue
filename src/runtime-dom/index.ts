@@ -59,32 +59,6 @@ export function hostPatchProp(el, key, preValue, nextValue) {
       el.setAttribute(key, nextValue);
     }
   }
-
-  switch (key) {
-    case "id":
-    case "tId":
-      if (nextValue === null || nextValue === undefined) {
-        el.removeAttribute(key);
-      } else {
-        el.setAttribute(key, nextValue);
-      }
-      break;
-    case "onClick":
-      // todo
-      // 先临时实现 click 事件
-      // 后面应该用 directive 来处理
-      // todo
-      // 需要参考 runtime-dom 的做法
-      // 这里需要额外的处理 nextValue 的值
-      // 因为 nextValue 是一个匿名函数的话，那么对比的时候，肯定2个匿名函数就不一样了
-      // 然后就会注册了2遍事件监听
-      if (preValue) {
-        // 先临时 reset
-        el.removeEventListener("click", preValue);
-      }
-      el.addEventListener("click", nextValue);
-      break;
-  }
 }
 
 export function hostInsert(child, parent, anchor = null) {
