@@ -30,16 +30,11 @@ export function hostPatchProp(el, key, preValue, nextValue) {
   console.log(`hostPatchProp 设置属性:${key} 值:${nextValue}`);
   console.log(`key: ${key} 之前的值是:${preValue}`);
 
-  // TODO
-  // 需要参考 runtime-dom 的做法
-  // 这里需要额外的处理 nextValue 的值
-  // 因为 nextValue 是一个匿名函数的话，那么对比的时候，肯定2个匿名函数就不一样了
-  // 然后就会注册了2遍事件监听
-
   if (isOn(key)) {
     // 添加事件处理函数的时候需要注意一下
-    // 添加的和删除的必须是一个函数，不然的话 删除不掉
-    // 那么就需要把之前 add 的函数给存起来，后面删除的时候需要用到
+    // 1. 添加的和删除的必须是一个函数，不然的话 删除不掉
+    //    那么就需要把之前 add 的函数给存起来，后面删除的时候需要用到
+    // 2. nextValue 有可能是匿名函数，当对比发现不一样的时候也可以通过缓存的机制来避免注册多次
     // 存储所有的事件函数
     const invokers = el._vei || (el._vei = {});
     const existingInvoker = invokers[key];
