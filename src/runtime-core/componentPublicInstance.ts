@@ -24,6 +24,8 @@ export const PublicInstanceProxyHandlers = {
       if (hasOwn(setupState, key)) {
         return setupState[key];
       } else if (hasOwn(props, key)) {
+        // 看看 key 是不是在 props 中
+        // 代理是可以访问到 props 中的 key 的
         return props[key];
       }
     }
