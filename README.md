@@ -94,7 +94,7 @@ yarn build
 
 #### 流程图
 
-![update流程图](https://user-gold-cdn.xitu.io/2020/6/23/172e19b5cefba34e?w=3200&h=800&f=png&s=540515)
+![image](https://user-images.githubusercontent.com/12064746/138115157-1f4fb8a2-7e60-412d-96de-12e68eb0288c.png)
 
 #### 关键函数调用图
 
