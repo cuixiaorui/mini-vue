@@ -98,7 +98,8 @@ yarn build
 
 #### 关键函数调用图
 
-![update关键函数调用图](https://user-gold-cdn.xitu.io/2020/6/23/172e19d2d42464aa?w=3300&h=1006&f=png&s=739008)
+![image](https://user-images.githubusercontent.com/12064746/138114969-9139e4af-b2df-41b2-a5d9-069d8b41903c.png)
+
 
 > 可以基于函数名快速搜索到源码内容
 
