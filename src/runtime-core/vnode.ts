@@ -48,6 +48,7 @@ export function normalizeChildren(vnode, children) {
 }
 // 用 symbol 作为唯一标识
 export const Text = Symbol("Text");
+export const Fragment = Symbol("Fragment");
 
 /**
  * @private

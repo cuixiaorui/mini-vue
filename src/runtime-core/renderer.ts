@@ -12,7 +12,7 @@ import {
 import { queueJob } from "./scheduler";
 import { effect } from "../reactivity/src";
 import { setupComponent } from "./component";
-import { Text } from "./vnode";
+import { Fragment, Text } from "./vnode";
 import { shouldUpdateComponent } from "./componentRenderUtils";
 
 export const render = (vnode, container) => {
@@ -29,7 +29,9 @@ function patch(n1, n2, container = null, parentComponent = null) {
       processText(n1, n2, container);
       break;
     // 其中还有几个类型比如： static fragment comment
-
+    case Fragment:
+      processFragment(n1, n2, container);
+      break;
     default:
       // 这里就基于 shapeFlag 来处理
       if (shapeFlag & ShapeFlags.ELEMENT) {
@@ -39,6 +41,15 @@ function patch(n1, n2, container = null, parentComponent = null) {
         console.log("处理 component");
         processComponent(n1, n2, container, parentComponent);
       }
+  }
+}
+
+function processFragment(n1: any, n2: any, container: any) {
+  // 只需要渲染 children ，然后给添加到 container 内
+  if (!n1) {
+    // 初始化 Fragment 逻辑点
+    console.log("初始化 Fragment 类型的节点");
+    mountChildren(n2.children, container);
   }
 }
 
