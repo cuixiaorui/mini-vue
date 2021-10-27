@@ -9,6 +9,11 @@ export function initSlots(instance, children) {
   }
 }
 
+const normalizeSlotValue = (value) => {
+  // 把 function 返回的值转换成 array ，这样 slot 就可以支持多个元素了
+  return Array.isArray(value) ? value : [value];
+};
+
 const normalizeObjectSlots = (rawSlots, slots) => {
   for (const key in rawSlots) {
     const value = rawSlots[key];
@@ -17,7 +22,7 @@ const normalizeObjectSlots = (rawSlots, slots) => {
       // 后续在 renderSlots 中调用
       // TODO 这里没有对 value 做 normalize，
       // 默认 slots 返回的就是一个 vnode 对象
-      slots[key] = value;
+      slots[key] = (props) => normalizeSlotValue(value(props));
     }
   }
 };
