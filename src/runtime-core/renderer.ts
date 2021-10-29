@@ -258,7 +258,7 @@ function patchKeyedChildren(c1: any[], c2: any[], container) {
     for (i = e2; i >= s2; i--) {
       const nextChild = c2[i];
 
-      if (newIndexToOldIndexMap[i] === -1) {
+      if (newIndexToOldIndexMap[i - s2] === -1) {
         // 说明是个新增的节点
         patch(null, c2[i], container);
       } else {
