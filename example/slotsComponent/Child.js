@@ -7,7 +7,10 @@ export default {
       h("div", {}, "child"),
       // renderSlot 会返回一个 vnode
       // 其本质和 h 是一样的
-      renderSlot(this.$slots, "default"),
+      // 第三个参数给出数据
+      renderSlot(this.$slots, "default", {
+        age: 16,
+      }),
     ]);
   },
 };

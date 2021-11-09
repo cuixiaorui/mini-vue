@@ -2,32 +2,33 @@
 // 这里先简单实现
 
 import { isOn } from "../shared";
+import { createRenderer } from "../runtime-core";
 
 // 后面也修改成和源码一样的实现
-export function hostCreateElement(type) {
-  console.log("hostCreateElement", type);
+function createElement(type) {
+  console.log("CreateElement", type);
   const element = document.createElement(type);
   return element;
 }
 
-export function hostCreateText(text) {
+function createText(text) {
   return document.createTextNode(text);
 }
 
-export function hostSetText(node, text) {
+function setText(node, text) {
   node.nodeValue = text;
 }
 
-export function hostSetElementText(el, text) {
-  console.log("hostSetElementText", el, text);
+function setElementText(el, text) {
+  console.log("SetElementText", el, text);
   el.textContent = text;
 }
 
-export function hostPatchProp(el, key, preValue, nextValue) {
+function patchProp(el, key, preValue, nextValue) {
   // preValue 之前的值
   // 为了之后 update 做准备的值
   // nextValue 当前的值
-  console.log(`hostPatchProp 设置属性:${key} 值:${nextValue}`);
+  console.log(`PatchProp 设置属性:${key} 值:${nextValue}`);
   console.log(`key: ${key} 之前的值是:${preValue}`);
 
   if (isOn(key)) {
@@ -61,8 +62,8 @@ export function hostPatchProp(el, key, preValue, nextValue) {
   }
 }
 
-export function hostInsert(child, parent, anchor = null) {
-  console.log("hostInsert");
+function insert(child, parent, anchor = null) {
+  console.log("Insert");
   if (anchor) {
     parent.insertBefore(child, anchor);
   } else {
@@ -70,9 +71,31 @@ export function hostInsert(child, parent, anchor = null) {
   }
 }
 
-export function hostRemove(child) {
+function remove(child) {
   const parent = child.parentNode;
   if (parent) {
     parent.removeChild(child);
   }
 }
+
+let renderer;
+
+function ensureRenderer() {
+  // 如果 renderer 有值的话，那么以后都不会初始化了
+  return (
+    renderer ||
+    (renderer = createRenderer({
+      createElement,
+      createText,
+      setText,
+      setElementText,
+      patchProp,
+      insert,
+      remove,
+    }))
+  );
+}
+
+export const createApp = (...args) => {
+  return ensureRenderer().createApp(...args);
+};

@@ -65,6 +65,9 @@
 - [x] 支持 shallowReadonly
 - [x] 支持 proxyRefs
 
+### runtime-dom
+- [x] 支持 custom renderer 
+
 ### build
 
 ```shell
