@@ -2,6 +2,19 @@ import { computed } from "../src/computed";
 import { reactive } from "../src/reactive";
 
 describe("computed", () => {
+  it("happy path", () => {
+    const value = reactive({
+      foo: 1,
+    });
+
+    const getter = computed(() => {
+      return value.foo;
+    });
+
+    value.foo = 2;
+    expect(getter.value).toBe(2);
+  });
+
   it("should compute lazily", () => {
     const value = reactive({
       foo: 1,

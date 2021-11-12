@@ -135,6 +135,8 @@ export function trigger(target, type, key) {
 
   const depsMap = targetMap.get(target);
 
+  if (!depsMap) return;
+
   // 暂时只实现了 GET 类型
   // get 类型只需要取出来就可以
   const dep = depsMap.get(key);
