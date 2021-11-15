@@ -4,6 +4,11 @@ import {
   shallowReadonlyHandlers,
 } from "./baseHandlers";
 
+// Map对象的键可以是任何类型，但WeakMap对象中的键只能是对象引用
+
+// WeakMap不能包含无引用的对象，否则会被自动清除出集合（垃圾回收机制）。
+
+// WeakSet对象是不可枚举的，无法获取大小。
 export const reactiveMap = new WeakMap();
 export const readonlyMap = new WeakMap();
 export const shallowReadonlyMap = new WeakMap();
@@ -15,6 +20,7 @@ export const enum ReactiveFlags {
 }
 
 export function reactive(target) {
+  //reactiveMap-------new WeakMap();
   return createReactiveObject(target, reactiveMap, mutableHandlers);
 }
 
@@ -71,7 +77,7 @@ function createReactiveObject(target, proxyMap, baseHandlers) {
     return existingProxy;
   }
 
-  const proxy = new Proxy(target, baseHandlers);
+  const proxy = new Proxy(target, baseHandlers); // Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。
 
   // 把创建好的 proxy 给存起来，
   proxyMap.set(target, proxy);

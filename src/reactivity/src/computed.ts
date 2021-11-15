@@ -7,9 +7,10 @@ export class ComputedRefImpl {
   public effect: ReactiveEffect;
 
   private _dirty: boolean;
-  private _value
+  private _value;
 
   constructor(getter) {
+    console.log("aa-getter---", getter); //render的时候触发
     this._dirty = true;
     this.dep = createDep();
     this.effect = new ReactiveEffect(getter, () => {
