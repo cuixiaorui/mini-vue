@@ -8,11 +8,11 @@
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
-想看更多关于 mini-vue 的课程可以加我 vx 哦
+想看更多关于 mini-vue 的课程以及获取流程脑图源文件的同学可以加我 vx 哦
 
-加我的公众号：阿崔cxr
+vx：cuixr1314
 
-公众号回复关键字：vx
+备注一下： github mini-vue
 
 ## Why
 
@@ -106,6 +106,3 @@ yarn build
 
 > 可以基于函数名快速搜索到源码内容
 
-
-
-// 1. 下载视频
