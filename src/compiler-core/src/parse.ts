@@ -162,7 +162,7 @@ function parseText(context): any {
 
   for (let i = 0; i < endTokens.length; i++) {
     const index = context.source.indexOf(endTokens[i]);
-    if (index !== -1) {
+    if (index !== -1 && endIndex > index) {
       endIndex = index;
     }
   }
