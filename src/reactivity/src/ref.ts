@@ -83,7 +83,7 @@ const shallowUnwrapHandlers = {
 };
 
 // 这里没有处理 objectWithRefs 是 reactive 类型的时候
-// TODO reactive 里面如果有 ref 类型的 key 的话， 那么也是不需要调用 ref .value 的 
+// TODO reactive 里面如果有 ref 类型的 key 的话， 那么也是不需要调用 ref.value 的
 // （but 这个逻辑在 reactive 里面没有实现）
 export function proxyRefs(objectWithRefs) {
   return new Proxy(objectWithRefs, shallowUnwrapHandlers);
