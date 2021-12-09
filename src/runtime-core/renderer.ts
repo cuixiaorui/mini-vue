@@ -23,7 +23,13 @@ export function createRenderer(options) {
     patch(null, vnode, container);
   };
 
-  function patch(n1, n2, container = null, parentComponent = null) {
+  function patch(
+    n1,
+    n2,
+    container = null,
+    anchor = null,
+    parentComponent = null
+  ) {
     // 基于 n2 的类型来判断
     // 因为 n2 是新的 vnode
     const { type, shapeFlag } = n2;
@@ -39,7 +45,7 @@ export function createRenderer(options) {
         // 这里就基于 shapeFlag 来处理
         if (shapeFlag & ShapeFlags.ELEMENT) {
           console.log("处理 element");
-          processElement(n1, n2, container);
+          processElement(n1, n2, container, anchor, parentComponent);
         } else if (shapeFlag & ShapeFlags.STATEFUL_COMPONENT) {
           console.log("处理 component");
           processComponent(n1, n2, container, parentComponent);
@@ -77,16 +83,16 @@ export function createRenderer(options) {
     }
   }
 
-  function processElement(n1, n2, container) {
+  function processElement(n1, n2, container, anchor, parentComponent) {
     if (!n1) {
-      mountElement(n2, container);
+      mountElement(n2, container, anchor);
     } else {
       // todo
-      updateElement(n1, n2, container);
+      updateElement(n1, n2, container, anchor, parentComponent);
     }
   }
 
-  function updateElement(n1, n2, container) {
+  function updateElement(n1, n2, container, anchor, parentComponent) {
     const oldProps = (n1 && n1.props) || {};
     const newProps = n2.props || {};
     // 应该更新 element
@@ -101,7 +107,7 @@ export function createRenderer(options) {
     patchProps(el, oldProps, newProps);
 
     // 对比 children
-    patchChildren(n1, n2, el);
+    patchChildren(n1, n2, el, anchor, parentComponent);
   }
 
   function patchProps(el, oldProps, newProps) {
@@ -138,7 +144,7 @@ export function createRenderer(options) {
     }
   }
 
-  function patchChildren(n1, n2, container) {
+  function patchChildren(n1, n2, container, anchor, parentComponent) {
     const { shapeFlag: prevShapeFlag, children: c1 } = n1;
     const { shapeFlag, children: c2 } = n2;
 
@@ -156,16 +162,23 @@ export function createRenderer(options) {
       // 那么我们就需要对比两个 children 啦
       if (prevShapeFlag & ShapeFlags.ARRAY_CHILDREN) {
         if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
-          patchKeyedChildren(c1, c2, container);
+          patchKeyedChildren(c1, c2, container, anchor, parentComponent);
         }
       }
     }
   }
 
-  function patchKeyedChildren(c1: any[], c2: any[], container) {
+  function patchKeyedChildren(
+    c1: any[],
+    c2: any[],
+    container,
+    parentAnchor,
+    parentComponent
+  ) {
     let i = 0;
+    const l2 = c2.length;
     let e1 = c1.length - 1;
-    let e2 = c2.length - 1;
+    let e2 = l2 - 1;
 
     const isSameVNodeType = (n1, n2) => {
       return n1.type === n2.type && n1.key === n2.key;
@@ -183,7 +196,7 @@ export function createRenderer(options) {
       }
 
       console.log("两个 child 相等，接下来对比着两个 child 节点(从左往右比对)");
-      patch(prevChild, nextChild, container);
+      patch(prevChild, nextChild, container, parentAnchor, parentComponent);
       i++;
     }
 
@@ -199,7 +212,7 @@ export function createRenderer(options) {
         break;
       }
       console.log("两个 child 相等，接下来对比着两个 child 节点(从右往左比对)");
-      patch(prevChild, nextChild, container);
+      patch(prevChild, nextChild, container, parentAnchor, parentComponent);
       e1--;
       e2--;
     }
@@ -208,9 +221,15 @@ export function createRenderer(options) {
       // 如果是这种情况的话就说明 e2 也就是新节点的数量大于旧节点的数量
       // 也就是说新增了 vnode
       // 应该循环 c2
+      // 锚点的计算：新的节点有可能需要添加到尾部，也可能添加到头部，所以需要指定添加的问题
+      // 要添加的位置是当前的位置+1
+      // 因为对于往左侧添加的话，应该获取到 c1 的第一个元素（因为它是被 mount 过的）
+      // 而新的就添加到c1的第一个元素之前就可以
+      const nextPos = i + 1;
+      const anchor = nextPos < l2 ? c2[nextPos].el : parentAnchor;
       while (i <= e2) {
         console.log(`需要新创建一个 vnode: ${c2[i].key}`);
-        patch(null, c2[i], container);
+        patch(null, c2[i], container, anchor, parentComponent);
         i++;
       }
     } else if (i > e2 && i <= e1) {
@@ -262,7 +281,7 @@ export function createRenderer(options) {
         } else {
           // 新老节点都存在
           console.log("新老节点都存在");
-          patch(prevChild, c2[newIndex], container);
+          patch(prevChild, c2[newIndex], container, null, parentComponent);
         }
       }
 
@@ -285,7 +304,7 @@ export function createRenderer(options) {
     }
   }
 
-  function mountElement(vnode, container) {
+  function mountElement(vnode, container, anchor) {
     const { shapeFlag, props } = vnode;
     // 1. 先创建 element
     // 基于可扩展的渲染 api
@@ -328,7 +347,7 @@ export function createRenderer(options) {
     console.log("transition  -> beforeEnter");
 
     // 插入
-    hostInsert(el, container);
+    hostInsert(el, container, anchor);
 
     // todo
     // 触发 mounted() 钩子
@@ -438,7 +457,7 @@ export function createRenderer(options) {
         // 而 subTree 就是当前的这个箱子（组件）装的东西
         // 箱子（组件）只是个概念，它实际是不需要渲染的
         // 要渲染的是箱子里面的 subTree
-        patch(null, subTree, container, instance);
+        patch(null, subTree, container, null, instance);
         // 把 root element 赋值给 组件的vnode.el ，为后续调用 $el 的时候获取值
         initialVNode.el = subTree.el;
 
@@ -469,7 +488,7 @@ export function createRenderer(options) {
         console.log("onVnodeBeforeUpdate hook");
 
         // 用旧的 vnode 和新的 vnode 交给 patch 来处理
-        patch(prevTree, nextTree, prevTree.el, instance);
+        patch(prevTree, nextTree, prevTree.el, null, instance);
 
         // 触发 updated hook
         console.log("updated hook");
