@@ -119,7 +119,7 @@ export function trackEffects(dep) {
   // 先看看这个依赖是不是已经收集了，
   // 已经收集的话，那么就不需要在收集一次了
   // 可能会影响 code path change 的情况
-  // 需要每次都 cleanupEffec
+  // 需要每次都 cleanupEffect
   // shouldTrack = !dep.has(activeEffect!);
   if (!dep.has(activeEffect)) {
     dep.add(activeEffect);
