@@ -195,7 +195,7 @@ export function createRenderer(options) {
         break;
       }
 
-      console.log("两个 child 相等，接下来对比着两个 child 节点(从左往右比对)");
+      console.log("两个 child 相等，接下来对比这两个 child 节点(从左往右比对)");
       patch(prevChild, nextChild, container, parentAnchor, parentComponent);
       i++;
     }
@@ -211,7 +211,7 @@ export function createRenderer(options) {
         console.log(`nextChild:${nextChild}`);
         break;
       }
-      console.log("两个 child 相等，接下来对比着两个 child 节点(从右往左比对)");
+      console.log("两个 child 相等，接下来对比这两个 child 节点(从右往左比对)");
       patch(prevChild, nextChild, container, parentAnchor, parentComponent);
       e1--;
       e2--;
