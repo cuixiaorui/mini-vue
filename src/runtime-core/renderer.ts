@@ -222,10 +222,10 @@ export function createRenderer(options) {
       // 也就是说新增了 vnode
       // 应该循环 c2
       // 锚点的计算：新的节点有可能需要添加到尾部，也可能添加到头部，所以需要指定添加的问题
-      // 要添加的位置是当前的位置+1
-      // 因为对于往左侧添加的话，应该获取到 c1 的第一个元素（因为它是被 mount 过的）
-      // 而新的就添加到c1的第一个元素之前就可以
-      const nextPos = i + 1;
+      // 要添加的位置是当前的位置(e2 开始)+1
+      // 因为对于往左侧添加的话，应该获取到 c2 的第一个元素
+      // 所以我们需要从 e2 + 1 取到锚点的位置
+      const nextPos = e2 + 1;
       const anchor = nextPos < l2 ? c2[nextPos].el : parentAnchor;
       while (i <= e2) {
         console.log(`需要新创建一个 vnode: ${c2[i].key}`);
