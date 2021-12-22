@@ -64,11 +64,7 @@ function patchProp(el, key, preValue, nextValue) {
 
 function insert(child, parent, anchor = null) {
   console.log("Insert");
-  if (anchor) {
-    parent.insertBefore(child, anchor);
-  } else {
-    parent.appendChild(child);
-  }
+  parent.insertBefore(child, anchor);
 }
 
 function remove(child) {
