@@ -1,4 +1,4 @@
-[EN](README.md) / [CN](README_CN.md)
+[EN](README.md) / [CN](README.md)
 ## mini-vue
 
 Implement the simplest vue3 model for in-depth study of vue3 source code
