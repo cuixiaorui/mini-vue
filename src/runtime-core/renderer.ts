@@ -499,7 +499,7 @@ export function createRenderer(options) {
         // 为什么要在这里调用 render 函数呢
         // 是因为在 effect 内调用 render 才能触发依赖收集
         // 等到后面响应式的值变更后会再次触发这个函数
-        console.log("调用 render,获取 subTree");
+        console.log(`${instance.type.name}:调用 render,获取 subTree`);
         const proxyToUse = instance.proxy;
         // 可在 render 函数中通过 this 来使用 proxy
         const subTree = (instance.subTree = instance.render.call(
@@ -531,7 +531,7 @@ export function createRenderer(options) {
       } else {
         // 响应式的值变更后会从这里执行逻辑
         // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
-        console.log("调用更新逻辑");
+        console.log(`${instance.type.name}:调用更新逻辑`);
         // 拿到最新的 subTree
         const { next, vnode } = instance;
 
@@ -551,15 +551,15 @@ export function createRenderer(options) {
         instance.subTree = nextTree;
 
         // 触发 beforeUpdated hook
-        console.log("beforeUpdated hook");
-        console.log("onVnodeBeforeUpdate hook");
+        console.log(`${instance.type.name}:触发 beforeUpdated hook`);
+        console.log(`${instance.type.name}:触发 onVnodeBeforeUpdate hook`);
 
         // 用旧的 vnode 和新的 vnode 交给 patch 来处理
         patch(prevTree, nextTree, prevTree.el, null, instance);
 
         // 触发 updated hook
-        console.log("updated hook");
-        console.log("onVnodeUpdated hook");
+        console.log(`${instance.type.name}:触发 updated hook`);
+        console.log(`${instance.type.name}:触发 onVnodeUpdated hook`);
       }
     }
 

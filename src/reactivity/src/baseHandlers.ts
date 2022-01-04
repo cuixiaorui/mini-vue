@@ -68,7 +68,7 @@ function createSetter() {
     const result = Reflect.set(target, key, value, receiver);
 
     // 在触发 set 的时候进行触发依赖
-    trigger(target, "get", key);
+    trigger(target, "set", key);
 
     return result;
   };

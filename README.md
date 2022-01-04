@@ -1,6 +1,6 @@
 [CN](README.md) / [EN](README_EN.md)
 
-## mini-vue
+## mini-vue  [![github](https://img.shields.io/badge/%E5%82%AC%E5%AD%A6%E7%A4%BE-mini--vue-blue)](https://github.com/cuixiaorui/mini-vue)
 
 实现最简 vue3 模型，用于深入学习 vue3， 让你更轻松的理解 vue3 的核心逻辑
 
