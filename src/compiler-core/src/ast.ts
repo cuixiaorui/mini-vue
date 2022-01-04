@@ -9,3 +9,17 @@ export const enum NodeTypes {
 export const enum ElementTypes {
   ELEMENT,
 }
+
+export function createSimpleExpression(content) {
+  return {
+    type: NodeTypes.SIMPLE_EXPRESSION,
+    content,
+  };
+}
+
+export function createInterpolation(content) {
+  return {
+    type: NodeTypes.INTERPOLATION,
+    content: content,
+  };
+}

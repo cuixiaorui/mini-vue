@@ -1,9 +1,11 @@
-test.todo("interpolation", () => {
-  const { code } = generate(
-    createRoot({
-      codegenNode: createInterpolation(`hello`, locStub),
-    })
-  );
-  expect(code).toMatch(`return _${helperNameMap[TO_DISPLAY_STRING]}(hello)`);
-  expect(code).toMatchSnapshot();
+import { generate } from "../src/codegen";
+import { baseParse } from "../src/parse";
+import { transform } from "../src/transform";
+
+test("interpolation module", () => {
+  const ast = baseParse("{{hello}}");
+  transform(ast);
+
+  const { code } = generate(ast);
+  console.log(code);
 });

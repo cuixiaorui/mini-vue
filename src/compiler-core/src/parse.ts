@@ -81,7 +81,7 @@ function parseElement(context) {
 
 function startsWithEndTagOpen(source: string, tag: string) {
   // 1. 头部 是不是以  </ 开头的
-  // 2. 看看是不和和 tag 一样
+  // 2. 看看是不是和 tag 一样
   return (
     startsWith(source, "</") &&
     source.substr(2, tag.length).toLowerCase() === tag.toLowerCase()
