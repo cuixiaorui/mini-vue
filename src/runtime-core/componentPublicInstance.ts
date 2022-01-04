@@ -44,5 +44,7 @@ export const PublicInstanceProxyHandlers = {
       // 有的话 那么就直接赋值
       setupState[key] = value;
     }
+
+    return true
   },
 };
