@@ -9,6 +9,8 @@ export function transform(root, options = {}) {
   // 2. 遍历 node
   traverseNode(root, context);
 
+  createRootCodegen(root, context);
+
   root.helpers.push(...context.helpers.keys());
 }
 
@@ -65,4 +67,14 @@ function createTransformContext(root, options): any {
   };
 
   return context;
+}
+
+function createRootCodegen(root: any, context: any) {
+  const { children } = root;
+
+  // 只支持有一个根节点
+  // 并且还是一个 single text node
+  const child = children[0];
+
+  root.codegenNode = child;
 }
