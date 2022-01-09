@@ -288,7 +288,7 @@ export function createRenderer(options) {
         } else {
           // 如果没key 的话，那么只能是遍历所有的新节点来确定当前节点存在不存在了
           // 时间复杂度O(n)
-          for (let j = s2; j < e2; j++) {
+          for (let j = s2; j <= e2; j++) {
             if (isSameVNodeType(prevChild, c2[j])) {
               newIndex = j;
               break;
