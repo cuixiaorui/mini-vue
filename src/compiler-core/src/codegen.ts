@@ -4,10 +4,15 @@ import { helperNameMap, TO_DISPLAY_STRING } from "./runtimeHelpers";
 export function generate(ast, options = {}) {
   // 先生成 context
   const context = createCodegenContext(ast, options);
-  const { push } = context;
+  const { push, mode } = context;
 
   // 1. 先生成 preambleContext
-  genModulePreamble(ast, context);
+
+  if (mode === "module") {
+    genModulePreamble(ast, context);
+  } else {
+    genFunctionPreamble(ast, context);
+  }
 
   const functionName = "render";
 
@@ -27,6 +32,25 @@ export function generate(ast, options = {}) {
   return {
     code: context.code,
   };
+}
+
+function genFunctionPreamble(ast: any, context: any) {
+  const { runtimeGlobalName, push, newline } = context;
+  const VueBinging = runtimeGlobalName;
+
+  const aliasHelper = (s) => `${helperNameMap[s]} : _${helperNameMap[s]}`;
+
+  if (ast.helpers.length > 0) {
+    push(
+      `
+        const { ${ast.helpers.map(aliasHelper).join(", ")}} = ${VueBinging} 
+
+      `
+    );
+  }
+
+  newline();
+  push(`return `);
 }
 
 function genNode(node: any, context: any) {
@@ -72,14 +96,18 @@ function genModulePreamble(ast, context) {
   }
 
   newline();
-
   push(`export `);
 }
 
-function createCodegenContext(ast: any, { runtimeModuleName = "vue" }): any {
+function createCodegenContext(
+  ast: any,
+  { runtimeModuleName = "vue", runtimeGlobalName = "Vue", mode = "function" }
+): any {
   const context = {
     code: "",
+    mode,
     runtimeModuleName,
+    runtimeGlobalName,
     helper(key) {
       return `_${helperNameMap[key]}`;
     },

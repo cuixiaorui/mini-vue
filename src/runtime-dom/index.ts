@@ -95,3 +95,5 @@ function ensureRenderer() {
 export const createApp = (...args) => {
   return ensureRenderer().createApp(...args);
 };
+
+export * from "../runtime-core";

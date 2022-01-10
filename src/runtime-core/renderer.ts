@@ -3,7 +3,7 @@ import { createComponentInstance } from "./component";
 import { queueJob } from "./scheduler";
 import { effect } from "../reactivity/src";
 import { setupComponent } from "./component";
-import { Fragment, Text } from "./vnode";
+import { Fragment, normalizeVNode, Text } from "./vnode";
 import { shouldUpdateComponent } from "./componentRenderUtils";
 import { createAppAPI } from "./createApp";
 
@@ -502,9 +502,8 @@ export function createRenderer(options) {
         console.log(`${instance.type.name}:调用 render,获取 subTree`);
         const proxyToUse = instance.proxy;
         // 可在 render 函数中通过 this 来使用 proxy
-        const subTree = (instance.subTree = instance.render.call(
-          proxyToUse,
-          proxyToUse
+        const subTree = (instance.subTree = normalizeVNode(
+          instance.render.call(proxyToUse, proxyToUse)
         ));
         console.log("subTree", subTree);
 
@@ -539,13 +538,14 @@ export function createRenderer(options) {
         // 先更新组件的数据，然后更新完成后，在继续对比当前组件的子元素
         if (next) {
           // 问题是 next 和 vnode 的区别是什么
-          debugger;
           next.el = vnode.el;
           updateComponentPreRender(instance, next);
         }
 
         const proxyToUse = instance.proxy;
-        const nextTree = instance.render.call(proxyToUse, proxyToUse);
+        const nextTree = normalizeVNode(
+          instance.render.call(proxyToUse, proxyToUse)
+        );
         // 替换之前的 subTree
         const prevTree = instance.subTree;
         instance.subTree = nextTree;
