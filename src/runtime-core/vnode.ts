@@ -61,7 +61,11 @@ export function createTextVNode(text: string = " ") {
 // 其目的是为了让 child 支持多种格式
 export function normalizeVNode(child) {
   // 暂时只支持处理 child 为 string 和 number 的情况
-  return createVNode(Text, null, String(child));
+  if (typeof child === "string" || typeof child === "number") {
+    return createVNode(Text, null, String(child));
+  } else {
+    return child;
+  }
 }
 
 // 基于 type 来判断是什么类型的组件
