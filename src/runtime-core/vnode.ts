@@ -1,5 +1,7 @@
 import { ShapeFlags } from "../shared";
 
+export { createVNode as createElementVNode }
+
 export const createVNode = function (
   type: any,
   props?: any,

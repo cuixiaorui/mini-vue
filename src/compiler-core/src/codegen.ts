@@ -1,5 +1,9 @@
 import { NodeTypes } from "./ast";
-import { helperNameMap, TO_DISPLAY_STRING } from "./runtimeHelpers";
+import {
+  CREATE_ELEMENT_VNODE,
+  helperNameMap,
+  TO_DISPLAY_STRING,
+} from "./runtimeHelpers";
 
 export function generate(ast, options = {}) {
   // 先生成 context
@@ -65,9 +69,35 @@ function genNode(node: any, context: any) {
       genExpression(node, context);
       break;
 
+    case NodeTypes.ELEMENT:
+      genElement(node, context);
+      break;
+
+    case NodeTypes.TEXT:
+      genText(node, context);
+      break;
+
     default:
       break;
   }
+}
+
+function genText(node: any, context: any) {
+  // Implement
+  const { push } = context;
+
+  // TODO 是如何处理添加 + 操作符的呢？
+  push(`'${node.content}'+`);
+}
+
+function genElement(node, context) {
+  const { push, helper } = context;
+
+  push(`${helper(CREATE_ELEMENT_VNODE)}("${node.tag}", {}, `);
+  node.children.forEach((n) => {
+    genNode(n, context);
+  });
+  push(`)`)
 }
 
 function genExpression(node: any, context: any) {
