@@ -3,6 +3,7 @@ import { baseParse } from "../src/parse";
 import { transform } from "../src/transform";
 import { transformElement } from "../src/transforms/transformElement";
 import { transformExpression } from "../src/transforms/transformExpression";
+import { transformText } from "../src/transforms/transformText";
 
 test("interpolation module", () => {
   const ast = baseParse("{{hello}}");
@@ -17,7 +18,7 @@ test("interpolation module", () => {
 test("element and interpolation", () => {
   const ast = baseParse("<div>hi,{{msg}}</div>");
   transform(ast, {
-    nodeTransforms: [transformExpression, transformElement],
+    nodeTransforms: [transformText,transformExpression, transformElement],
   });
 
   const { code } = generate(ast);

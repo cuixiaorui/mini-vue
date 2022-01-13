@@ -3,6 +3,7 @@ import { baseParse } from "./parse";
 import { transform } from "./transform";
 import { transformExpression } from "./transforms/transformExpression";
 import { transformElement } from "./transforms/transformElement";
+import { transformText } from "./transforms/transformText";
 
 export function baseCompile(template, options) {
   // 1. 先把 template 也就是字符串 parse 成 ast
@@ -11,7 +12,7 @@ export function baseCompile(template, options) {
   transform(
     ast,
     Object.assign(options, {
-      nodeTransforms: [transformExpression, transformElement],
+      nodeTransforms: [transformText, transformExpression, transformElement],
     })
   );
 
