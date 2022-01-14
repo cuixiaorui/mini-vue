@@ -21,11 +21,14 @@ function traverseNode(node: any, context) {
   // 把 node 给到 transform
   // 用户可以对 node 做处理
   const nodeTransforms = context.nodeTransforms;
-
+  const exitFns: any = [];
   for (let i = 0; i < nodeTransforms.length; i++) {
     const transform = nodeTransforms[i];
-    // TODO transform 可以返回一个函数， 作为 exit 的时候调用
-    transform(node, context);
+
+    const onExit = transform(node, context);
+    if (onExit) {
+      exitFns.push(onExit);
+    }
   }
 
   switch (type) {
@@ -36,14 +39,21 @@ function traverseNode(node: any, context) {
 
     case NodeTypes.ROOT:
     case NodeTypes.ELEMENT:
-    case NodeTypes.COMPOUND_EXPRESSION:
-      // TODO NodeTypes.COMPOUND_EXPRESSION 这里需要实现 exit 逻辑之后，把处理 text 的逻辑延迟到 exit 之后执行 
 
       traverseChildren(node, context);
       break;
 
     default:
       break;
+  }
+
+
+
+  let i = exitFns.length;
+  // i-- 这个很巧妙
+  // 使用 while 是要比 for 快 (可以使用 https://jsbench.me/ 来测试一下)
+  while (i--) {
+    exitFns[i]();
   }
 }
 

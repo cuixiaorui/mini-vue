@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`element and interpolation 1`] = `
+"
+        const { toDisplayString : _toDisplayString, createElementVNode : _createElementVNode} = Vue 
+
+      
+return function render(_ctx) {return _createElementVNode('div', null, 'hi,' + _toDisplayString(_ctx.msg))}"
+`;
+
+exports[`interpolation module 1`] = `
+"
+        const { toDisplayString : _toDisplayString} = Vue 
+
+      
+return function render(_ctx) {return _toDisplayString(_ctx.hello)}"
+`;

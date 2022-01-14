@@ -12,16 +12,15 @@ test("interpolation module", () => {
   });
 
   const { code } = generate(ast);
-  console.log(code);
+  expect(code).toMatchSnapshot();
 });
 
 test("element and interpolation", () => {
   const ast = baseParse("<div>hi,{{msg}}</div>");
   transform(ast, {
-    nodeTransforms: [transformText,transformExpression, transformElement],
+    nodeTransforms: [transformElement, transformText, transformExpression],
   });
 
   const { code } = generate(ast);
-  console.log(code);
-  console.log(code.children[0])
+  expect(code).toMatchSnapshot();
 });

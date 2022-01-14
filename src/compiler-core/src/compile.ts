@@ -12,7 +12,7 @@ export function baseCompile(template, options) {
   transform(
     ast,
     Object.assign(options, {
-      nodeTransforms: [transformText, transformExpression, transformElement],
+      nodeTransforms: [transformElement, transformText, transformExpression],
     })
   );
 
