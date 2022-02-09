@@ -8,7 +8,13 @@
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
-想看更多关于 mini-vue 的课程以及获取流程脑图源文件的同学可以加我 vx 哦
+历经半年我把这个项目做成了一套系列视频课
+
+[【Vue3源码实战课 - 手把手带你实现自己的Vue3】](https://cua.h5.xeknow.com/s/xDWLc)
+
+课程的目标是通过构建自己的 mini-vue3 （同这个库一个复杂级别）来深入学习理解 vue3 源码
+
+只有手写一遍，才能真正的掌握源码
 
 vx：cuixr1314
 
