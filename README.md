@@ -71,6 +71,11 @@ vx：cuixr1314
 - [x] 支持 shallowReadonly
 - [x] 支持 proxyRefs
 
+### compiler-core
+- [x] 解析插值
+- [x] 解析 element
+- [x] 解析 text
+
 ### runtime-dom
 - [x] 支持 custom renderer 
 
