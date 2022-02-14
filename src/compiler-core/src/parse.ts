@@ -30,6 +30,7 @@ function parseChildren(context) {
       node = parseInterpolation(context);
     } else if (s[0] === "<") {
       if (s[1] === "/") {
+        // 这里属于 edge case 可以不用关心
         // 处理结束标签
         if (/[a-z]/i.test(s[2])) {
           // 匹配 </div>
