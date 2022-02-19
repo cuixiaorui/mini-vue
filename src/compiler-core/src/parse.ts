@@ -163,7 +163,11 @@ function parseText(context): any {
 
   for (let i = 0; i < endTokens.length; i++) {
     const index = context.source.indexOf(endTokens[i]);
-    if (index !== -1) {
+    // endIndex > index 是需要要 endIndex 尽可能的小
+    // 比如说：
+    // hi, {{123}} <div></div>
+    // 那么这里就应该停到 {{ 这里，而不是停到 <div 这里
+    if (index !== -1 && endIndex > index) {
       endIndex = index;
     }
   }
