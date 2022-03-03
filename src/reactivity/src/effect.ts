@@ -8,7 +8,7 @@ const targetMap = new WeakMap();
 // 用于依赖收集
 export class ReactiveEffect {
   active = true;
-  deps = [];
+  dep: ReactiveEffect | undefined;
   public onStop?: () => void;
   constructor(public fn, public scheduler?) {
     console.log("创建 ReactiveEffect 对象");
@@ -60,11 +60,9 @@ export class ReactiveEffect {
 function cleanupEffect(effect) {
   // 找到所有依赖这个 effect 的响应式对象
   // 从这些响应式对象里面把 effect 给删除掉
-  effect.deps.forEach((dep) => {
-    dep.delete(effect);
-  });
-
-  effect.deps.length = 0;
+  if (effect.dep) {
+    effect.dep.delete(effect);
+  }
 }
 
 export function effect(fn, options = {}) {
@@ -123,7 +121,7 @@ export function trackEffects(dep) {
   // shouldTrack = !dep.has(activeEffect!);
   if (!dep.has(activeEffect)) {
     dep.add(activeEffect);
-    (activeEffect as any).deps.push(dep);
+    (activeEffect as any).dep = dep;
   }
 }
 
