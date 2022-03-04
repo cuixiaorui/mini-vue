@@ -8,7 +8,7 @@ const targetMap = new WeakMap();
 // 用于依赖收集
 export class ReactiveEffect {
   active = true;
-  dep: Set<any> | undefined;
+  dep: ReactiveEffect | undefined;
   public onStop?: () => void;
   constructor(public fn, public scheduler?) {
     console.log("创建 ReactiveEffect 对象");
