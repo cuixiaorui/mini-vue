@@ -7,7 +7,7 @@ const enum TagType {
 
 export function baseParse(content: string) {
   const context = createParserContext(content);
-  return createRoot(parseChildren(context));
+  return createRoot(parseChildren(context, []));
 }
 
 function createParserContext(content) {
@@ -17,11 +17,11 @@ function createParserContext(content) {
   };
 }
 
-function parseChildren(context) {
+function parseChildren(context, ancestors) {
   console.log("开始解析 children");
   const nodes: any = [];
 
-  while (!isEnd(context)) {
+  while (!isEnd(context, ancestors)) {
     let node;
     const s = context.source;
 
@@ -40,7 +40,7 @@ function parseChildren(context) {
           continue;
         }
       } else if (/[a-z]/i.test(s[1])) {
-        node = parseElement(context);
+        node = parseElement(context, ancestors);
       }
     }
 
@@ -54,25 +54,42 @@ function parseChildren(context) {
   return nodes;
 }
 
-function isEnd(context: any) {
+function isEnd(context: any, ancestors) {
+  // 检测标签的节点
+  // 如果是结束标签的话，需要看看之前有没有开始标签，如果有的话，那么也应该结束
+  // 这里的一个 edge case 是 <div><span></div>
+  // 像这种情况下，其实就应该报错
+  const s = context.source;
+  if (context.source.startsWith("</")) {
+    // 从后面往前面查
+    // 因为便签如果存在的话 应该是 ancestors 最后一个元素
+    for (let i = ancestors.length - 1; i >= 0; --i) {
+      if (startsWithEndTagOpen(s, ancestors[i].tag)) {
+        return true;
+      }
+    }
+  }
+
   // 看看 context.source 还有没有值
   return !context.source;
 }
 
-function parseElement(context) {
+function parseElement(context, ancestors) {
   // 应该如何解析 tag 呢
   // <div></div>
   // 先解析开始 tag
   const element = parseTag(context, TagType.Start);
 
-  const children = parseChildren(context);
+  ancestors.push(element);
+  const children = parseChildren(context, ancestors);
+  ancestors.pop();
 
   // 解析 end tag 是为了检测语法是不是正确的
   // 检测是不是和 start tag 一致
   if (startsWithEndTagOpen(context.source, element.tag)) {
     parseTag(context, TagType.End);
   } else {
-    // TODO 报错
+    throw new Error(`缺失结束标签：${element.tag}`);
   }
 
   element.children = children;
@@ -85,7 +102,7 @@ function startsWithEndTagOpen(source: string, tag: string) {
   // 2. 看看是不是和 tag 一样
   return (
     startsWith(source, "</") &&
-    source.substr(2, tag.length).toLowerCase() === tag.toLowerCase()
+    source.slice(2, 2 + tag.length).toLowerCase() === tag.toLowerCase()
   );
 }
 
