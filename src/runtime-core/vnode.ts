@@ -1,5 +1,7 @@
 import { ShapeFlags } from "../shared";
 
+export { createVNode as createElementVNode }
+
 export const createVNode = function (
   type: any,
   props?: any,
@@ -59,7 +61,14 @@ export function createTextVNode(text: string = " ") {
 
 // 标准化 vnode 的格式
 // 其目的是为了让 child 支持多种格式
-export function normalizeVNode(child) {}
+export function normalizeVNode(child) {
+  // 暂时只支持处理 child 为 string 和 number 的情况
+  if (typeof child === "string" || typeof child === "number") {
+    return createVNode(Text, null, String(child));
+  } else {
+    return child;
+  }
+}
 
 // 基于 type 来判断是什么类型的组件
 function getShapeFlag(type: any) {

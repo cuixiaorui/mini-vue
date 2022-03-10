@@ -1,6 +1,6 @@
 [CN](README.md) / [EN](README_EN.md)
 
-## mini-vue
+## mini-vue  [![github](https://img.shields.io/badge/%E5%82%AC%E5%AD%A6%E7%A4%BE-mini--vue-blue)](https://github.com/cuixiaorui/mini-vue)
 
 实现最简 vue3 模型，用于深入学习 vue3， 让你更轻松的理解 vue3 的核心逻辑
 
@@ -8,7 +8,21 @@
 
 [B 站](https://www.bilibili.com/video/BV1Zy4y1J73E) 提供了视频讲解使用方式
 
-想看更多关于 mini-vue 的课程以及获取流程脑图源文件的同学可以加我 vx 哦
+历经半年我把这个项目做成了一套系列视频课
+
+[【课程介绍】](https://www.bilibili.com/video/BV16Z4y1r7Wp?spm_id_from=333.999.0.0)
+
+课程的目标是通过构建自己的 mini-vue3 （同这个库一个复杂级别）来深入学习理解 vue3 源码
+
+只有手写一遍，才能真正的掌握源码
+
+进阶高级前端的编程思想有哪些
+
+如何掌握 Vue3 源码原理实现
+
+面试如何脱颖而出
+
+帮你解决以上痛点问题 [胜利]
 
 vx：cuixr1314
 
@@ -64,6 +78,11 @@ vx：cuixr1314
 - [x] 支持 isProxy
 - [x] 支持 shallowReadonly
 - [x] 支持 proxyRefs
+
+### compiler-core
+- [x] 解析插值
+- [x] 解析 element
+- [x] 解析 text
 
 ### runtime-dom
 - [x] 支持 custom renderer 

@@ -1,8 +1,12 @@
 export * from "./shapeFlags";
+export * from "./toDisplayString"
 
 export const isObject = (val) => {
   return val !== null && typeof val === "object";
 };
+
+
+export const isString = (val)=> typeof val === "string"
 
 const camelizeRE = /-(\w)/g;
 /**

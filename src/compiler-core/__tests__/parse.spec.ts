@@ -95,5 +95,35 @@ describe("parser", () => {
         ],
       });
     });
+
+    test("element with interpolation and text", () => {
+      const ast = baseParse("<div>hi,{{ msg }}</div>");
+      const element = ast.children[0];
+
+      expect(element).toStrictEqual({
+        type: NodeTypes.ELEMENT,
+        tag: "div",
+        tagType: ElementTypes.ELEMENT,
+        children: [
+          {
+            type: NodeTypes.TEXT,
+            content: "hi,",
+          },
+          {
+            type: NodeTypes.INTERPOLATION,
+            content: {
+              type: NodeTypes.SIMPLE_EXPRESSION,
+              content: "msg",
+            },
+          },
+        ],
+      });
+    });
+
+    test("should throw error when lack end tag  ", () => {
+      expect(() => {
+        baseParse("<div><span></div>");
+      }).toThrow("缺失结束标签：span");
+    });
   });
 });

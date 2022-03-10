@@ -125,11 +125,15 @@ function finishComponentSetup(instance) {
   const Component = instance.type;
 
   if (!instance.render) {
-    // todo
-    // 调用 compile 模块来编译 template
-    // Component.render = compile(Component.template, {
-    //     isCustomElement: instance.appContext.config.isCustomElement || NO
-    //   })
+    // 如果 compile 有值 并且当然组件没有 render 函数，那么就需要把 template 编译成 render 函数
+    if (compile && !Component.render) {
+      if (Component.template) {
+        // 这里就是 runtime 模块和 compile 模块结合点
+        const template = Component.template;
+        Component.render = compile(template);
+      }
+    }
+
     instance.render = Component.render;
   }
 
@@ -150,4 +154,9 @@ export function getCurrentInstance(): any {
 
 export function setCurrentInstance(instance) {
   currentInstance = instance;
+}
+
+let compile;
+export function registerRuntimeCompiler(_compile) {
+  compile = _compile;
 }

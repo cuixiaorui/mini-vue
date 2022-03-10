@@ -9,6 +9,8 @@ export function transform(root, options = {}) {
   // 2. 遍历 node
   traverseNode(root, context);
 
+  createRootCodegen(root, context);
+
   root.helpers.push(...context.helpers.keys());
 }
 
@@ -19,11 +21,14 @@ function traverseNode(node: any, context) {
   // 把 node 给到 transform
   // 用户可以对 node 做处理
   const nodeTransforms = context.nodeTransforms;
-
+  const exitFns: any = [];
   for (let i = 0; i < nodeTransforms.length; i++) {
     const transform = nodeTransforms[i];
-    // TODO transform 可以返回一个函数， 作为 exit 的时候调用
-    transform(node, context);
+
+    const onExit = transform(node, context);
+    if (onExit) {
+      exitFns.push(onExit);
+    }
   }
 
   switch (type) {
@@ -34,11 +39,21 @@ function traverseNode(node: any, context) {
 
     case NodeTypes.ROOT:
     case NodeTypes.ELEMENT:
+
       traverseChildren(node, context);
       break;
 
     default:
       break;
+  }
+
+
+
+  let i = exitFns.length;
+  // i-- 这个很巧妙
+  // 使用 while 是要比 for 快 (可以使用 https://jsbench.me/ 来测试一下)
+  while (i--) {
+    exitFns[i]();
   }
 }
 
@@ -65,4 +80,23 @@ function createTransformContext(root, options): any {
   };
 
   return context;
+}
+
+function createRootCodegen(root: any, context: any) {
+  const { children } = root;
+
+  // 只支持有一个根节点
+  // 并且还是一个 single text node
+  const child = children[0];
+
+  // 如果是 element 类型的话 ， 那么我们需要把它的 codegenNode 赋值给 root
+  // root 其实是个空的什么数据都没有的节点
+  // 所以这里需要额外的处理 codegenNode
+  // codegenNode 的目的是专门为了 codegen 准备的  为的就是和 ast 的 node 分离开
+  if (child.type === NodeTypes.ELEMENT && child.codegenNode) {
+    const codegenNode = child.codegenNode;
+    root.codegenNode = codegenNode;
+  } else {
+    root.codegenNode = child;
+  }
 }

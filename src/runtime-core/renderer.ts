@@ -3,7 +3,7 @@ import { createComponentInstance } from "./component";
 import { queueJob } from "./scheduler";
 import { effect } from "../reactivity/src";
 import { setupComponent } from "./component";
-import { Fragment, Text } from "./vnode";
+import { Fragment, normalizeVNode, Text } from "./vnode";
 import { shouldUpdateComponent } from "./componentRenderUtils";
 import { createAppAPI } from "./createApp";
 
@@ -288,7 +288,7 @@ export function createRenderer(options) {
         } else {
           // 如果没key 的话，那么只能是遍历所有的新节点来确定当前节点存在不存在了
           // 时间复杂度O(n)
-          for (let j = s2; j < e2; j++) {
+          for (let j = s2; j <= e2; j++) {
             if (isSameVNodeType(prevChild, c2[j])) {
               newIndex = j;
               break;
@@ -499,12 +499,11 @@ export function createRenderer(options) {
         // 为什么要在这里调用 render 函数呢
         // 是因为在 effect 内调用 render 才能触发依赖收集
         // 等到后面响应式的值变更后会再次触发这个函数
-        console.log("调用 render,获取 subTree");
+        console.log(`${instance.type.name}:调用 render,获取 subTree`);
         const proxyToUse = instance.proxy;
         // 可在 render 函数中通过 this 来使用 proxy
-        const subTree = (instance.subTree = instance.render.call(
-          proxyToUse,
-          proxyToUse
+        const subTree = (instance.subTree = normalizeVNode(
+          instance.render.call(proxyToUse, proxyToUse)
         ));
         console.log("subTree", subTree);
 
@@ -531,33 +530,36 @@ export function createRenderer(options) {
       } else {
         // 响应式的值变更后会从这里执行逻辑
         // 主要就是拿到新的 vnode ，然后和之前的 vnode 进行对比
-        console.log("调用更新逻辑");
+        console.log(`${instance.type.name}:调用更新逻辑`);
         // 拿到最新的 subTree
         const { next, vnode } = instance;
 
         // 如果有 next 的话， 说明需要更新组件的数据（props，slots 等）
         // 先更新组件的数据，然后更新完成后，在继续对比当前组件的子元素
         if (next) {
+          // 问题是 next 和 vnode 的区别是什么
           next.el = vnode.el;
           updateComponentPreRender(instance, next);
         }
 
         const proxyToUse = instance.proxy;
-        const nextTree = instance.render.call(proxyToUse, proxyToUse);
+        const nextTree = normalizeVNode(
+          instance.render.call(proxyToUse, proxyToUse)
+        );
         // 替换之前的 subTree
         const prevTree = instance.subTree;
         instance.subTree = nextTree;
 
         // 触发 beforeUpdated hook
-        console.log("beforeUpdated hook");
-        console.log("onVnodeBeforeUpdate hook");
+        console.log(`${instance.type.name}:触发 beforeUpdated hook`);
+        console.log(`${instance.type.name}:触发 onVnodeBeforeUpdate hook`);
 
         // 用旧的 vnode 和新的 vnode 交给 patch 来处理
         patch(prevTree, nextTree, prevTree.el, null, instance);
 
         // 触发 updated hook
-        console.log("updated hook");
-        console.log("onVnodeUpdated hook");
+        console.log(`${instance.type.name}:触发 updated hook`);
+        console.log(`${instance.type.name}:触发 onVnodeUpdated hook`);
       }
     }
 
@@ -577,11 +579,22 @@ export function createRenderer(options) {
   }
 
   function updateComponentPreRender(instance, nextVNode) {
+    // 更新 nextVNode 的组件实例
+    // 现在 instance.vnode 是组件实例更新前的
+    // 所以之前的 props 就是基于 instance.vnode.props 来获取
+    // 接着需要更新 vnode ，方便下一次更新的时候获取到正确的值
+    nextVNode.component = instance;
+    // TODO 后面更新 props 的时候需要对比
+    // const prevProps = instance.vnode.props;
+    instance.vnode = nextVNode;
+    instance.next = null;
+
     const { props } = nextVNode;
     console.log("更新组件的 props", props);
     instance.props = props;
     console.log("更新组件的 slots");
     // TODO 更新组件的 slots
+    // 需要重置 vnode
   }
 
   return {

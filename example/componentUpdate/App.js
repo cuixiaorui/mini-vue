@@ -8,6 +8,7 @@ export default {
   name: "App",
   setup() {
     const msg = ref("123");
+    window.msg = msg
 
     const changeChildProps = () => {
       msg.value = "456";
