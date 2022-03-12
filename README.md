@@ -82,7 +82,7 @@ vx：cuixr1314
 ### build
 
 ```shell
-yarn build
+pnpm build
 ```
 
 ### example
