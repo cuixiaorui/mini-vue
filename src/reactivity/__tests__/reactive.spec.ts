@@ -30,7 +30,9 @@ describe("reactive", () => {
   test("toRaw", () => {
     const original = { foo: 1 };
     const observed = reactive(original);
+    const nested = reactive(reactive(original))
     expect(toRaw(observed)).toBe(original);
     expect(toRaw(original)).toBe(original);
+    expect(toRaw(nested)).toBe(original);
   });
 });

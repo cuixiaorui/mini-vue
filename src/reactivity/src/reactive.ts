@@ -46,18 +46,16 @@ export function isReactive(value) {
   return !!value[ReactiveFlags.IS_REACTIVE];
 }
 
-export function toRaw(value) {
-  // 如果 value 是 proxy 的话 ,那么直接返回就可以了
-  // 因为会触发 createGetter 内的逻辑
-  // 如果 value 是普通对象的话，
-  // 我们就应该返回普通对象
-  // 只要不是 proxy ，只要是得到了 undefined 的话，那么就一定是普通对象
-  // TODO 这里和源码里面实现的不一样，不确定后面会不会有问题
-  if (!value[ReactiveFlags.RAW]) {
-    return value;
-  }
-
-  return value[ReactiveFlags.RAW];
+export function toRaw(observed) {
+  // 先拿到observed的(ReactiveFlags.RAW)值
+  // 如果raw没有值(undefined)，则证明observed是普通对象，直接返回observed
+  // 如果raw有值，那么会存在两种情况
+  // 1. observed的代理只有一层
+  // 2. observed 是一个嵌套多层的响应式对象，比如：readonly(reactive({}))、readonly(readonly({}))
+  // 所以需要递归判断
+  // 重点结束条件：如果raw的值是undefined就是拿到原始对象了
+  const raw = observed && observed[ReactiveFlags.RAW]
+  return raw ? toRaw(raw) : observed
 }
 
 function createReactiveObject(target, proxyMap, baseHandlers) {
