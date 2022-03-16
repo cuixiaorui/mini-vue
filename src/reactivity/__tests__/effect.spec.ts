@@ -116,4 +116,33 @@ describe("effect", () => {
     stop(runner);
     expect(onStop).toHaveBeenCalled();
   });
+
+  it.skip('nested effect', () => {
+    const obj = reactive({ foo: 1, bar: 1 })
+    let temp1, temp2
+    const outerCall = jest.fn()
+    const innerCall = jest.fn()
+    effect(() => {
+      outerCall()
+      effect(() => {
+        innerCall()
+        temp2 = obj.bar
+      })
+      temp1 = obj.foo
+    })
+    // 两个都会执行
+    expect(outerCall).toBeCalledTimes(1)
+    expect(innerCall).toBeCalledTimes(1)
+
+    obj.bar = 2
+    // 只执行内层的
+    expect(outerCall).toBeCalledTimes(1)
+    expect(innerCall).toBeCalledTimes(2)
+
+    obj.foo = 2
+    // 内外层都执行
+    expect(outerCall).toBeCalledTimes(2)
+    expect(innerCall).toBeCalledTimes(3)
+   
+  })
 });

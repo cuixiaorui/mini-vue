@@ -4,6 +4,7 @@ import { extend } from "../../shared/index";
 let activeEffect = void 0;
 let shouldTrack = false;
 const targetMap = new WeakMap();
+const effectStack: any[] = []
 
 // 用于依赖收集
 export class ReactiveEffect {
@@ -34,11 +35,16 @@ export class ReactiveEffect {
     // 执行的时候给全局的 activeEffect 赋值
     // 利用全局属性来获取当前的 effect
     activeEffect = this as any;
+    effectStack.push(this)
     // 执行用户传入的 fn
     console.log("执行用户传入的 fn");
     const result = this.fn();
+    effectStack.pop()
+    activeEffect = effectStack[effectStack.length - 1]
     // 重置
-    shouldTrack = false;
+    if (effectStack.length === 0) {
+      shouldTrack = false
+    }
     activeEffect = undefined;
 
     return result;
