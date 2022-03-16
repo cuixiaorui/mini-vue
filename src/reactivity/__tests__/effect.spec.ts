@@ -117,7 +117,7 @@ describe("effect", () => {
     expect(onStop).toHaveBeenCalled();
   });
 
-  it.skip('nested effect', () => {
+  it('nested effect', () => {
     const obj = reactive({ foo: 1, bar: 1 })
     let temp1, temp2
     const outerCall = jest.fn()

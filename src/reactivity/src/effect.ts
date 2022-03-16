@@ -45,7 +45,6 @@ export class ReactiveEffect {
     if (effectStack.length === 0) {
       shouldTrack = false
     }
-    activeEffect = undefined;
 
     return result;
   }
