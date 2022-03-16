@@ -1,12 +1,11 @@
 export * from "./shapeFlags";
-export * from "./toDisplayString"
+export * from "./toDisplayString";
 
 export const isObject = (val) => {
   return val !== null && typeof val === "object";
 };
 
-
-export const isString = (val)=> typeof val === "string"
+export const isString = (val) => typeof val === "string";
 
 const camelizeRE = /-(\w)/g;
 /**
@@ -43,3 +42,6 @@ export const capitalize = (str: string) =>
  */
 export const toHandlerKey = (str: string) =>
   str ? `on${capitalize(str)}` : ``;
+
+export const isFunction = (val: unknown): val is Function =>
+  typeof val === "function";

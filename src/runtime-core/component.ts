@@ -3,6 +3,7 @@ import { initSlots } from "./componentSlots";
 import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
 import { proxyRefs, shallowReadonly } from "../reactivity/src";
+import { isFunction } from "../shared";
 export function createComponentInstance(vnode, parent) {
   const instance = {
     type: vnode.type,
@@ -66,15 +67,14 @@ function setupStatefulComponent(instance) {
 
   // 调用 setup 的时候传入 props
   const { setup } = Component;
-  if (setup) {
+  if (setup && isFunction(setup)) {
     // 设置当前 currentInstance 的值
     // 必须要在调用 setup 之前
     setCurrentInstance(instance);
 
     const setupContext = createSetupContext(instance);
     // 真实的处理场景里面应该是只在 dev 环境才会把 props 设置为只读的
-    const setupResult =
-      setup && setup(shallowReadonly(instance.props), setupContext);
+    const setupResult = setup(shallowReadonly(instance.props), setupContext);
 
     setCurrentInstance(null);
 
