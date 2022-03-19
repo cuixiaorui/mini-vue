@@ -58,7 +58,6 @@ vx：cuixr1314
 - [x] 支持 Text 类型节点
 - [x] 支持 $el api
 
-
 #### reactivity
 
 目标是用自己的 reactivity 支持现有的 demo 运行
@@ -79,12 +78,14 @@ vx：cuixr1314
 - [x] 支持 shallowReadonly
 - [x] 支持 proxyRefs
 
-### compiler-core
+#### compiler-core
+
 - [x] 解析插值
 - [x] 解析 element
 - [x] 解析 text
 
-### runtime-dom
+#### runtime-dom
+
 - [x] 支持 custom renderer 
 
 ### build
@@ -102,11 +103,12 @@ pnpm build
 ### 初始化
 
 #### 流程图
+
 ![初始化流程图](https://user-images.githubusercontent.com/12064746/138114565-3e0eecbb-7fd0-4203-bf36-5e5fd8003ce0.png)
 
 > 可加 vx：cuixr1314  获取所有脑图(备注：github mini-vue 领取脑图)
-#### 关键函数调用图
 
+#### 关键函数调用图
 
 ![关键函数调用图2](https://user-gold-cdn.xitu.io/2020/6/22/172dc08840e25b42?w=1816&h=934&f=png&s=550722)
 
@@ -122,6 +124,4 @@ pnpm build
 
 ![image](https://user-images.githubusercontent.com/12064746/138114969-9139e4af-b2df-41b2-a5d9-069d8b41903c.png)
 
-
 > 可以基于函数名快速搜索到源码内容
-
