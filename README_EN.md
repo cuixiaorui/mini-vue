@@ -72,7 +72,7 @@ Open index.html under example/\* use server
 
 #### flow chart
 
-![初始化流程图](https://user-gold-cdn.xitu.io/2020/7/6/1732311ea8a9142a?w=1724&h=762&f=png&s=493353)
+![初始化流程图](https://user-images.githubusercontent.com/12064746/138114565-3e0eecbb-7fd0-4203-bf36-5e5fd8003ce0.png)
 
 #### Key function call graph
 
@@ -86,10 +86,10 @@ Open index.html under example/\* use server
 
 #### flow chart
 
-![update流程图](https://user-gold-cdn.xitu.io/2020/6/23/172e19b5cefba34e?w=3200&h=800&f=png&s=540515)
+![update流程图](https://user-images.githubusercontent.com/12064746/138115157-1f4fb8a2-7e60-412d-96de-12e68eb0288c.png)
 
 #### Key function call graph
 
-![update关键函数调用图](https://user-gold-cdn.xitu.io/2020/6/23/172e19d2d42464aa?w=3300&h=1006&f=png&s=739008)
+![update关键函数调用图](https://user-images.githubusercontent.com/12064746/138114969-9139e4af-b2df-41b2-a5d9-069d8b41903c.png)
 
 > The source code content can be quickly searched based on the function name
