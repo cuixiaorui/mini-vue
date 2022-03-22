@@ -70,7 +70,7 @@ const shallowUnwrapHandlers = {
   get(target, key, receiver) {
     // 如果里面是一个 ref 类型的话，那么就返回 .value
     // 如果不是的话，那么直接返回value 就可以了
-    return unRef(Reflect.get(target, key, receiver));
+    return unref(Reflect.get(target, key, receiver));
   },
   set(target, key, value, receiver) {
     const oldValue = target[key];
@@ -90,7 +90,7 @@ export function proxyRefs(objectWithRefs) {
 }
 
 // 把 ref 里面的值拿到
-export function unRef(ref) {
+export function unref(ref) {
   return isRef(ref) ? ref.value : ref;
 }
 
