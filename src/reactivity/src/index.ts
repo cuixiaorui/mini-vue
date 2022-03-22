@@ -7,7 +7,7 @@ export {
   isProxy,
 } from "./reactive";
 
-export { ref, proxyRefs, unRef, isRef } from "./ref";
+export { ref, proxyRefs, unref, isRef } from "./ref";
 
 export { effect, stop } from "./effect";
 
