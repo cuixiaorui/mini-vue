@@ -72,7 +72,7 @@ function createTransformContext(root, options): any {
     helpers: new Map(),
     helper(name) {
       // 这里会收集调用的次数
-      // TODO 但是为什么收集次数呢？
+      // 收集次数是为了给删除做处理的， （当只有 count 为0 的时候才需要真的删除掉）
       // helpers 数据会在后续生成代码的时候用到
       const count = context.helpers.get(name) || 0;
       context.helpers.set(name, count + 1);
