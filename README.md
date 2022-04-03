@@ -104,7 +104,7 @@ pnpm build
 #### 流程图
 ![初始化流程图](https://user-images.githubusercontent.com/12064746/138114565-3e0eecbb-7fd0-4203-bf36-5e5fd8003ce0.png)
 
-
+> 可加 vx：cuixr1314  获取所有脑图(备注：github mini-vue 领取脑图)
 #### 关键函数调用图
 
 
