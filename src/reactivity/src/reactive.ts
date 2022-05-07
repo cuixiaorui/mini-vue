@@ -12,7 +12,7 @@ export const ReactiveFlags = {
   IS_REACTIVE : Symbol("__v_isReactive"),
   IS_READONLY : Symbol("__v_isReadonly"),
   RAW : Symbol("__v_raw"),
-}
+} as const
 
 export function reactive(target) {
   return createReactiveObject(target, reactiveMap, mutableHandlers);
