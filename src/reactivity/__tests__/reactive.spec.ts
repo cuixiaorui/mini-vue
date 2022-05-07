@@ -6,6 +6,12 @@ describe("reactive", () => {
     expect(observed).not.toBe(original);
     expect(isReactive(observed)).toBe(true);
     expect(isReactive(original)).toBe(false);
+    // hack
+    const evil = {
+      __v_isReactive: true,
+      __v_isReadonly: true,
+    }
+    expect(isReactive(evil)).toBe(false)
     // get
     expect(observed.foo).toBe(1);
     //     // has

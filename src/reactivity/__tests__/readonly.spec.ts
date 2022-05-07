@@ -14,6 +14,12 @@ describe("readonly", () => {
     expect(isReadonly(wrapped.bar)).toBe(true);
     expect(isReactive(original.bar)).toBe(false);
     expect(isReadonly(original.bar)).toBe(false);
+    // hack
+    const evil = {
+      __v_isReactive: true,
+      __v_isReadonly: true,
+    }
+    expect(isReadonly(evil)).toBe(false)
     // get
     expect(wrapped.foo).toBe(1);
   });

@@ -8,10 +8,10 @@ export const reactiveMap = new WeakMap();
 export const readonlyMap = new WeakMap();
 export const shallowReadonlyMap = new WeakMap();
 
-export const enum ReactiveFlags {
-  IS_REACTIVE = "__v_isReactive",
-  IS_READONLY = "__v_isReadonly",
-  RAW = "__v_raw",
+export const ReactiveFlags = {
+  IS_REACTIVE : Symbol("__v_isReactive"),
+  IS_READONLY : Symbol("__v_isReadonly"),
+  RAW : Symbol("__v_raw"),
 }
 
 export function reactive(target) {
