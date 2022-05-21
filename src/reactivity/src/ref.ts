@@ -77,6 +77,9 @@ const shallowUnwrapHandlers = {
     if (isRef(oldValue) && !isRef(value)) {
       return (target[key].value = value);
     } else {
+      // 问题：为什么使用 Reflect.set 去获取值呢
+      // 当我们set的key如果是undefined的情况它并不会报TypeError导致后面的代码无法执行
+      // 而是返回 false 这可以保证代码的健壮性
       return Reflect.set(target, key, value, receiver);
     }
   },
