@@ -37,6 +37,9 @@ function createGetter(isReadonly = false, shallow = false) {
       return target;
     }
 
+    // 问题：为什么使用 Reflect.get 去获取值呢
+    // receiver 参数可以改变 target 的指向，它让 target 指向当前调用getter的对象
+    // 这对于发生了继承的情况，可以明确调用主体
     const res = Reflect.get(target, key, receiver);
 
     // 问题：为什么是 readonly 的时候不做依赖收集呢
@@ -65,6 +68,9 @@ function createGetter(isReadonly = false, shallow = false) {
 
 function createSetter() {
   return function set(target, key, value, receiver) {
+    // 问题：为什么使用 Reflect.set 去设置值呢
+    // 当我们set的key如果是undefined的情况它并不会报TypeError导致后面的代码无法执行
+    // 而是返回 false 这可以保证代码的健壮性
     const result = Reflect.set(target, key, value, receiver);
 
     // 在触发 set 的时候进行触发依赖
