@@ -1,4 +1,3 @@
-import { getCurrentInstance } from "../component";
 import { createVNode, Fragment } from "../vnode";
 
 /**
