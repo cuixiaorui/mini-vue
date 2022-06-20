@@ -144,14 +144,20 @@ export function trigger(target, type, key) {
   // 最后收集到 deps 内
   deps.push(dep);
 
-  const effects: Array<any> = [];
-  deps.forEach((dep) => {
-    // 这里解构 dep 得到的是 dep 内部存储的 effect
-    effects.push(...dep);
-  });
-  // 这里的目的是只有一个 dep ，这个dep 里面包含所有的 effect
-  // 这里的目前应该是为了 triggerEffects 这个函数的复用
-  triggerEffects(createDep(effects));
+  if (deps.length === 1) {
+    if (deps[0]) {
+      triggerEffects(deps[0]);
+    }
+  } else {
+    const effects: Array<any> = [];
+    deps.forEach((dep) => {
+      // 这里解构 dep 得到的是 dep 内部存储的 effect
+      effects.push(...dep);
+    });
+    // 这里的目的是只有一个 dep ，这个dep 里面包含所有的 effect
+    // 这里的目前应该是为了 triggerEffects 这个函数的复用
+    triggerEffects(createDep(effects));
+  }
 }
 
 export function isTracking() {
