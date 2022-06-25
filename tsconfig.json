@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "strict": true,
+    "rootDir": ".",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "target": "es2016",
@@ -10,7 +12,10 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "downlevelIteration": true,
-    "lib": ["es6", "DOM"]
+    "lib": ["es6", "DOM"],
+    "paths": {
+      "@mini-vue/*": ["packages/*/src"]
+    }
   },
-  "include": ["src/index.ts", "src/global.d.ts"]
+  "include": ["packages/*/src"]
 }

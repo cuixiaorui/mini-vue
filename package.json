@@ -1,5 +1,5 @@
 {
-  "name": "mini-vue",
+  "private": true,
   "version": "0.0.1",
   "description": "Help you learn more efficiently vue3 source code",
   "main": "lib/mini-vue.cjs.js",
