@@ -2,12 +2,15 @@
   "name": "@mini-vue/runtime-dom",
   "version": "1.0.0",
   "description": "@mini-vue/runtime-dom",
-  "main": "index.js",
   "module": "dist/shared.esm-bundler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@mini-vue/runtime-core": "workspace:^1.0.0",
+    "@mini-vue/shared": "workspace:^1.0.0"
+  }
 }

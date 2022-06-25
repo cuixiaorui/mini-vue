@@ -4,7 +4,6 @@ import { registerRuntimeCompiler } from "@mini-vue/runtime-dom";
 
 import { baseCompile } from "@mini-vue/compiler-core";
 
-export * from "@mini-vue/reactivity"
 export * from "@mini-vue/runtime-dom";
 
 

@@ -1,7 +1,7 @@
 // 源码里面这些接口是由 runtime-dom 来实现
 // 这里先简单实现
 
-import { isOn } from "../../shared/src";
+import { isOn } from "@mini-vue/shared";
 import { createRenderer } from "@mini-vue/runtime-core";
 
 // 后面也修改成和源码一样的实现

@@ -33,6 +33,12 @@ importers:
       tslib: registry.npmmirror.com/tslib/2.3.1
       typescript: registry.npmmirror.com/typescript/4.6.2
 
+  packages/compiler-core:
+    specifiers:
+      '@mini-vue/shared': workspace:^1.0.0
+    dependencies:
+      '@mini-vue/shared': link:../shared
+
   packages/reactivity:
     specifiers:
       '@babel/core': ^7.15.0
@@ -51,15 +57,32 @@ importers:
 
   packages/runtime-core:
     specifiers:
+      '@mini-vue/reactivity': workspace:^1.0.0
       '@mini-vue/shared': workspace:^1.0.0
     dependencies:
+      '@mini-vue/reactivity': link:../reactivity
       '@mini-vue/shared': link:../shared
 
   packages/runtime-dom:
-    specifiers: {}
+    specifiers:
+      '@mini-vue/runtime-core': workspace:^1.0.0
+      '@mini-vue/shared': workspace:^1.0.0
+    dependencies:
+      '@mini-vue/runtime-core': link:../runtime-core
+      '@mini-vue/shared': link:../shared
 
   packages/shared:
     specifiers: {}
+
+  packages/vue:
+    specifiers:
+      '@mini-vue/compiler-core': workspace:^1.0.0
+      '@mini-vue/runtime-dom': workspace:^1.0.0
+      '@mini-vue/shared': workspace:^1.0.0
+    dependencies:
+      '@mini-vue/compiler-core': link:../compiler-core
+      '@mini-vue/runtime-dom': link:../runtime-dom
+      '@mini-vue/shared': link:../shared
 
 packages:
 

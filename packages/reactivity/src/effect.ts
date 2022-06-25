@@ -1,5 +1,5 @@
 import { createDep } from "./dep";
-import { extend } from "../../shared/index";
+import { extend } from "@mini-vue/shared";
 
 let activeEffect = void 0;
 let shouldTrack = false;

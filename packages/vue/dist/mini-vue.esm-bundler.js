@@ -7,7 +7,28 @@ var ShapeFlags;
     ShapeFlags[ShapeFlags["SLOTS_CHILDREN"] = 32] = "SLOTS_CHILDREN";
 })(ShapeFlags || (ShapeFlags = {}));
 
+const toDisplayString = (val) => {
+    return String(val);
+};
+
+const isObject = (val) => {
+    return val !== null && typeof val === "object";
+};
+const isString = (val) => typeof val === "string";
+const camelizeRE = /-(\w)/g;
+const camelize = (str) => {
+    return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ""));
+};
+const extend = Object.assign;
 const isOn = (key) => /^on[A-Z]/.test(key);
+function hasChanged(value, oldValue) {
+    return !Object.is(value, oldValue);
+}
+function hasOwn(val, key) {
+    return Object.prototype.hasOwnProperty.call(val, key);
+}
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+const toHandlerKey = (str) => str ? `on${capitalize(str)}` : ``;
 
 const createVNode = function (type, props, children) {
     const vnode = {
@@ -98,79 +119,9 @@ const normalizeObjectSlots = (rawSlots, slots) => {
     }
 };
 
-function createCommonjsModule(fn, basedir, module) {
-	return module = {
-	  path: basedir,
-	  exports: {},
-	  require: function (path, base) {
-      return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-    }
-	}, fn(module, module.exports), module.exports;
-}
-
-function commonjsRequire () {
-	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-}
-
-var shared_cjs = createCommonjsModule(function (module, exports) {
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-exports.ShapeFlags = void 0;
-(function (ShapeFlags) {
-    ShapeFlags[ShapeFlags["ELEMENT"] = 1] = "ELEMENT";
-    ShapeFlags[ShapeFlags["STATEFUL_COMPONENT"] = 4] = "STATEFUL_COMPONENT";
-    ShapeFlags[ShapeFlags["TEXT_CHILDREN"] = 8] = "TEXT_CHILDREN";
-    ShapeFlags[ShapeFlags["ARRAY_CHILDREN"] = 16] = "ARRAY_CHILDREN";
-    ShapeFlags[ShapeFlags["SLOTS_CHILDREN"] = 32] = "SLOTS_CHILDREN";
-})(exports.ShapeFlags || (exports.ShapeFlags = {}));
-
-const toDisplayString = (val) => {
-    return String(val);
-};
-
-const isObject = (val) => {
-    return val !== null && typeof val === "object";
-};
-const isString = (val) => typeof val === "string";
-const camelizeRE = /-(\w)/g;
-const camelize = (str) => {
-    return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ""));
-};
-const extend = Object.assign;
-const isOn = (key) => /^on[A-Z]/.test(key);
-function hasChanged(value, oldValue) {
-    return !Object.is(value, oldValue);
-}
-function hasOwn(val, key) {
-    return Object.prototype.hasOwnProperty.call(val, key);
-}
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-const toHandlerKey = (str) => str ? `on${capitalize(str)}` : ``;
-
-exports.camelize = camelize;
-exports.capitalize = capitalize;
-exports.extend = extend;
-exports.hasChanged = hasChanged;
-exports.hasOwn = hasOwn;
-exports.isObject = isObject;
-exports.isOn = isOn;
-exports.isString = isString;
-exports.toDisplayString = toDisplayString;
-exports.toHandlerKey = toHandlerKey;
-
-});
-
-var shared = createCommonjsModule(function (module) {
-
-{
-  module.exports = shared_cjs;
-}
-});
-
 function emit(instance, event, ...rawArgs) {
     const props = instance.props;
-    const handlerName = shared.toHandlerKey(shared.camelize(event));
+    const handlerName = toHandlerKey(camelize(event));
     const handler = props[handlerName];
     if (handler) {
         handler(...rawArgs);
@@ -188,10 +139,10 @@ const PublicInstanceProxyHandlers = {
         const { setupState, props } = instance;
         console.log(`触发 proxy hook , key -> : ${key}`);
         if (key[0] !== "$") {
-            if (shared.hasOwn(setupState, key)) {
+            if (hasOwn(setupState, key)) {
                 return setupState[key];
             }
-            else if (shared.hasOwn(props, key)) {
+            else if (hasOwn(props, key)) {
                 return props[key];
             }
         }
@@ -202,7 +153,7 @@ const PublicInstanceProxyHandlers = {
     },
     set({ _: instance }, key, value) {
         const { setupState } = instance;
-        if (setupState !== {} && shared.hasOwn(setupState, key)) {
+        if (setupState !== {} && hasOwn(setupState, key)) {
             setupState[key] = value;
         }
         return true;
@@ -256,7 +207,7 @@ function cleanupEffect(effect) {
 }
 function effect(fn, options = {}) {
     const _effect = new ReactiveEffect(fn);
-    shared.extend(_effect, options);
+    extend(_effect, options);
     _effect.run();
     const runner = _effect.run.bind(_effect);
     runner.effect = _effect;
@@ -342,7 +293,7 @@ function createGetter(isReadonly = false, shallow = false) {
         if (shallow) {
             return res;
         }
-        if (shared.isObject(res)) {
+        if (isObject(res)) {
             return isReadonly ? readonly(res) : reactive(res);
         }
         return res;
@@ -423,7 +374,7 @@ class RefImpl {
         return this._value;
     }
     set value(newValue) {
-        if (shared.hasChanged(newValue, this._rawValue)) {
+        if (hasChanged(newValue, this._rawValue)) {
             this._value = convert(newValue);
             this._rawValue = newValue;
             triggerRefValue(this);
@@ -434,7 +385,7 @@ function ref(value) {
     return createRef(value);
 }
 function convert(value) {
-    return shared.isObject(value) ? reactive(value) : value;
+    return isObject(value) ? reactive(value) : value;
 }
 function createRef(value) {
     const refImpl = new RefImpl(value);
@@ -1130,7 +1081,20 @@ var runtimeDom = /*#__PURE__*/Object.freeze({
     createTextVNode: createTextVNode,
     createElementVNode: createVNode,
     createRenderer: createRenderer,
-    toDisplayString: shared.toDisplayString,
+    toDisplayString: toDisplayString,
+    reactive: reactive,
+    ref: ref,
+    readonly: readonly,
+    unRef: unRef,
+    proxyRefs: proxyRefs,
+    isReadonly: isReadonly,
+    isReactive: isReactive,
+    isProxy: isProxy,
+    isRef: isRef,
+    shallowReadonly: shallowReadonly,
+    effect: effect,
+    stop: stop,
+    computed: computed,
     h: h,
     createAppAPI: createAppAPI
 });
@@ -1198,7 +1162,7 @@ function genCompoundExpression(node, context) {
     const { push } = context;
     for (let i = 0; i < node.children.length; i++) {
         const child = node.children[i];
-        if (shared.isString(child)) {
+        if (isString(child)) {
             push(child);
         }
         else {
@@ -1221,7 +1185,7 @@ function genNodeList(nodes, context) {
     const { push } = context;
     for (let i = 0; i < nodes.length; i++) {
         const node = nodes[i];
-        if (shared.isString(node)) {
+        if (isString(node)) {
             push(`${node}`);
         }
         else {
@@ -1583,6 +1547,5 @@ function compileToFunction(template, options = {}) {
 }
 registerRuntimeCompiler(compileToFunction);
 
-var toDisplayString = shared.toDisplayString;
 export { computed, createApp, createAppAPI, createVNode as createElementVNode, createRenderer, createTextVNode, effect, getCurrentInstance, h, inject, isProxy, isReactive, isReadonly, isRef, provide, proxyRefs, reactive, readonly, ref, registerRuntimeCompiler, renderSlot, shallowReadonly, stop, toDisplayString, unRef };
 //# sourceMappingURL=mini-vue.esm-bundler.js.map

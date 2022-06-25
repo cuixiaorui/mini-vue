@@ -1,6 +1,6 @@
 import { trackEffects, triggerEffects, isTracking } from "./effect";
 import { createDep } from "./dep";
-import { isObject, hasChanged } from "../../shared";
+import { isObject, hasChanged } from "@mini-vue/shared";
 import { reactive } from "./reactive";
 
 export class RefImpl {
