@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "build:type": "tsc -p ./tsconfig.type.json",
     "test": "jest --no-cache"
   },
   "author": "cuixiaorui",
@@ -18,8 +17,8 @@
     "@rollup/plugin-node-resolve": "^8.1.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@rollup/plugin-typescript": "^8.2.5",
-    "@types/jest": "^26.0.0",
-    "jest": "^27.2.3",
+    "@types/jest": "^26.0.24",
+    "jest": "^27.5.1",
     "rollup": "^2.17.1",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "ts-jest": "^27.0.5",
