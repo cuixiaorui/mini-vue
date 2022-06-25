@@ -88,9 +88,9 @@ vx：cuixr1314
 - [x] 支持 custom renderer 
 
 
+### infrastructure
+- [x] support monorepo with pnpm
 ### todo
-- [ ] 实现 monorepo
-- [ ] 用 pnpm 替换 yarn
 - [ ] 实现 runtime-test 可以测试 runtime-core 的逻辑
 ### build
 
