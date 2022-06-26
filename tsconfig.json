@@ -18,5 +18,5 @@
       "@mini-vue/*": ["packages/*/src"]
     }
   },
-  "include": ["packages/*/src"]
+  "include": ["packages/*/src", "packages/*/__tests__"]
 }
