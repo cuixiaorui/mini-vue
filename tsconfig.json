@@ -13,6 +13,7 @@
     "sourceMap": true,
     "downlevelIteration": true,
     "lib": ["es6", "DOM"],
+    "types": ["jest"],
     "paths": {
       "@mini-vue/*": ["packages/*/src"]
     }
