@@ -1,0 +1,20 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1,
+    "workspacePrefix": "/Users/cxr/projects/mini-vue/code/mini-vue"
+  },
+  "1 error pnpm": {
+    "errno": 1,
+    "code": "ELIFECYCLE",
+    "pkgid": "@mini-vue/runtime-core@1.0.0",
+    "stage": "test",
+    "script": "jest \"runtime-core\"",
+    "pkgname": "@mini-vue/runtime-core",
+    "err": {
+      "name": "pnpm",
+      "message": "@mini-vue/runtime-core@1.0.0 test: `jest \"runtime-core\"`\nExit status 1",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: @mini-vue/runtime-core@1.0.0 test: `jest \"runtime-core\"`\nExit status 1\n    at EventEmitter.<anonymous> (/opt/homebrew/Cellar/pnpm/6.32.4/libexec/lib/node_modules/pnpm/dist/pnpm.cjs:105736:20)\n    at EventEmitter.emit (node:events:527:28)\n    at ChildProcess.<anonymous> (/opt/homebrew/Cellar/pnpm/6.32.4/libexec/lib/node_modules/pnpm/dist/pnpm.cjs:92297:18)\n    at ChildProcess.emit (node:events:527:28)\n    at maybeClose (node:internal/child_process:1092:16)\n    at Process.ChildProcess._handle.onexit (node:internal/child_process:302:5)"
+    }
+  }
+}

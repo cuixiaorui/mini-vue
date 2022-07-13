@@ -1,3 +1,6 @@
+import { h } from "@mini-vue/runtime-core";
+import { nodeOps, render, serialize as inner } from "@mini-vue/runtime-test";
+
 describe("renderer: element", () => {
   let root;
 
@@ -6,7 +9,9 @@ describe("renderer: element", () => {
   });
 
   it("should create an element", () => {
-    render(h("div"), root);
+    render(h("div", null, []), root);
     expect(inner(root)).toBe("<div></div>");
   });
 });
+
+

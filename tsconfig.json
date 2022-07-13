@@ -12,7 +12,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "downlevelIteration": true,
-    "lib": ["es6", "DOM"],
+    "lib": ["esnext", "DOM"],
     "types": ["jest"],
     "paths": {
       "@mini-vue/*": ["packages/*/src"]
