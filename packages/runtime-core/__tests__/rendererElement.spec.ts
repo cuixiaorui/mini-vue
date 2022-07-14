@@ -9,7 +9,7 @@ describe("renderer: element", () => {
   });
 
   it("should create an element", () => {
-    render(h("div", null, []), root);
+    render(h("div"), root);
     expect(inner(root)).toBe("<div></div>");
   });
 });
