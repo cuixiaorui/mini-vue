@@ -5,6 +5,27 @@ export function serialize(node) {
   return serializeElement(node);
 }
 
+export function serializeInner(node) {
+  // 把所有节点变成一个string
+  return node.children.map((c) => serialize(c)).join(``);
+}
+
 function serializeElement(node) {
-  return `<${node.tag}></${node.tag}>`;
+  // 把 props 处理成字符串
+  // 规则：
+  // 如果 value 是 null 的话 那么直接返回 ``
+  // 如果 value 是 `` 的话，那么返回 key
+  // 不然的话返回 key = value（这里的值需要字符串化）
+  const props = Object.keys(node.props)
+    .map((key) => {
+      const value = node.props[key];
+      return value == null
+        ? ``
+        : value === ``
+        ? key
+        : `${key}=${JSON.stringify(value)}`;
+    })
+    .filter(Boolean)
+    .join(" ");
+  return `<${node.tag}${props ? ` ${props}` : ``}></${node.tag}>`;
 }

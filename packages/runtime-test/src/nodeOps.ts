@@ -14,14 +14,19 @@ function createElement(tag: string) {
     type: NodeTypes.ELEMENT,
     props: {},
     children: [],
+    parentNode: null,
   };
 
   return node;
 }
 
-
-function insert () {
-  
+function insert(child, parent) {
+  parent.children.push(child);
+  child.parentNode = parent
 }
 
-export const nodeOps = { createElement,insert };
+function parentNode(node) {
+  return node.parentNode;
+}
+
+export const nodeOps = { createElement, insert, parentNode };
