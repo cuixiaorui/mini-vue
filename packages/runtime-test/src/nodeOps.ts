@@ -1,5 +1,6 @@
 export const enum NodeTypes {
   ELEMENT = "element",
+  TEXT = "TEXT",
 }
 
 let nodeId = 0;
@@ -22,11 +23,22 @@ function createElement(tag: string) {
 
 function insert(child, parent) {
   parent.children.push(child);
-  child.parentNode = parent
+  child.parentNode = parent;
 }
 
 function parentNode(node) {
   return node.parentNode;
 }
 
-export const nodeOps = { createElement, insert, parentNode };
+function setElementText(el, text) {
+  el.children = [
+    {
+      id: nodeId++,
+      type: NodeTypes.TEXT,
+      text,
+      parentNode: el,
+    },
+  ];
+}
+
+export const nodeOps = { createElement, insert, parentNode, setElementText };

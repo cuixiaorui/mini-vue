@@ -1,8 +1,19 @@
 // 把 node 给序列化
 // 测试的时候好对比
+
+import { NodeTypes } from "./nodeOps";
+
 // 序列化： 把一个对象给处理成 string （进行流化）
 export function serialize(node) {
-  return serializeElement(node);
+  if (node.type === NodeTypes.ELEMENT) {
+    return serializeElement(node);
+  } else {
+    return serializeText(node);
+  }
+}
+
+function serializeText(node) {
+  return node.text;
 }
 
 export function serializeInner(node) {
@@ -27,5 +38,9 @@ function serializeElement(node) {
     })
     .filter(Boolean)
     .join(" ");
-  return `<${node.tag}${props ? ` ${props}` : ``}></${node.tag}>`;
+
+  console.log("node---------", node.children);
+  return `<${node.tag}${props ? ` ${props}` : ``}>${serializeInner(node)}</${
+    node.tag
+  }>`;
 }
