@@ -10,3 +10,4 @@ export const { render } = createRenderer(extend({ patchProp }, nodeOps));
 
 export * from "./nodeOps";
 export * from "./serialize"
+export * from '@mini-vue/runtime-core'
