@@ -1,12 +1,11 @@
 export * from "../src/shapeFlags";
-export * from "../src/toDisplayString"
+export * from "../src/toDisplayString";
 
 export const isObject = (val) => {
   return val !== null && typeof val === "object";
 };
 
-
-export const isString = (val)=> typeof val === "string"
+export const isString = (val) => typeof val === "string";
 
 const camelizeRE = /-(\w)/g;
 /**
@@ -43,3 +42,14 @@ export const capitalize = (str: string) =>
  */
 export const toHandlerKey = (str: string) =>
   str ? `on${capitalize(str)}` : ``;
+
+// \B 指的是非单词的边界
+// 用来匹配 kebab-case 的情况
+// 比如 onTest-event 可以匹配到 T
+// 然后取到 T 在前面加一个 - 就可以
+const hyphenateRE = /\B([A-Z])/g;
+/**
+ * @private
+ */
+export const hyphenate = (str: string) =>
+  str.replace(hyphenateRE, "-$1").toLowerCase();

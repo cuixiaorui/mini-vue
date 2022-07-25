@@ -47,4 +47,26 @@ describe("component: emits", () => {
 
     expect(fooSpy).toHaveBeenCalledTimes(1);
   });
+
+  test("trigger kebab-case handler", () => {
+    const Foo = {
+      render() {
+        return h("foo");
+      },
+      setup(props, { emit }) {
+        emit("test-event");
+      },
+    };
+
+    const fooSpy = jest.fn();
+
+    const Comp = {
+      render() {
+        return h(Foo, { "onTest-event": fooSpy });
+      },
+    };
+    render(h(Comp), nodeOps.createElement("div"));
+
+    expect(fooSpy).toHaveBeenCalledTimes(1);
+  });
 });
