@@ -1,6 +1,9 @@
+import { reactive } from "@mini-vue/reactivity";
+import { watchEffect } from "../src/apiWatch";
+import { nextTick } from "../src/scheduler";
+
 describe("api: watch", () => {
-  it.todo("effect", async () => {
-    // 先实现个 watchEffect 玩一玩
+  it("effect", async () => {
     const state = reactive({ count: 0 });
     let dummy;
     watchEffect(() => {

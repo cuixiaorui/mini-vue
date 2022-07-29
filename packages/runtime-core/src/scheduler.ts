@@ -1,10 +1,10 @@
 const queue: any[] = [];
-const activePreFlushCbs:any = [];
+const activePreFlushCbs: any = [];
 
 const p = Promise.resolve();
 let isFlushPending = false;
 
-export function nextTick(fn) {
+export function nextTick(fn?) {
   return fn ? p.then(fn) : p;
 }
 
@@ -37,6 +37,9 @@ function queueCb(cb, activeQueue) {
   // todo 这里没有考虑 activeQueue 是否已经存在 cb 的情况
   // 然后在执行 flushJobs 的时候就可以调用 activeQueue 了
   activeQueue.push(cb);
+
+  // 然后执行队列里面所有的 job
+  queueFlush()
 }
 
 function flushJobs() {
@@ -60,6 +63,6 @@ function flushJobs() {
 function flushPreFlushCbs() {
   // 执行所有的 pre 类型的 job
   for (let i = 0; i < activePreFlushCbs.length; i++) {
-    activePreFlushCbs[i]()
+    activePreFlushCbs[i]();
   }
 }
