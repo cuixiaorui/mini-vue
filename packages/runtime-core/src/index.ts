@@ -6,6 +6,7 @@ export { renderSlot } from "./helpers/renderSlot";
 export { createTextVNode, createElementVNode } from "./vnode";
 export { createRenderer } from "./renderer";
 export { toDisplayString } from "@mini-vue/shared";
+export { watchEffect } from "./apiWatch";
 export {
   // core
   reactive,
