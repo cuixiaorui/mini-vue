@@ -14,10 +14,12 @@ function doWatch(source) {
     effect.run();
   };
 
+  // 当触发 trigger 的时候会调用 scheduler
   // 这里用 scheduler 的目的就是在更新的时候
   // 让回调可以在 render 前执行 变成一个异步的行为（这里也可以通过 flush 来改变）
   const scheduler = () => queuePreFlushCb(job);
 
+  // 这里是在执行 effect.run 的时候就会调用的
   const getter = () => {
     source();
   };
