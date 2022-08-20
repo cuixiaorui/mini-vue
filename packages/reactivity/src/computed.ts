@@ -5,9 +5,10 @@ import { trackRefValue, triggerRefValue } from "./ref";
 export class ComputedRefImpl {
   public dep: any;
   public effect: ReactiveEffect;
+  public readonly __v_isRef = true;
 
   private _dirty: boolean;
-  private _value
+  private _value;
 
   constructor(getter) {
     this._dirty = true;
