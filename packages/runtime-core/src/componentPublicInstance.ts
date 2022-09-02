@@ -1,4 +1,4 @@
-import { hasOwn } from "@mini-vue/shared";
+import { hasOwn, EMPTY_OBJ } from "@mini-vue/shared";
 
 const publicPropertiesMap = {
   // 当用户调用 instance.proxy.$emit 时就会触发这个函数
@@ -40,7 +40,7 @@ export const PublicInstanceProxyHandlers = {
   set({ _: instance }, key, value) {
     const { setupState } = instance;
 
-    if (setupState !== {} && hasOwn(setupState, key)) {
+    if (hasOwn(setupState, key)) {
       // 有的话 那么就直接赋值
       setupState[key] = value;
     }
