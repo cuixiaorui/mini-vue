@@ -88,11 +88,11 @@ vx：cuixr1314
 ### runtime-dom
 - [x] 支持 custom renderer 
 
+### runtime-test
+- [x] 支持测试 runtime-core 的逻辑
 
 ### infrastructure
 - [x] support monorepo with pnpm
-### todo
-- [ ] 实现 runtime-test 可以测试 runtime-core 的逻辑
 ### build
 
 ```shell
