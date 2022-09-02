@@ -7,14 +7,24 @@ export const isObject = (val) => {
 
 export const isString = (val) => typeof val === "string";
 
+// 缓存
+const cacheStringFunction = (fn) => {
+  const cache = Object.create(null)
+  return ((str: string) => {
+    const hit = cache[str]
+    return hit || (cache[str] = fn(str))
+  })
+}
+
+
 const camelizeRE = /-(\w)/g;
 /**
  * @private
  * 把烤肉串命名方式转换成驼峰命名方式
  */
-export const camelize = (str: string): string => {
+export const camelize = cacheStringFunction((str: string): string => {
   return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ""));
-};
+});
 
 export const extend = Object.assign;
 
@@ -33,16 +43,16 @@ export function hasOwn(val, key) {
  * @private
  * 首字母大写
  */
-export const capitalize = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
-
+export const capitalize = cacheStringFunction((str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1)
+)
 /**
  * @private
  * 添加 on 前缀，并且首字母大写
  */
-export const toHandlerKey = (str: string) =>
-  str ? `on${capitalize(str)}` : ``;
-
+export const toHandlerKey = cacheStringFunction((str: string) =>
+  str ? `on${capitalize(str)}` : ``
+)
 // 用来匹配 kebab-case 的情况
 // 比如 onTest-event 可以匹配到 T
 // 然后取到 T 在前面加一个 - 就可以
@@ -51,5 +61,6 @@ const hyphenateRE = /\B([A-Z])/g;
 /**
  * @private
  */
-export const hyphenate = (str: string) =>
-  str.replace(hyphenateRE, "-$1").toLowerCase();
+export const hyphenate = cacheStringFunction((str: string) =>
+  str.replace(hyphenateRE, "-$1").toLowerCase()
+)
