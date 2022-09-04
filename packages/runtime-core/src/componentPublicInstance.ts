@@ -1,4 +1,4 @@
-import { hasOwn, EMPTY_OBJ } from "@mini-vue/shared";
+import { hasOwn } from "@mini-vue/shared";
 
 const publicPropertiesMap = {
   // 当用户调用 instance.proxy.$emit 时就会触发这个函数
