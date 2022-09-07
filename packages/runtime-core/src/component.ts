@@ -3,6 +3,7 @@ import { initSlots } from "./componentSlots";
 import { emit } from "./componentEmits";
 import { PublicInstanceProxyHandlers } from "./componentPublicInstance";
 import { proxyRefs, shallowReadonly } from "@mini-vue/reactivity";
+import { ShapeFlags } from "@mini-vue/shared";
 export function createComponentInstance(vnode, parent) {
   const instance = {
     type: vnode.type,
@@ -37,11 +38,12 @@ export function createComponentInstance(vnode, parent) {
 export function setupComponent(instance) {
   // 1. 处理 props
   // 取出存在 vnode 里面的 props
-  const { props, children } = instance.vnode;
+  const { props, children, shapeFlag } = instance.vnode;
   initProps(instance, props);
   // 2. 处理 slots
-  initSlots(instance, children);
-
+  if (shapeFlag & ShapeFlags.SLOTS_CHILDREN) {
+    initSlots(instance, children);
+  }
   // 源码里面有两种类型的 component
   // 一种是基于 options 创建的
   // 还有一种是 function 的
