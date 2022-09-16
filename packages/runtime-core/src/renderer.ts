@@ -19,7 +19,7 @@ export function createRenderer(options) {
   } = options;
 
   const render = (vnode, container) => {
-    console.log("调用 path")
+    console.log("调用 patch")
     patch(null, vnode, container);
   };
 
