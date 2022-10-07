@@ -29,6 +29,8 @@ function hasOwn(val, key) {
 }
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const toHandlerKey = (str) => str ? `on${capitalize(str)}` : ``;
+const hyphenateRE = /\B([A-Z])/g;
+const hyphenate = (str) => str.replace(hyphenateRE, "-$1").toLowerCase();
 
 const createVNode = function (type, props, children) {
     const vnode = {
@@ -76,7 +78,7 @@ function getShapeFlag(type) {
         : 4;
 }
 
-const h = (type, props, children) => {
+const h = (type, props = null, children = []) => {
     return createVNode(type, props, children);
 };
 
@@ -121,8 +123,10 @@ const normalizeObjectSlots = (rawSlots, slots) => {
 
 function emit(instance, event, ...rawArgs) {
     const props = instance.props;
-    const handlerName = toHandlerKey(camelize(event));
-    const handler = props[handlerName];
+    let handler = props[toHandlerKey(camelize(event))];
+    if (!handler) {
+        handler = props[(toHandlerKey(hyphenate(event)))];
+    }
     if (handler) {
         handler(...rawArgs);
     }
@@ -153,7 +157,7 @@ const PublicInstanceProxyHandlers = {
     },
     set({ _: instance }, key, value) {
         const { setupState } = instance;
-        if (setupState !== {} && hasOwn(setupState, key)) {
+        if (hasOwn(setupState, key)) {
             setupState[key] = value;
         }
         return true;
@@ -572,6 +576,7 @@ function renderSlot(slots, name, props = {}) {
 }
 
 const queue = [];
+const activePreFlushCbs = [];
 const p = Promise.resolve();
 let isFlushPending = false;
 function nextTick(fn) {
@@ -589,13 +594,26 @@ function queueFlush() {
     isFlushPending = true;
     nextTick(flushJobs);
 }
+function queuePreFlushCb(cb) {
+    queueCb(cb, activePreFlushCbs);
+}
+function queueCb(cb, activeQueue) {
+    activeQueue.push(cb);
+    queueFlush();
+}
 function flushJobs() {
     isFlushPending = false;
+    flushPreFlushCbs();
     let job;
     while ((job = queue.shift())) {
         if (job) {
             job();
         }
+    }
+}
+function flushPreFlushCbs() {
+    for (let i = 0; i < activePreFlushCbs.length; i++) {
+        activePreFlushCbs[i]();
     }
 }
 
@@ -630,7 +648,7 @@ function hasPropsChanged(prevProps, nextProps) {
 function createRenderer(options) {
     const { createElement: hostCreateElement, setElementText: hostSetElementText, patchProp: hostPatchProp, insert: hostInsert, remove: hostRemove, setText: hostSetText, createText: hostCreateText, } = options;
     const render = (vnode, container) => {
-        console.log("调用 path");
+        console.log("调用 patch");
         patch(null, vnode, container);
     };
     function patch(n1, n2, container = null, anchor = null, parentComponent = null) {
@@ -953,6 +971,7 @@ function createRenderer(options) {
         console.log("更新组件的 slots");
     }
     return {
+        render,
         createApp: createAppAPI(render),
     };
 }
@@ -996,6 +1015,21 @@ function getSequence(arr) {
         v = p[v];
     }
     return result;
+}
+
+function watchEffect(effect) {
+    doWatch(effect);
+}
+function doWatch(source) {
+    const job = () => {
+        effect.run();
+    };
+    const scheduler = () => queuePreFlushCb(job);
+    const getter = () => {
+        source();
+    };
+    const effect = new ReactiveEffect(getter, scheduler);
+    effect.run();
 }
 
 function createElement(type) {
@@ -1082,6 +1116,7 @@ var runtimeDom = /*#__PURE__*/Object.freeze({
     createElementVNode: createVNode,
     createRenderer: createRenderer,
     toDisplayString: toDisplayString,
+    watchEffect: watchEffect,
     reactive: reactive,
     ref: ref,
     readonly: readonly,
@@ -1547,5 +1582,5 @@ function compileToFunction(template, options = {}) {
 }
 registerRuntimeCompiler(compileToFunction);
 
-export { computed, createApp, createAppAPI, createVNode as createElementVNode, createRenderer, createTextVNode, effect, getCurrentInstance, h, inject, isProxy, isReactive, isReadonly, isRef, provide, proxyRefs, reactive, readonly, ref, registerRuntimeCompiler, renderSlot, shallowReadonly, stop, toDisplayString, unRef };
+export { computed, createApp, createAppAPI, createVNode as createElementVNode, createRenderer, createTextVNode, effect, getCurrentInstance, h, inject, isProxy, isReactive, isReadonly, isRef, provide, proxyRefs, reactive, readonly, ref, registerRuntimeCompiler, renderSlot, shallowReadonly, stop, toDisplayString, unRef, watchEffect };
 //# sourceMappingURL=mini-vue.esm-bundler.js.map
