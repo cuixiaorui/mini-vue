@@ -1,4 +1,4 @@
-import { ReactiveEffect, track, trigger } from "./effect";
+import { track, trigger } from "./effect";
 import {
   reactive,
   ReactiveFlags,

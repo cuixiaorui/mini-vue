@@ -1,4 +1,5 @@
 import { nodeOps, render, h } from "@mini-vue/runtime-test";
+import {vi} from 'vitest'
 
 describe("component: emits", () => {
   test("trigger handlers", () => {
@@ -13,8 +14,8 @@ describe("component: emits", () => {
       },
     };
 
-    const onfoo = jest.fn();
-    const onBar = jest.fn();
+    const onfoo = vi.fn();
+    const onBar = vi.fn();
     const Comp = {
       render() {
         return h(Foo, { onfoo, onBar });
@@ -37,7 +38,7 @@ describe("component: emits", () => {
       },
     };
 
-    const fooSpy = jest.fn();
+    const fooSpy = vi.fn();
     const Comp = {
       render() {
         return h(Foo, { onTestEvent: fooSpy });
@@ -58,7 +59,7 @@ describe("component: emits", () => {
       },
     };
 
-    const fooSpy = jest.fn();
+    const fooSpy = vi.fn();
 
     const Comp = {
       render() {
