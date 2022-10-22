@@ -143,45 +143,44 @@ pnpm build
 12. 实现 reactive 和 readonly 嵌套对象转换功能
 13. 实现 shallowReadonly 功能
 14. 实现 isProxy 功能
-15. 实现 isProxy 功能
-16. 实现 ref 功能
-17. 实现 isRef 和 unRef 功能
-18. 实现 proxyR 功能
-19. 实现 computed 计算属性功能
-20. 实现初始化 component 主流程
-21. 实现 rollup 打包
-22. 实现初始化 element 主流程
-23. 实现组件代理对象
-24. 实现 shapeFlags
-25. 实现注册事件功能
-26. 实现组件 props 功能
-27. 实现组件 emit 功能
-28. 实现组件 slots 功能
-29. 实现 Fragment 和 Text 类型节点
-30. 实现 getCurrentInstance 
-31. 实现依赖注入功能 provide/inject
-32. 实现自定义渲染器 custom renderer
-33. 更新 element 流程搭建
-34. 更新 element 的props
-35. 更新 element 的 children
-36. 双端对比 diff 算法1
-37. 双端对比 diff 算法2 - key 的作用
-38. 双端对比 diff 算法3 - 最长子序列的作用
-39. 学习尤大解决 bug 的处理方式
-40. 实现组件更新功能
-41. 实现 nextTick 功能
-42. 编译模块概述
-43. 实现解析插值功能
-44. 实现解析 element 标签
-45. 实现解析 text 功能
-46. 实现解析三种联合类型 template
-47. parse 的实现原理&有限状态机
-48. 实现 transform 功能
-49. 实现代码生成 string 类型
-50. 实现代码生成插值类型
-51. 实现代码生成三种联合类型
-52. 实现编译 template 成 render 函数
-53. 实现 monorepo & 使用 vitest 替换 jest 
+15. 实现 ref 功能
+16. 实现 isRef 和 unRef 功能
+17. 实现 proxyR 功能
+18. 实现 computed 计算属性功能
+19. 实现初始化 component 主流程
+20. 实现 rollup 打包
+21. 实现初始化 element 主流程
+22. 实现组件代理对象
+23. 实现 shapeFlags
+24. 实现注册事件功能
+25. 实现组件 props 功能
+26. 实现组件 emit 功能
+27. 实现组件 slots 功能
+28. 实现 Fragment 和 Text 类型节点
+29. 实现 getCurrentInstance 
+30. 实现依赖注入功能 provide/inject
+31. 实现自定义渲染器 custom renderer
+32. 更新 element 流程搭建
+33. 更新 element 的props
+34. 更新 element 的 children
+35. 双端对比 diff 算法1
+36. 双端对比 diff 算法2 - key 的作用
+37. 双端对比 diff 算法3 - 最长子序列的作用
+38. 学习尤大解决 bug 的处理方式
+39. 实现组件更新功能
+40. 实现 nextTick 功能
+41. 编译模块概述
+42. 实现解析插值功能
+43. 实现解析 element 标签
+44. 实现解析 text 功能
+45. 实现解析三种联合类型 template
+46. parse 的实现原理&有限状态机
+47. 实现 transform 功能
+48. 实现代码生成 string 类型
+49. 实现代码生成插值类型
+50. 实现代码生成三种联合类型
+51. 实现编译 template 成 render 函数
+52. 实现 monorepo & 使用 vitest 替换 jest 
 
 课程内部包含了 vue3 的三大核心模块：reactivity、runtime 以及 compiler 模块
 
