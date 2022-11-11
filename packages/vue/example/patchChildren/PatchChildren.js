@@ -222,7 +222,11 @@ export default {
         },
         "测试子组件之间的 patch 逻辑"
       ),
-      h("children", {}, isChange.value === true ? nextChildren : prevChildren),
+      h(
+        "children",
+        { "data-cy": "contain" },
+        isChange.value === true ? nextChildren : prevChildren
+      ),
     ]);
   },
 };

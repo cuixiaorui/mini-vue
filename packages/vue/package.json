@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cypress open"
+    "test": "cypress open",
+    "serve": "serve ."
   },
   "keywords": [],
   "author": "cuixiaorui",
@@ -15,6 +16,7 @@
     "@mini-vue/shared": "workspace:^1.0.0"
   },
   "devDependencies": {
-    "cypress": "^11.0.1"
+    "cypress": "^11.0.1",
+    "serve": "^14.1.1"
   }
 }

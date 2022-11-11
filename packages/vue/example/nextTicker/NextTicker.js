@@ -14,7 +14,7 @@ const Child1 = {
   name: "NextTickerChild1",
   setup() {},
   render() {
-    return h("div", {}, `child1 count: ${window.count.value}`);
+    return h("div", {}, `child1 count:${window.count.value}`);
   },
 };
 
@@ -22,7 +22,7 @@ const Child2 = {
   name: "NextTickerChild2",
   setup() {},
   render() {
-    return h("div", {}, `child2 count: ${window.count.value}`);
+    return h("div", {}, `child2 count:${window.count.value}`);
   },
 };
 
