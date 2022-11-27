@@ -739,10 +739,12 @@ function createRenderer(options) {
             }
         }
         else {
-            if (prevShapeFlag & 16) {
-                if (shapeFlag & 16) {
-                    patchKeyedChildren(c1, c2, container, anchor, parentComponent);
-                }
+            if (prevShapeFlag & 8) {
+                hostSetElementText(container, "");
+                mountChildren(c2, container);
+            }
+            else {
+                patchKeyedChildren(c1, c2, container, parentComponent, anchor);
             }
         }
     }
@@ -1022,18 +1024,30 @@ function getSequence(arr) {
 }
 
 function watchEffect(effect) {
-    doWatch(effect);
+    return doWatch(effect);
 }
 function doWatch(source) {
     const job = () => {
         effect.run();
     };
     const scheduler = () => queuePreFlushCb(job);
+    let cleanup;
+    const onCleanup = (fn) => {
+        cleanup = effect.onStop = () => {
+            fn();
+        };
+    };
     const getter = () => {
-        source();
+        if (cleanup) {
+            cleanup();
+        }
+        source(onCleanup);
     };
     const effect = new ReactiveEffect(getter, scheduler);
     effect.run();
+    return () => {
+        effect.stop();
+    };
 }
 
 function createElement(type) {

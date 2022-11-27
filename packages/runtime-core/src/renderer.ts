@@ -157,14 +157,20 @@ export function createRenderer(options) {
         hostSetElementText(container, c2 as string);
       }
     } else {
+      // 看看之前的是不是 text
+      if (prevShapeFlag & ShapeFlags.TEXT_CHILDREN) {
+        // 先清空
+        // 然后在把新的 children 给 mount 生成 element
+        hostSetElementText(container, "");
+        mountChildren(c2, container);
+      } else {
+        // array diff array
       // 如果之前是 array_children
       // 现在还是 array_children 的话
       // 那么我们就需要对比两个 children 啦
-      if (prevShapeFlag & ShapeFlags.ARRAY_CHILDREN) {
-        if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
-          patchKeyedChildren(c1, c2, container, anchor, parentComponent);
-        }
+        patchKeyedChildren(c1, c2, container, parentComponent, anchor);
       }
+
     }
   }
 
