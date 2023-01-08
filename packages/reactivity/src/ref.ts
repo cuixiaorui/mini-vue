@@ -45,6 +45,11 @@ function convert(value) {
 }
 
 function createRef(value) {
+  // 判断传入的值是否为ref的实例，如果是则表明已经代理过，避免重复代理，直接返回
+  if (isRef(value)) {
+    return value
+  }
+
   const refImpl = new RefImpl(value);
 
   return refImpl;
