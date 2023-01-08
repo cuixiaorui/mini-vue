@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "test": "vitest"
+    "test": "vitest",
+    "test-m":"vitest packages/reactivity/__tests__/ref.spec --watch --run --update"
   },
   "author": "cuixiaorui",
   "homepage": "https://github.com/cuixiaorui",

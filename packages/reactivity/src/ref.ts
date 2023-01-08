@@ -6,7 +6,7 @@ import { reactive } from "./reactive";
 export class RefImpl {
   private _rawValue: any;
   private _value: any;
-  public dep;
+  public dep: any;
   public __v_isRef = true;
 
   constructor(value) {
@@ -45,6 +45,11 @@ function convert(value) {
 }
 
 function createRef(value) {
+  // 判断传入的值是否已经为 ref 的实例，如果是的话就直接返回，避免重复代理
+  if (isRef(value)) {
+    return value
+  }
+
   const refImpl = new RefImpl(value);
 
   return refImpl;
