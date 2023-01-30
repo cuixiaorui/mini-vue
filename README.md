@@ -133,7 +133,7 @@ pnpm build
 2. reactivity 的核心流程
 3. runtime-core 初始化的核心流程
 4. runtime-core 更新的核心流程
-5. setup 环境 -> 集成 jest 做单元测试 & 集成 test
+5. setup 环境 -> 集成 jest 做单元测试 & 集成 typescript
 6. 实现 effect 返回 runner
 7. 实现 effect 的 scheduler 功能
 8. 实现 effect 的 stop 功能
