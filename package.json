@@ -2,8 +2,8 @@
   "private": true,
   "version": "0.0.1",
   "description": "Help you learn more efficiently vue3 source code",
-  "main": "lib/mini-vue.cjs.js",
-  "module": "lib/mini-vue.esm.js",
+  "main": "packages/vue/dist/mini-vue.cjs.js",
+  "module": "packages/vue/dist/mini-vue.esm-bundler.js",
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
