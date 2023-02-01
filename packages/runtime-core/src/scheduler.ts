@@ -65,4 +65,5 @@ function flushPreFlushCbs() {
   for (let i = 0; i < activePreFlushCbs.length; i++) {
     activePreFlushCbs[i]();
   }
+  activePreFlushCbs.length = 0;
 }
