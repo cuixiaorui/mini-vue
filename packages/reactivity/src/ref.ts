@@ -75,7 +75,8 @@ const shallowUnwrapHandlers = {
   set(target, key, value, receiver) {
     const oldValue = target[key];
     if (isRef(oldValue) && !isRef(value)) {
-      return (target[key].value = value);
+      oldValue.value = value;
+      return true;
     } else {
       return Reflect.set(target, key, value, receiver);
     }
