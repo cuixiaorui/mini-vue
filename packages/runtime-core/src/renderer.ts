@@ -269,9 +269,8 @@ export function createRenderer(options) {
       let patched = 0;
       // 初始化 从新的index映射为老的index
       // 创建数组的时候给定数组的长度，这个是性能最快的写法
-      const newIndexToOldIndexMap = new Array(toBePatched);
       // 初始化为 0 , 后面处理的时候 如果发现是 0 的话，那么就说明新值在老的里面不存在
-      for (let i = 0; i < toBePatched; i++) newIndexToOldIndexMap[i] = 0;
+      const newIndexToOldIndexMap = new Array(toBePatched).fill(0)
 
       // 遍历老节点
       // 1. 需要找出老节点有，而新节点没有的 -> 需要把这个节点删除掉
