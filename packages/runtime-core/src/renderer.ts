@@ -19,7 +19,7 @@ export function createRenderer(options) {
   } = options;
 
   const render = (vnode, container) => {
-    console.log("调用 patch")
+    console.log("调用 patch");
     patch(null, vnode, container);
   };
 
@@ -165,12 +165,11 @@ export function createRenderer(options) {
         mountChildren(c2, container);
       } else {
         // array diff array
-      // 如果之前是 array_children
-      // 现在还是 array_children 的话
-      // 那么我们就需要对比两个 children 啦
+        // 如果之前是 array_children
+        // 现在还是 array_children 的话
+        // 那么我们就需要对比两个 children 啦
         patchKeyedChildren(c1, c2, container, parentComponent, anchor);
       }
-
     }
   }
 
@@ -240,7 +239,7 @@ export function createRenderer(options) {
       }
     } else if (i > e2 && i <= e1) {
       // 这种情况的话说明新节点的数量是小于旧节点的数量的
-      // 那么我们就需要把多余的
+      // 那么我们就需要把多余的节点给删除掉
       while (i <= e1) {
         console.log(`需要删除当前的 vnode: ${c1[i].key}`);
         hostRemove(c1[i].el);
@@ -288,14 +287,18 @@ export function createRenderer(options) {
 
         let newIndex;
         if (prevChild.key != null) {
-          // 这里就可以通过key快速的查找了， 看看在新的里面这个节点存在不存在
+          // 这里就可以通过key快速的查找了，看看在新的里面这个节点存在不存在
           // 时间复杂度O(1)
           newIndex = keyToNewIndexMap.get(prevChild.key);
         } else {
           // 如果没key 的话，那么只能是遍历所有的新节点来确定当前节点存在不存在了
           // 时间复杂度O(n)
           for (let j = s2; j <= e2; j++) {
-            if (isSameVNodeType(prevChild, c2[j])) {
+            // 只有在这个索引位置未被赋值时(为0时,这样才会依次记录下所有没有key的节点,否则会一直覆盖记录同一个节点),并且是同类型的节点才会进行记录
+            if (
+              newIndexToOldIndexMap[j - s2] === 0 &&
+              isSameVNodeType(prevChild, c2[j])
+            ) {
               newIndex = j;
               break;
             }
