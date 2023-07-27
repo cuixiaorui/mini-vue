@@ -16,23 +16,14 @@ const shallowReadonlyGet = createGetter(true, true);
 
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target, key, receiver) {
-    const isExistInReactiveMap = () =>
-      key === ReactiveFlags.RAW && receiver === reactiveMap.get(target);
-
-    const isExistInReadonlyMap = () =>
-      key === ReactiveFlags.RAW && receiver === readonlyMap.get(target);
-
-    const isExistInShallowReadonlyMap = () =>
-      key === ReactiveFlags.RAW && receiver === shallowReadonlyMap.get(target);
-
     if (key === ReactiveFlags.IS_REACTIVE) {
       return !isReadonly;
     } else if (key === ReactiveFlags.IS_READONLY) {
       return isReadonly;
     } else if (
-      isExistInReactiveMap() ||
-      isExistInReadonlyMap() ||
-      isExistInShallowReadonlyMap()
+      key === ReactiveFlags.RAW &&
+      receiver ===
+        (isReadonly ? (shallow ? shallowReadonlyMap : readonlyMap) : reactiveMap).get(target)
     ) {
       return target;
     }
