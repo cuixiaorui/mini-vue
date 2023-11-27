@@ -1,16 +1,17 @@
 import { createDep } from "./dep";
 import { ReactiveEffect } from "./effect";
 import { trackRefValue, triggerRefValue } from "./ref";
-
+import { isFunction } from '@mini-vue/shared'
 export class ComputedRefImpl {
   public dep: any;
   public effect: ReactiveEffect;
 
   private _dirty: boolean;
   private _value
-
-  constructor(getter) {
+  public readonly readonly
+  constructor(getter, private readonly setter, isReadonly) {
     this._dirty = true;
+    this.readonly = isReadonly
     this.dep = createDep();
     this.effect = new ReactiveEffect(getter, () => {
       // scheduler
@@ -38,8 +39,24 @@ export class ComputedRefImpl {
 
     return this._value;
   }
+
+  set value(newVal) {
+    this.setter(newVal)
+  }
 }
 
-export function computed(getter) {
-  return new ComputedRefImpl(getter);
+export function computed(getterOrOptions) {
+  let getter
+  let setter
+  const isOnlyGetter = isFunction(getterOrOptions)
+  if (isOnlyGetter) {
+    getter = getterOrOptions
+    setter = () => {
+      console.warn('computed value is readonly')
+    }
+  } else {
+    getter = getterOrOptions.get
+    setter = getterOrOptions.set
+  }
+  return new ComputedRefImpl(getter, setter, isOnlyGetter || !setter);
 }
