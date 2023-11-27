@@ -1,6 +1,7 @@
 import { computed } from "../src/computed";
 import { reactive } from "../src/reactive";
-import {vi} from 'vitest'
+import { ref } from '../src/ref'
+import { vi } from 'vitest'
 
 describe("computed", () => {
   it("happy path", () => {
@@ -47,4 +48,20 @@ describe("computed", () => {
     cValue.value;
     expect(getter).toHaveBeenCalledTimes(2);
   });
+  it('should support setter', () => {
+    const n = ref(1)
+    const plusOne = computed({
+      get: () => n.value + 1,
+      set: val => {
+        n.value = val - 1
+      }
+    })
+
+    expect(plusOne.value).toBe(2)
+    n.value++
+    expect(plusOne.value).toBe(3)
+
+    plusOne.value = 0
+    expect(n.value).toBe(-1)
+  })
 });
