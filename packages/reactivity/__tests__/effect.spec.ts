@@ -117,4 +117,37 @@ describe("effect", () => {
     stop(runner);
     expect(onStop).toHaveBeenCalled();
   });
+
+  it('should correctly track the order of nested effects', () => {
+    const counter = reactive({
+      outerCount: 0,
+      innerCount: 0,
+    })
+
+    let executionOrder: string[] = []
+
+    effect(() => {
+      effect(() => {
+        counter.innerCount
+        executionOrder.push('inner')
+      })
+      counter.outerCount
+      executionOrder.push('outer')
+    })
+
+    // init effect
+    expect(executionOrder).toEqual(['inner', 'outer'])
+
+    // reset
+    executionOrder = []
+
+    counter.outerCount++
+    expect(executionOrder).toEqual(['inner', 'outer'])
+
+    // reset
+    executionOrder = []
+
+    counter.innerCount++
+    expect(executionOrder).toEqual(['inner', 'inner'])
+  })
 });
