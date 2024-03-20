@@ -27,21 +27,32 @@ export class ReactiveEffect {
       return this.fn();
     }
 
-    // 执行 fn  收集依赖
-    // 可以开始收集依赖了
-    shouldTrack = true;
+    // 保存嵌套effect外层effect的 activeEffect 和 shouldTrack
+    let lastEffect = activeEffect;
+    let lastShouldTrack = shouldTrack;
 
-    // 执行的时候给全局的 activeEffect 赋值
-    // 利用全局属性来获取当前的 effect
-    activeEffect = this as any;
-    // 执行用户传入的 fn
-    console.log("执行用户传入的 fn");
-    const result = this.fn();
-    // 重置
-    shouldTrack = false;
-    activeEffect = undefined;
+    try {
+      // 执行 fn  收集依赖
+      // 可以开始收集依赖了
+      shouldTrack = true;
 
-    return result;
+      // 执行的时候给全局的 activeEffect 赋值
+      // 利用全局属性来获取当前的 effect
+      activeEffect = this as any;
+      // 执行用户传入的 fn
+      console.log("执行用户传入的 fn");
+      const result = this.fn();
+      // 重置
+      shouldTrack = false;
+      activeEffect = undefined;
+
+      return result;
+    } finally {
+      // 内层 effect 执行完毕
+      // 取出外层 effect 的 activeEffect 和 shouldTrack
+      activeEffect = lastEffect;
+      shouldTrack = lastShouldTrack;
+    }
   }
 
   stop() {
