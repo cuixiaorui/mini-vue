@@ -1,7 +1,7 @@
 import { trackEffects, triggerEffects, isTracking } from "./effect";
 import { createDep } from "./dep";
 import { isObject, hasChanged } from "@mini-vue/shared";
-import { reactive } from "./reactive";
+import { isReactive, reactive } from "./reactive";
 
 export class RefImpl {
   private _rawValue: any;
@@ -82,11 +82,14 @@ const shallowUnwrapHandlers = {
   },
 };
 
-// 这里没有处理 objectWithRefs 是 reactive 类型的时候
-// TODO reactive 里面如果有 ref 类型的 key 的话， 那么也是不需要调用 ref.value 的
-// （but 这个逻辑在 reactive 里面没有实现）
+// 当传入的值是reactive时，直接返回
+// 其他情况下，使用 proxy 来处理
 export function proxyRefs(objectWithRefs) {
-  return new Proxy(objectWithRefs, shallowUnwrapHandlers);
+  if(isReactive(objectWithRefs)){
+    return objectWithRefs
+  }else{
+    return new Proxy(objectWithRefs, shallowUnwrapHandlers);
+  }
 }
 
 // 把 ref 里面的值拿到
