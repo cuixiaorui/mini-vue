@@ -68,4 +68,16 @@ describe("ref", () => {
     expect(unRef(a)).toBe(1);
     expect(unRef(1)).toBe(1);
   });
+
+  it('should automatically dereference reactive properties with proxyRefs', () => {
+    const user = {
+      age: ref(10),
+      name: 'xiaohong'
+    }
+    const original = reactive(user)
+    const proxyUser = proxyRefs(original)
+  
+    expect(proxyUser).toBe(original)
+    expect(proxyUser.age).toBe(10)
+  })
 });

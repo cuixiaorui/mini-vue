@@ -8,6 +8,7 @@ import {
   shallowReadonlyMap,
 } from "./reactive";
 import { isObject } from "@mini-vue/shared";
+import { isRef } from "./ref";
 
 const get = createGetter();
 const set = createSetter();
@@ -50,6 +51,11 @@ function createGetter(isReadonly = false, shallow = false) {
 
     if (shallow) {
       return res;
+    }
+
+    // 当访问的值是 ref 时，返回 .value
+    if(isRef(res)) {
+      return res.value
     }
 
     if (isObject(res)) {
